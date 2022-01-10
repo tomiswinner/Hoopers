@@ -1,24 +1,36 @@
-# README
+# Hoopers(仮)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## サイト概要
+バスケットボールコートの検索・レビュー・イベント検索サイト。
 
-Things you may want to cover:
+### サイトテーマ
+バスケットボールコートの検索・レビュー・紐づいた試合等のイベントの検索
 
-* Ruby version
+### テーマを選んだ理由
+バスケットボールのコートの検索は未だにまとまったサイトやアプリがなく、web上で探すのに苦労するので、
+バスケットボールコートに特化した検索サイトがあればより便利になると思い、作成しました！
 
-* System dependencies
+### ターゲットユーザ
+10~30代、バスケットボールをする人向け
 
-* Configuration
+### 主な利用シーン
+バスケットボールの練習をしたくなったとき、
+バスケットボールの試合をする場所を探したくなったとき
 
-* Database creation
 
-* Database initialization
+## 設計書
+<...>
 
-* How to run the test suite
+## チャレンジ要素一覧
+https://docs.google.com/spreadsheets/d/1VYAmRWL4a0tbkDcmNtlJzRS3oxqV7TrQ-K0gF1JWUC4/edit#gid=0
 
-* Services (job queues, cache servers, search engines, etc.)
+## 開発環境
+- OS：Linux(CentOS)
+- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- フレームワーク：Ruby on Rails
+- JSライブラリ：jQuery
+- IDE：Cloud9
 
-* Deployment instructions
-
-* ...
+## 使用素材
+- [icoon](https://icooon-mono.com/)
+- [O-DAN](https://o-dan.net/ja/)
