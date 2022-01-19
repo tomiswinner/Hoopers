@@ -1,4 +1,6 @@
-require: rubocop-rails
+require:
+  - rubocop-rails
+  - rubocop-rspec
 
 inherit_from: .rubocop_todo.yml
 
@@ -10,3 +12,6 @@ AllCops:
     - 'script/**/*'
     - 'bin/{rails,rake}'
     - !ruby/regexp /old_and_unused\.rb$/
+
+Style/Documentation:
+ Enabled: false
