@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_19_022436) do
+ActiveRecord::Schema.define(version: 2022_01_19_034523) do
+
+  create_table "areas", force: :cascade do |t|
+    t.integer "prefecture_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prefecture_id"], name: "index_areas_on_prefecture_id"
+  end
 
   create_table "courts", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -31,6 +39,12 @@ ActiveRecord::Schema.define(version: 2022_01_19_022436) do
     t.datetime "updated_at", null: false
     t.index ["area_id"], name: "index_courts_on_area_id"
     t.index ["user_id"], name: "index_courts_on_user_id"
+  end
+
+  create_table "prefectures", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
