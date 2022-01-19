@@ -71,5 +71,5 @@ gem 'rubocop-rspec', require: false
 
 gem 'devise'
 
-gem 'bootstrap', '~>5.1.3'
+gem 'bootstrap', '~>4.5'
 gem 'jquery-rails'
