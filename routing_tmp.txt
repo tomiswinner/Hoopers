@@ -1,0 +1,61 @@
+                   Prefix Verb   URI Pattern                                                                              Controller#Action
+         new_user_session GET    /users/sign_in(.:format)                                                                 devise/sessions#new
+             user_session POST   /users/sign_in(.:format)                                                                 devise/sessions#create
+     destroy_user_session DELETE /users/sign_out(.:format)                                                                devise/sessions#destroy
+        new_user_password GET    /users/password/new(.:format)                                                            devise/passwords#new
+       edit_user_password GET    /users/password/edit(.:format)                                                           devise/passwords#edit
+            user_password PATCH  /users/password(.:format)                                                                devise/passwords#update
+                          PUT    /users/password(.:format)                                                                devise/passwords#update
+                          POST   /users/password(.:format)                                                                devise/passwords#create
+ cancel_user_registration GET    /users/cancel(.:format)                                                                  devise/registrations#cancel
+    new_user_registration GET    /users/sign_up(.:format)                                                                 devise/registrations#new
+   edit_user_registration GET    /users/edit(.:format)                                                                    devise/registrations#edit
+        user_registration PATCH  /users(.:format)                                                                         devise/registrations#update
+                          PUT    /users(.:format)                                                                         devise/registrations#update
+                          DELETE /users(.:format)                                                                         devise/registrations#destroy
+                          POST   /users(.:format)                                                                         devise/registrations#create
+             mypage_users GET    /users/mypage(.:format)                                                                  users#mypage
+            confirm_users GET    /users/confirm(.:format)                                                                 users#confirm
+                edit_user GET    /users/:id/edit(.:format)                                                                users#edit
+                     user PATCH  /users/:id(.:format)                                                                     users#update
+                          PUT    /users/:id(.:format)                                                                     users#update
+                     root GET    /                                                                                        homes#top
+                   inqury GET    /inqury(.:format)                                                                        homes#inqury
+           address_courts GET    /courts/address(.:format)                                                                courts#address
+         map_check_courts GET    /courts/map_check(.:format)                                                              courts#map_check
+           confirm_courts GET    /courts/confirm(.:format)                                                                courts#confirm
+            thanks_courts GET    /courts/thanks(.:format)                                                                 courts#thanks
+        map_search_courts GET    /courts/map_search(.:format)                                                             courts#map_search
+                   courts GET    /courts(.:format)                                                                        courts#index
+                          POST   /courts(.:format)                                                                        courts#create
+                new_court GET    /courts/new(.:format)                                                                    courts#new
+                    court GET    /courts/:id(.:format)                                                                    courts#show
+           confirm_events GET    /events/confirm(.:format)                                                                events#confirm
+           address_events GET    /events/address(.:format)                                                                events#address
+      court_select_events GET    /events/court_select(.:format)                                                           events#court_select
+                   events GET    /events(.:format)                                                                        events#index
+                          POST   /events(.:format)                                                                        events#create
+                new_event GET    /events/new(.:format)                                                                    events#new
+               edit_event GET    /events/:id/edit(.:format)                                                               events#edit
+                    event GET    /events/:id(.:format)                                                                    events#show
+                          PATCH  /events/:id(.:format)                                                                    events#update
+                          PUT    /events/:id(.:format)                                                                    events#update
+                          DELETE /events/:id(.:format)                                                                    events#destroy
+            court_reviews GET    /court_reviews(.:format)                                                                 court_reviews#index
+         new_court_review GET    /court_reviews/new(.:format)                                                             court_reviews#new
+        edit_court_review GET    /court_reviews/:id/edit(.:format)                                                        court_reviews#edit
+             court_review PATCH  /court_reviews/:id(.:format)                                                             court_reviews#update
+                          PUT    /court_reviews/:id(.:format)                                                             court_reviews#update
+          court_histories GET    /court_histories(.:format)                                                               court_histories#index
+          event_histories GET    /event_histories(.:format)                                                               event_histories#index
+          court_favorites GET    /court_favorites(.:format)                                                               court_favorites#index
+                          POST   /court_favorites(.:format)                                                               court_favorites#create
+           court_favorite DELETE /court_favorites/:id(.:format)                                                           court_favorites#destroy
+          event_favorites GET    /event_favorites(.:format)                                                               event_favorites#index
+                          POST   /event_favorites(.:format)                                                               event_favorites#create
+           event_favorite DELETE /event_favorites/:id(.:format)                                                           event_favorites#destroy
+       rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
+rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
+       rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
+update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
+     rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
