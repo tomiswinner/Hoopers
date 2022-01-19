@@ -1,0 +1,2 @@
+module EventHistoriesHelper
+end
