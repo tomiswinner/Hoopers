@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_19_034523) do
+ActiveRecord::Schema.define(version: 2022_01_19_043450) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "prefecture_id", null: false
@@ -39,6 +39,23 @@ ActiveRecord::Schema.define(version: 2022_01_19_034523) do
     t.datetime "updated_at", null: false
     t.index ["area_id"], name: "index_courts_on_area_id"
     t.index ["user_id"], name: "index_courts_on_user_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer "court_id", null: false
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.string "image_id", null: false
+    t.string "description", null: false
+    t.string "condition", null: false
+    t.string "contact", null: false
+    t.datetime "open_time", null: false
+    t.datetime "close_time", null: false
+    t.boolean "status", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["court_id"], name: "index_events_on_court_id"
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "prefectures", force: :cascade do |t|
