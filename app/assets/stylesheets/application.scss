@@ -12,3 +12,15 @@
  */
 
 @import "bootstrap";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.background-img{
+  background-image: image-url("background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+}
