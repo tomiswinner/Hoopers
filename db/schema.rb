@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_19_044348) do
+ActiveRecord::Schema.define(version: 2022_01_19_045231) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "prefecture_id", null: false
@@ -29,6 +29,37 @@ ActiveRecord::Schema.define(version: 2022_01_19_044348) do
     t.index ["user_id"], name: "index_court_favorites_on_user_id"
   end
 
+  create_table "court_histories", force: :cascade do |t|
+    t.integer "court_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["court_id"], name: "index_court_histories_on_court_id"
+    t.index ["user_id"], name: "index_court_histories_on_user_id"
+  end
+
+  create_table "court_reviews", force: :cascade do |t|
+    t.integer "court_id", null: false
+    t.integer "user_id", null: false
+    t.float "total_points", null: false
+    t.float "accessibility", null: false
+    t.float "security", null: false
+    t.float "quality", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["court_id"], name: "index_court_reviews_on_court_id"
+    t.index ["user_id"], name: "index_court_reviews_on_user_id"
+  end
+
+  create_table "court_tag_taggings", force: :cascade do |t|
+    t.integer "court_id", null: false
+    t.integer "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["court_id"], name: "index_court_tag_taggings_on_court_id"
+    t.index ["tag_id"], name: "index_court_tag_taggings_on_tag_id"
+  end
+
   create_table "courts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "area_id", null: false
@@ -37,8 +68,8 @@ ActiveRecord::Schema.define(version: 2022_01_19_044348) do
     t.string "address", null: false
     t.time "open_time"
     t.time "close_time"
-    t.string "url", null: false
     t.string "supplement", null: false
+    t.string "url", null: false
     t.string "size", null: false
     t.string "price", null: false
     t.integer "type", null: false
@@ -59,6 +90,15 @@ ActiveRecord::Schema.define(version: 2022_01_19_044348) do
     t.index ["user_id"], name: "index_event_favorites_on_user_id"
   end
 
+  create_table "event_histories", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_histories_on_event_id"
+    t.index ["user_id"], name: "index_event_histories_on_user_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.integer "court_id", null: false
     t.integer "user_id", null: false
@@ -77,6 +117,12 @@ ActiveRecord::Schema.define(version: 2022_01_19_044348) do
   end
 
   create_table "prefectures", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

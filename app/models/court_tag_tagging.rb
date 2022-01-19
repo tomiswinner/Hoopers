@@ -1,0 +1,2 @@
+class CourtTagTagging < ApplicationRecord
+end
