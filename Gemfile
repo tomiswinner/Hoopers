@@ -70,3 +70,6 @@ gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 
 gem 'devise'
+
+gem 'bootstrap', '~>5.1.3'
+gem 'jquery-rails'
