@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_18_174808) do
+ActiveRecord::Schema.define(version: 2022_01_19_022436) do
+
+  create_table "courts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "area_id", null: false
+    t.string "name", null: false
+    t.string "image_id", null: false
+    t.string "address", null: false
+    t.time "open_time"
+    t.time "close_time"
+    t.string "url", null: false
+    t.string "supplement", null: false
+    t.string "size", null: false
+    t.string "price", null: false
+    t.integer "type", null: false
+    t.boolean "bussiness_status", null: false
+    t.boolean "confirmation_status", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["area_id"], name: "index_courts_on_area_id"
+    t.index ["user_id"], name: "index_courts_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
