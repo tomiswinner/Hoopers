@@ -1,4 +1,3 @@
-
 Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -11,8 +10,8 @@ Rails.application.routes.draw do
   end
 
   # homes_controller
-  root :to => "homes#top"
-  get "inqury", to: "homes#inqury", as: "inqury"
+  root to: 'homes#top'
+  get 'inqury', to: 'homes#inqury', as: 'inqury'
 
   resources :courts, only: [:index, :new, :create, :show] do
     collection do
