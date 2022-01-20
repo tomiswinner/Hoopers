@@ -19,6 +19,18 @@
   box-sizing: border-box;
 }
 
+html, body, main{
+  height: 100%;
+}
+
+.container{
+  height: 100%;
+}
+
+#map{
+  height: 100%;
+}
+
 .background-img{
   background-image: image-url("background.jpg");
   background-size: cover;

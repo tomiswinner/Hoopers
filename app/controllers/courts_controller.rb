@@ -1,5 +1,9 @@
 class CourtsController < ApplicationController
-  def index; end
+  def index
+    if params[:keyword]
+      @courts = Court.where('name LIKE ?', "%#{:keyword}%")
+    end
+  end
 
   def address; end
 
@@ -16,4 +20,9 @@ class CourtsController < ApplicationController
   def map_search; end
 
   def show; end
+
+  private
+    def courts_params
+      params.require(:courts).permit(:name)
+    end
 end

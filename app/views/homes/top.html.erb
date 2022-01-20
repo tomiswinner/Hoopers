@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="    row justify-content-center">
   <div class="col-10 filter-black justify-content-center">
     <p class="text-white">
       Hoopers!<br>
@@ -19,14 +19,14 @@
       </button>
     </div>
     <div class="card-body bg-secondary">
-        <%= form_with(url: courts_path) do |f| %>
-          <%= f.label :keyword, 'キーワードから探す' %>
+        <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
+          <%= f.submit 'コート名から探す' %>
           <%= f.text_field :keyword %>
         <% end %>
-        <%= form_with(url: courts_path) do |f| %>
-          <%= f.label :user_location %>
-          <%= f.hidden :user_location, value: 
-      <p>現在地から探す！</p>
+        <%= form_with(url: map_search_courts_path, method: 'get', local: true) do |f| %>
+          <%= f.submit '現在地から探す！' %>
+          <%= f.hidden_field :user_location, value: "背っていちゅ" %>
+        <% end %>
       <p>地区から探す！</p>
     </div>
   </div>
