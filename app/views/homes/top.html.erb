@@ -1,10 +1,38 @@
-<div class="row">
-  <div class="col-10 filter-black">
-    <p>
+<div class="row justify-content-center">
+  <div class="col-10 filter-black justify-content-center">
+    <p class="text-white">
       Hoopers!<br>
       バスケコート<br>
       バスケイベント<br>
       が探せるWEBサイト！
     </p>
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="card bg-primary">
+    <div class="card-header bg-white">
+      <button class="button">
+        コートを探す
+      </button>
+      <button class="button">
+        イベントを探す
+      </button>
+    </div>
+    <div class="card-body bg-secondary">
+        <%= form_with(url: courts_path) do |f| %>
+          <%= f.label :keyword, 'キーワードから探す' %>
+          <%= f.text_field :keyword %>
+        <% end %>
+        <%= form_with(url: courts_path) do |f| %>
+          <%= f.label :user_location %>
+          <%= f.hidden :user_location, value: 
+      <p>現在地から探す！</p>
+      <p>地区から探す！</p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="bg-danger test" id="how_to_use">
+    つかいかた
   </div>
 </div>

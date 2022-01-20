@@ -12,7 +12,7 @@
 
   <body class="background-img">
     <header>
-      <nav class="navbar bg-secondary navbar-dark navbar-expand-sm">
+      <nav class="navbar bg-secondary navbar-dark navbar-expand-sm fixed-top">
         <a class="navbar-brand" href="/">Hoopers(fix)</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1">
           <span class="navbar-toggler-icon"></span>
@@ -22,14 +22,20 @@
             <li class="nav-item">
               <%= link_to('つかいかた', root_path(anchor: 'how_to_use',), class: 'text-white') %>
             </li>
-            <li class="nav-item">コート情報を提供</li>
-            <li class="nav-item">ログイン</li>
-            <li class="nav-item">ユーザー登録</li>
+            <li class="nav-item">
+              <%= link_to('コート情報を提供', address_courts_path) %>
+            </li>
+            <li class="nav-item">
+              <%= link_to('ログイン', new_user_session_path) %>
+            </li>
+            <li class="nav-item">
+              <%= link_to('ユーザー登録', new_user_registration_path) %>
+            </li>
           </ul>
         </div>
       </nav>
     </header>
-    <main>
+    <main class="fixed-padding">
       <div class="container">
         <%= yield %>
       </div>
