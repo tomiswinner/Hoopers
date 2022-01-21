@@ -22,6 +22,9 @@
 let map;
 
 function initMap(){
+  if(window.location.href.match('map_search')){
+    return
+  }
 
   if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(
