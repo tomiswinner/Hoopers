@@ -27,12 +27,20 @@
           <%= f.submit '現在地から探す！' %>
           <%= f.hidden_field :user_location, value: "背っていちゅ" %>
         <% end %>
-      <p>地区から探す！</p>
+        <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
+          <%= f.submit '地区から探す' %>
+          <%= f.select :areas, [*1..100] %>
+        <% end %>
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="bg-danger test" id="how_to_use">
+  <div class="bg-secondary" style="height: 100px; width: 200px;">
+    <%= link_to('コート情報募集中', address_courts_path) %>
+  </div>
+</div>
+<div class="row">
+  <div class="bg-danger" id="how_to_use" style="height: 1000px; width: 200px;">
     つかいかた
   </div>
 </div>
