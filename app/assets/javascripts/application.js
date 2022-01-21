@@ -22,8 +22,8 @@
 let map;
 
 function initMap(){
-  if(window.location.href.match('map_search')){
-    return
+  if(window.location.href.match('map_search') != null){
+    return;
   }
 
   if(navigator.geolocation){
