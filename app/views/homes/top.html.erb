@@ -1,4 +1,4 @@
-<div class="    row justify-content-center">
+<div class="row justify-content-center">
   <div class="col-10 filter-black justify-content-center">
     <p class="text-white">
       Hoopers!<br>
@@ -8,32 +8,39 @@
     </p>
   </div>
 </div>
+
 <div class="row justify-content-center">
   <div class="card bg-primary">
-    <div class="card-header bg-white">
-      <button class="button">
-        コートを探す
-      </button>
-      <button class="button">
-        イベントを探す
-      </button>
-    </div>
-    <div class="card-body bg-secondary">
-        <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
-          <%= f.submit 'コート名から探す' %>
-          <%= f.text_field :keyword %>
-        <% end %>
-        <%= form_with(url: map_search_courts_path, method: 'get', local: true) do |f| %>
-          <%= f.submit '現在地から探す！' %>
-          <%= f.hidden_field :user_location, value: "背っていちゅ" %>
-        <% end %>
-        <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
-          <%= f.submit '地区から探す' %>
-          <%= f.select :areas, [*1..100] %>
-        <% end %>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a href="#court_card" class="nav-link active" data-toggle="tab">コートを探す</a>
+      </li>
+      <li class="nav-item">
+        <a href="#event_card" class="nav-link" data-toggle="tab">イベントを探す</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane bg-success fade show active" id="court_card">
+          <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
+            <%= f.submit 'コート名から探す' %>
+            <%= f.text_field :keyword %>
+          <% end %>
+          <%= form_with(url: map_search_courts_path, method: 'get', local: true) do |f| %>
+            <%= f.submit '現在地から探す！' %>
+            <%= f.hidden_field :user_location, value: "背っていちゅ" %>
+          <% end %>
+          <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
+            <%= f.submit '地区から探す' %>
+            <%= f.select :areas, [*1..100] %>
+          <% end %>
+      </div>
+      <div class="tab-pane bg-secondary fade" id="event_card">
+        イベント
+      </div>
     </div>
   </div>
 </div>
+
 <div class="row">
   <div class="bg-secondary" style="height: 100px; width: 200px;">
     <%= link_to('コート情報募集中', address_courts_path) %>
