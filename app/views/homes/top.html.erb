@@ -10,7 +10,7 @@
 </div>
 
 <div class="row justify-content-center">
-  <div class="card bg-primary">
+  <div class="card bg-light">
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a href="#court_card" class="nav-link active" data-toggle="tab">コートを探す</a>
@@ -27,7 +27,7 @@
           <% end %>
           <%= form_with(url: map_search_courts_path, method: 'get', local: true) do |f| %>
             <%= f.submit '現在地から探す！' %>
-            <%= f.hidden_field :user_location, value: "背っていちゅ" %>
+            <%= f.hidden_field :user_location, value: "設定中" %>
           <% end %>
           <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
             <%= f.submit '地区から探す' %>
@@ -35,7 +35,19 @@
           <% end %>
       </div>
       <div class="tab-pane bg-secondary fade" id="event_card">
-        イベント
+        <div>
+          <%= link_to('最新のイベントを表示する', url: events_path) %>
+        </div>
+        <%= form_with(url: events_path, method: 'get', local: true) do |f| %>
+          <%= f.submit '時間を指定して探す' %>
+          <%= f.date_field :date %>
+          <%= f.time_select :opne_time %> ～
+          <%= f.time_select :close_time %>
+        <% end %>
+        <div>
+          <%= link_to( 'お気に入りコートから探す', court_favorites_path) %>
+        </div>
+        <%= link_to('コートからイベント情報を見るには？', root_path(anchor: 'court_card')) %>
       </div>
     </div>
   </div>
