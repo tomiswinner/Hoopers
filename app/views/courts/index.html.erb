@@ -12,21 +12,13 @@
         </div>
         <div id="card-4a" class="collapse" aria-labelledby="header-4a" data-parent="#accordion-4">
           <!--for 文-->
-              <div class="card-body">
-                条件を適用
-              </div>
-              <div class="card-body">
-                地区
-              </div>
-              <div class="card-body">
-                時間
-              </div>
-              <div class="card-body">
-                コートタイプ
-              </div>
-              <div class="card-body">
-                
-              </div>
+          <%= form_with(model: Court, url: courts_path, local: true) do |f| %>
+            <% f.submit '条件を適用' %>
+            <div class="card-body">
+              地区
+              <%= f.select :prefecture, [*1..10] %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
