@@ -49,10 +49,14 @@ def register_areas
   data = get_json(Resas_endpoint + City_path)
 
   data['result'].each do |val|
-    puts val['prefCode']
-    puts val['cityName']
+    Area.create!(
+      prefecture_id: val['prefCode'],
+      name: val['cityName']
+      )
   end
 end
 
-# register_areas
+
+# データを埋め込む際は、コメントアウト外す
 # register_prefecutres
+# register_areas
