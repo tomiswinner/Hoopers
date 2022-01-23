@@ -16,7 +16,7 @@ City_path = '/api/v1/cities'
 
 
 def get_json(url)
-  uri = URI.parse(URI.escape(url))
+  uri = URI.parse(url)
 
   https = Net::HTTP.new(uri.host, uri.port)
   https.use_ssl = true

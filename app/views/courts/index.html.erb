@@ -1,1 +1,39 @@
-<div>あいう</div>
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <div>コート検索結果</div>
+    <div class="accordion" id="accordion-4">
+      <div class="card bg-light">
+        <div class="card-header" id="header-4a">
+          <button class="btn btn-link text-success font-weight-bold" type="button"
+              data-toggle="collapse" data-target="#card-4a"
+              aria-expanded="true" aria-controls="card-4a">
+            絞り込み
+          </button>
+        </div>
+        <div id="card-4a" class="collapse" aria-labelledby="header-4a" data-parent="#accordion-4">
+          <!--for 文-->
+              <div class="card-body">
+                条件を適用
+              </div>
+              <div class="card-body">
+                地区
+              </div>
+              <div class="card-body">
+                時間
+              </div>
+              <div class="card-body">
+                コートタイプ
+              </div>
+              <div class="card-body">
+                
+              </div>
+        </div>
+      </div>
+    </div>
+    <% 10.times do %>
+      <div class="row bg-success mb-2">
+        しんよこコート
+      </div>
+    <% end %>
+  </div>
+</div>
