@@ -1,6 +1,7 @@
 class CourtsController < ApplicationController
   def index
     @prefectures = Prefecture.all
+    @courts = Court.all
     if params[:keyword]
       @courts = Court.where('name LIKE ?', "%#{:keyword}%")
     end
@@ -9,9 +10,10 @@ class CourtsController < ApplicationController
       @areas = Area.where(prefecture_id: params[:prefecture_id])
     end
 
-    if params[:area_ids]
-      logger.debug 'だ'
-      logger.debug params[:area_ids]
+    if params[:Area][:area_ids]
+      params[:Area][:area_ids].each do |area_id|
+        @courts = @courts.or(Court.where(area_id: area_id))
+      end
     end
 
     respond_to do |f|
