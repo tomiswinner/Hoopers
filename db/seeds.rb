@@ -57,6 +57,42 @@ def register_areas
 end
 
 
+def register_test_user
+   User.create!(
+     id: 0,
+     name: 'test_user',
+     email: 'hogehogee@example.com',
+     password: 'hogehoge'
+     )
+end
+
+def register_dummy_courts
+  10.times{
+    area_id = rand(Area.first.id..Area.last.id)
+    address = Area.find(area_id).name
+    Court.create!(
+      user_id: 0,
+      area_id: area_id,
+      name: address + 'バスケ' + 'コート',
+      image_id: 'hoge',
+      address: address,
+      latitude: rand(-90.0000..90.0000),
+      longitude: rand(-180.0000..180.0000),
+      url: 'なし',
+      supplement: 'なし',
+      size: '確認中',
+      price: '確認中',
+      court_type: rand(1..5),
+      bussiness_status: true,
+      confirmation_status: false
+      )
+  }
+end
+
+
 # データを埋め込む際は、コメントアウト外す
 # register_prefecutres
 # register_areas
+# register_test_user
+# register_dummy_courts
+
