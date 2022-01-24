@@ -11,14 +11,22 @@
           </button>
         </div>
         <div id="card-4a" class="collapse" aria-labelledby="header-4a" data-parent="#accordion-4">
-          <!--for 文-->
-          <%= form_with(model: Court, url: courts_path, local: true) do |f| %>
-            <% f.submit '条件を適用' %>
+          <%= form_with(url: courts_path, method: 'get', id: 'narrow_search') do |f| %>
+            <%= f.submit '絞り込む' %>
+          <% end %>
+
+
+          <%= form_with(url: courts_path, method: 'get') do |f| %>
             <div class="card-body">
               地区
-              <%= f.select :prefecture, [*1..10] %>
+              <%= f.select(:prefecture_id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {prompt: "県を選択"}, {onchange: 'Rails.fire(this.form,"submit")'}) %>
             </div>
           <% end %>
+
+            <div class="card-body" id="areas_select">
+              <%= render(partial: 'areas', locals: {areas: @areas}) %>
+            </div>
+
         </div>
       </div>
     </div>

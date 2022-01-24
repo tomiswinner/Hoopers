@@ -26,7 +26,8 @@
            confirm_courts GET    /courts/confirm(.:format)                                                                courts#confirm
             thanks_courts GET    /courts/thanks(.:format)                                                                 courts#thanks
         map_search_courts GET    /courts/map_search(.:format)                                                             courts#map_search
-                   courts GET    /courts(.:format)                                                                        courts#index
+                   courts POST   /courts(.:format)                                                                        courts#index
+                          GET    /courts(.:format)                                                                        courts#index
                           POST   /courts(.:format)                                                                        courts#create
                 new_court GET    /courts/new(.:format)                                                                    courts#new
                     court GET    /courts/:id(.:format)                                                                    courts#show
