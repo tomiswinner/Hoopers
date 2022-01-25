@@ -19,7 +19,7 @@
           <%= form_with(url: courts_path, method: 'get') do |f| %>
             <div class="card-body">
               地区
-              <%= f.select(:prefecture_id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {prompt: "県を選択"}, {onchange: 'Rails.fire(this.form,"submit")'}) %>
+              <%= f.select(:prefecture_id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {prompt: "県を選択"}, {id: 'prefs_select', onchange: 'Rails.fire(this.form,"submit")'}) %>
             </div>
           <% end %>
 
