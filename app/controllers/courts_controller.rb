@@ -11,8 +11,10 @@ class CourtsController < ApplicationController
     end
 
     if params.dig(:Area, :area_ids)
-      params[:Area][:area_ids].each do |area_id|
+      params.dig(:Area, :area_ids).each do |area_id|
         @courts = @courts.or(Court.where(area_id: area_id))
+        logger.debug @courts
+        logger.debug 'うん'
       end
     end
 
