@@ -10,7 +10,7 @@ class CourtsController < ApplicationController
       @areas = Area.where(prefecture_id: params[:prefecture_id])
     end
 
-    if params[:Area][:area_ids]
+    if params.dig(:Area, :area_ids)
       params[:Area][:area_ids].each do |area_id|
         @courts = @courts.or(Court.where(area_id: area_id))
       end
