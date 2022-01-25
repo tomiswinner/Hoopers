@@ -12,9 +12,10 @@ class CourtsController < ApplicationController
 
     if params.dig(:Area, :area_ids)
       params.dig(:Area, :area_ids).each do |area_id|
-        @courts = @courts.or(Court.where(area_id: area_id))
-        logger.debug @courts
-        logger.debug 'うん'
+        puts area_id
+        puts 'うんｋ'
+        @courts = @courts.or(Court.where(area_id: area_id.to_i))
+        puts @courts
       end
     end
 
