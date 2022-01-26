@@ -29,9 +29,9 @@
             <%= f.submit '現在地から探す！' %>
             <%= f.hidden_field :user_location, value: "設定中" %>
           <% end %>
-          <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
-            <%= f.submit '地区から探す' %>
-            <%= f.select :areas, [*1..100] %>
+          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true) do |f| %>
+            <%= f.submit '県から探す' %>
+            <%= f.select :id, Prefecture.all.collect { |pref| [ pref.name, pref.id]} %>
           <% end %>
       </div>
       <div class="tab-pane bg-secondary fade" id="event_card">

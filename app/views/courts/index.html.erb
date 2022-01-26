@@ -1,36 +1,40 @@
 <div class="row justify-content-center">
   <div class="col-12 filter-black justify-content-center">
     <div>コート検索結果</div>
-    <div class="accordion" id="accordion-4">
+
+    <div class="accordion" id="search_accordion">
       <div class="card bg-light">
         <div class="card-header" id="header-4a">
-          <button class="btn btn-link text-success font-weight-bold" type="button"
-              data-toggle="collapse" data-target="#card-4a"
-              aria-expanded="true" aria-controls="card-4a">
+          <button class="btn btn-link text-success font-weight-bold" type="button" data-toggle="collapse" data-target="#serach_bar">
             絞り込み
           </button>
         </div>
-        <div id="card-4a" class="collapse" aria-labelledby="header-4a" data-parent="#accordion-4">
-          <%= form_with(url: courts_path, method: 'get', id: 'narrow_search') do |f| %>
+        <div id="serach_bar" class="collapse" data-parent="#search_accordion">
+          <%= form_with(url: courts_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
             <%= f.submit '絞り込む' %>
           <% end %>
-
-
-          <%= form_with(url: courts_path, method: 'get') do |f| %>
-            <div class="card-body">
-              地区
-              <%= f.select(:prefecture_id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {prompt: "県を選択"}, {id: 'prefs_select', onchange: 'Rails.fire(this.form,"submit")'}) %>
-            </div>
-          <% end %>
-
-            <div class="card-body" id="areas_select">
+          <div class="card-body">
+            <%= form_with(model: Prefecture, url: courts_path, method: 'get') do |f| %>
+                地区
+                <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id),prompt: "県を選択"}, \
+                            {id: 'prefs_select', onchange: 'Rails.fire(this.form,"submit")'}) %>
+            <% end %>
+            <div id='areas_select'>
               <%= render(partial: 'areas', locals: {areas: @areas}) %>
             </div>
+          </div>
+          <div class="card-body">
+            時間
+            <%= label_tag(:open_time,'開始時間') %>
+            <%= time_select(Court, :open_time, {include_blank: true}, {form: 'narrow_search'}) %>
+            <%= label_tag(:close_time,'終了時間') %>
+            <%= time_select(Court, :close_time, {include_blank: true}, {form: 'narrow_search'}) %>
 
-        </div>
+          </div>
       </div>
     </div>
-    <% if @courts.nil? %>
+
+    <% if @courts.blank? %>
       <div>検索条件に一致するコートがありません</div>
     <% else %>
       <% @courts.each do |court| %>
