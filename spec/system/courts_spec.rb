@@ -1,32 +1,34 @@
 require 'rails_helper'
+require 'database_cleaner/active_record'
 
 RSpec.describe 'Court', type: :system do
   describe "GET /index" do
     describe '地区検索機能' do
-      before do
+      before(:all) do
+        DatabaseCleaner.strategy = :transaction
+        DatabaseCleaner.start
         @factory_courts = FactoryBot.create_list(:court, 3)
       end
-      context 'area_id = [ 1, 2 ] データ[ 1, 2, 3 ]なら', js: true do
-        it 'area_id = 1 or 2 のコートのみが返ってくる' do
-          visit courts_path
-          click_on '絞り込み'
-          select(@factory_courts[0].fetch_pref_name, from:'prefs_select')
-          sleep 5
-          puts page.html
-          # check(Area.find(@factory_courts[0].area_id).name)
-          # check(Area.find(@factory_courts[1].area_id).name)
-          click_on('絞り込む')
-
-          expect(@courts).to eq(Court.where(area_id: 1).or(Court.where(area_id: 2)))
+      after(:all) do
+        DatabaseCleaner.clean
+      end
+      context 'area_id = [ 1, 2 ] 存在するデータのidが[ 1, 2, 3 ]なら' do
+        it 'area_id = 1 or 2 のコートが返ってくる' do
+          visit courts_path(Area: {area_ids: [ @factory_courts[0].area_id, @factory_courts[1].area_id ]})
+          expect(page).to have_text(@factory_courts[0].name)&&have_text(@factory_courts[1].name)
+        end
+        it 'area_id = 3 のコートは返ってこない' do
+          visit courts_path(Area: {area_ids: [ @factory_courts[0].area_id, @factory_courts[1].area_id ]})
+          expect(page).not_to have_text(@factory_courts[2].name)
         end
       end
-      # 1,2,3の場合
-      # ダミーデータ用意しないと
-
+      context 'area_id = [] 存在するデータ[ 1, 2, 3 ]なら' do
+        it '一致するコートがありません' do
+          visit courts_path
+          byebug
+          expect(page).to have_text('一致するコートがありません')
+        end
+      end
     end
-
-
-
-    pending "add some examples (or delete) #{__FILE__}"
   end
 end

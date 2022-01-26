@@ -1,7 +1,7 @@
 class CourtsController < ApplicationController
   def index
     @prefectures = Prefecture.all
-    @courts = Court.all
+    @courts = Court.none
     if params[:keyword]
       @courts = Court.where('name LIKE ?', "%#{:keyword}%")
     end
@@ -12,10 +12,7 @@ class CourtsController < ApplicationController
 
     if params.dig(:Area, :area_ids)
       params.dig(:Area, :area_ids).each do |area_id|
-        puts area_id
-        puts 'うんｋ'
         @courts = @courts.or(Court.where(area_id: area_id.to_i))
-        puts @courts
       end
     end
 
