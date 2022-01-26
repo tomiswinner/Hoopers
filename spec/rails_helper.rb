@@ -1,5 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'database_cleaner/active_record'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
@@ -33,6 +34,7 @@ end
 
 RSpec.configure do |config|
 
+  # capybara test driver
   config.before(:each) do |example|
     if example.metadata[:type] == :system
       if example.metadata[:js]
@@ -42,6 +44,17 @@ RSpec.configure do |config|
       end
     end
   end
+
+  # databasecleaner config
+  config.before(:all) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
+  end
+  config.after(:all) do
+    DatabaseCleaner.clean_with(:transaction)
+  end
+
+
 
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
