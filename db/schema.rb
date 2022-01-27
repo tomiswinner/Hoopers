@@ -68,8 +68,8 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.string "address", null: false
     t.decimal "latitude", precision: 9, scale: 6, null: false
     t.decimal "longitude", precision: 9, scale: 6, null: false
-    t.time "open_time"
-    t.time "close_time"
+    t.integer "open_time"
+    t.integer "close_time"
     t.string "url", null: false
     t.string "supplement", null: false
     t.string "size", null: false

@@ -8,8 +8,8 @@ class CreateCourts < ActiveRecord::Migration[5.2]
       t.string :address,                            null: false
       t.decimal :latitude, precision: 9, scale: 6,  null: false
       t.decimal :longitude, precision: 9, scale: 6, null: false
-      t.time :open_time
-      t.time :close_time
+      t.integer :open_time
+      t.integer :close_time
       t.string :url,                                null: false,                    defalut: 'なし'
       t.string :supplement,                         null: false,                    defalut: 'なし'
       t.string :size,                               null: false,                    defalut: '確認中'
