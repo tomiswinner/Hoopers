@@ -17,4 +17,12 @@ class Court < ApplicationRecord
     mins_sec = mins.to_i * 60
     return hours_sec + mins_sec
   end
+
+  def convert_open_time_to_hour_min
+    return (Time.now.midnight + open_time).strftime("%H:%M")
+  end
+
+  def convert_close_time_to_hour_min
+    return (Time.now.midnight + close_time).strftime("%H:%M")
+  end
 end

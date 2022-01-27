@@ -2,8 +2,6 @@ require 'rails_helper'
 
 
 RSpec.describe 'Court', type: :system do
-  after(:suite) do
-  end
   describe "GET /index" do
     describe '地区検索機能' do
       before(:all) do
@@ -31,20 +29,37 @@ RSpec.describe 'Court', type: :system do
     end
     describe '時間検索機能' do
       before(:all) do
-        ['11:00','12:00','13:00'].each do |open|
-          ['22:00','23:00','24:00'].each do |close|
-            FactoryBot.create(:court, open_time: opne, close_time: close)
+        [Court.convert_time_to_past_sec('11','00'),
+         Court.convert_time_to_past_sec('12','00'),
+         Court.convert_time_to_past_sec('13','00')].each do |open_time|
+          [Court.convert_time_to_past_sec('22','00'),
+           Court.convert_time_to_past_sec('23','00'),
+           Court.convert_time_to_past_sec('23','59')].each do |close_time|
+            FactoryBot.create(:court, open_time: open_time, close_time: close_time)
           end
         end
       end
 
-      context '入力time 12:00~23:00 存在するデータ 11~22,12~22,13~22,11~23,12~23,13~23,11~24,12~24,13~24' do
+      context '入力time 12:00~23:00 存在するデータ 11~22,12~22,13~22,11~23,12~23,13~23,11~23:59,12~23:59,13~23:59' do
         it '12~22,13~22,12~23,13~23のデータが返ってくる' do
-          visit courts_path
-          expect(page).to have_content('address')
+          visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00', 'close_time(4i)': '23', 'close_time(5i)': '00'})
+          # byebug
+          expect(page).to have_content('12:00 ～ 22:00')&&have_content('13:00 ～ 22:00')&&('12:00 ～ 23:00')&&have_content('13:00 ～ 23:00')
         end
       end
+
+      # context '入力open_time 12 存在データ 11,12,13なら' do
+      #   it '12,13のデータが返ってくる' do
+      #     visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
+      #     expect(page).to have_content('12:00')&&have_content("13:00")
+      #   end
+      #   it '11 のデータは返ってこない'do
+      #     visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
+      #     expect(page).not_to have_content('11:00')
+      #   end
+      # end
+
+
     end
-    
   end
 end
