@@ -83,7 +83,7 @@ def register_dummy_courts
       size: '確認中',
       price: '確認中',
       court_type: rand(1..5),
-      bussiness_status: true,
+      business_status: true,
       confirmation_status: false
       )
   }
@@ -96,14 +96,24 @@ def register_tags
       name: tag_name
     })
    end
+end
 
+def register_dummy_taggings
+  5.times do
+    CourtTagTagging.create!({
+      court_id: rand(Court.first.id..Court.last.id),
+      tag_id: rand(Tag.first.id..Tag.last.id)
+    })
+  end
 end
 
 
 # データを埋め込む際は、コメントアウト外す
-# register_prefecutres
-# register_areas
-# register_test_user
-# register_dummy_courts
-# register_tags
+register_prefecutres
+register_areas
+register_test_user
+register_dummy_courts
+register_tags
+register_dummy_taggings
+
 

@@ -15,7 +15,7 @@ class CreateCourts < ActiveRecord::Migration[5.2]
       t.string :size,                               null: false,                    defalut: '確認中'
       t.string :price,                              null: false,                    defalut: '確認中'
       t.integer :court_type,                        null: false,                    defalut: 5
-      t.boolean :bussiness_status,                  null: false,                    defalut: true
+      t.boolean :business_status,                  null: false,                    defalut: true
       t.boolean :confirmation_status,               null: false,                    defalut: false
 
       t.timestamps
