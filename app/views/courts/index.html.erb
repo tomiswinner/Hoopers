@@ -15,7 +15,7 @@
           <% end %>
           <div class="card-body">
             <%= form_with(model: Prefecture, url: courts_path, method: 'get') do |f| %>
-                地区
+                <p>地区</p>
                 <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id),prompt: "県を選択"}, \
                             {id: 'prefs_select', onchange: 'Rails.fire(this.form,"submit")'}) %>
             <% end %>
@@ -24,19 +24,20 @@
             </div>
           </div>
           <div class="card-body">
-            時間
+            <p>時間</p>
             <%= label_tag(:open_time,'開始時間') %>
             <%= time_select(Court, :open_time, {include_blank: true}, {form: 'narrow_search'}) %>
             <%= label_tag(:close_time,'終了時間') %>
             <%= time_select(Court, :close_time, {include_blank: true}, {form: 'narrow_search'}) %>
           </div>
           <div class="card-body">
-            コートタイプ
+            <p>コートタイプ</p>
             <!--リファクタリング、確認中を排除したら？-->
             <%= collection_check_boxes(Court, :court_types, Court.court_types, :first, :first, {}, {form: 'narrow_search'}) %>
           </div>
           <div class="card-body">
-            
+            <p>タグ</p>
+            <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {form: 'narrow_search'}) %>
           </div>
       </div>
     </div>

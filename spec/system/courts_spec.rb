@@ -63,7 +63,7 @@ RSpec.describe 'Court', type: :system do
         @court_types = Court.court_types.keys
         @courts = []
         Court.court_types.keys.each_with_index do |court_type,i|
-          @courts[i] = FactoryBot.create(:court, court_type: court_type)
+          @courts[i] = Fac9ctoryBot.create(:court, court_type: court_type)
         end
       end
       context '入力コートタイプがkey[0],key[1]  データkey[0]~[4]のコートがあるなら' do
@@ -71,6 +71,29 @@ RSpec.describe 'Court', type: :system do
           visit courts_path(Court: {court_types: [@court_types[0], @court_types[1]]})
           # byebug
           expect(page).to have_content(@courts[0].name)&&have_content(@courts[1].name)
+        end
+      end
+      # 返ってこないver のテストも追加して
+    end
+    describe 'タグ検索機能' do
+      before(:all) do
+        @taggings = []
+        5.times do |i|
+          @taggings[i] = FactoryBot.create(:court_tag_tagging)
+        end
+        # byebug
+      end
+      context '入力tag 0,1,2 データ 0~4 （コートとタグと中間テーブルはそれぞれ５つある場合）' do
+        it 'データ0,1,2 が返ってくる' do
+          visit courts_path(Tag: {tag_ids: [Tag.first.id, Tag.second.id, Tag.third.id]})
+          expect(page).to have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.first.id).first.court_id).first.name)\
+                        &&have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.second.id).first.court_id).first.name)\
+                        &&have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.third.id).first.court_id).first.name)
+        end
+        it 'データ3,4 は返ってこない'do
+          visit courts_path(Tag: {tag_ids: [Tag.first.id, Tag.second.id, Tag.third.id]})
+          expect(page).not_to have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.fourth.id).first.court_id).first.name)\
+                        &&have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.fifth.id).first.court_id).first.name)\
         end
       end
     end
