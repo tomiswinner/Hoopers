@@ -1,6 +1,7 @@
 class CourtsController < ApplicationController
   def index
-    @courts = Court.all
+    @courts = Court.where(confirmation_status: true).where(business_status: true)
+
     if params[:keyword]
       @courts += @courts.where('name LIKE ?', "%#{:keyword}%")
     end

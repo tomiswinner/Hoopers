@@ -15,6 +15,6 @@ FactoryBot.define do
     price { 'なし' }
     court_type { 1 }
     business_status { true }
-    confirmation_status { false }
+    confirmation_status { true }
   end
 end
