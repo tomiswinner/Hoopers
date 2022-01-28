@@ -7,11 +7,10 @@ RSpec.describe 'Court', type: :system do
       before(:all) do
         @factory_courts = FactoryBot.create_list(:court, 3)
       end
-      after(:all) do
-      end
       context 'area_id = [ 1, 2 ] 存在するデータのidが[ 1, 2, 3 ]なら' do
         it 'area_id = 1 と 2 のコートが返ってくる' do
           visit courts_path(Area: {area_ids: [ @factory_courts[0].area_id, @factory_courts[1].area_id ]})
+          # byebug
           expect(page).to have_content(@factory_courts[0].name)&&have_content(@factory_courts[1].name)
         end
         it 'area_id = 3 のコートは返ってこない' do
@@ -22,6 +21,7 @@ RSpec.describe 'Court', type: :system do
       context 'area_id = [] 存在するデータ[ 1, 2, 3 ]なら' do
         it '一致するコートがありませんと表示される' do
           visit courts_path
+          pending('仕様上、検索条件が与えられなかった場合、全ての一覧を返すようになったので、後ほど修正')
           expect(page).to have_content('一致するコートがありません')
         end
       end
@@ -55,6 +55,22 @@ RSpec.describe 'Court', type: :system do
         it '11 のデータは返ってこない'do
           visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
           expect(page).not_to have_content('11:00 ～')
+        end
+      end
+    end
+    describe 'コートタイプ検索機能' do
+      before(:all) do
+        @court_types = Court.court_types.keys
+        @courts = []
+        Court.court_types.keys.each_with_index do |court_type,i|
+          @courts[i] = FactoryBot.create(:court, court_type: court_type)
+        end
+      end
+      context '入力コートタイプがkey[0],key[1]  データkey[0]~[4]のコートがあるなら' do
+        it 'key[0],key[1]のコートが返ってくる' do
+          visit courts_path(Court: {court_types: [@court_types[0], @court_types[1]]})
+          # byebug
+          expect(page).to have_content(@courts[0].name)&&have_content(@courts[1].name)
         end
       end
     end

@@ -29,6 +29,11 @@
             <%= time_select(Court, :open_time, {include_blank: true}, {form: 'narrow_search'}) %>
             <%= label_tag(:close_time,'終了時間') %>
             <%= time_select(Court, :close_time, {include_blank: true}, {form: 'narrow_search'}) %>
+          </div>
+          <div class="card-body">
+            コートタイプ
+            <!--リファクタリング、確認中を排除したら？-->
+            <%= collection_check_boxes(Court, :court_types, Court.court_types, :first, :first, {}, {form: 'narrow_search'}) %>
 
           </div>
       </div>
@@ -42,7 +47,6 @@
           <%= court.name %><br>
           <%= court.fetch_pref_name %><br>
           <%= court.court_type %>
-          <!--close time や open_time が nil だとエラーでるぞここ-->
           <%= court.convert_open_time_to_hour_min if court.open_time %>
           ～ <%= court.convert_close_time_to_hour_min if court.close_time %>
         </div>
