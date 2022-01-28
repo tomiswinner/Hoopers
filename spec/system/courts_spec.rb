@@ -48,18 +48,17 @@ RSpec.describe 'Court', type: :system do
         end
       end
 
-      # context '入力open_time 12 存在データ 11,12,13なら' do
-      #   it '12,13のデータが返ってくる' do
-      #     visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
-      #     expect(page).to have_content('12:00')&&have_content("13:00")
-      #   end
-      #   it '11 のデータは返ってこない'do
-      #     visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
-      #     expect(page).not_to have_content('11:00')
-      #   end
-      # end
-
-
+      context '入力open_time 12 close_time なし 存在データ 11~22,12~22,13~22,11~23,12~23,13~23,11~23:59,12~23:59,13~23:59' do
+        it '12~,13~のデータは返ってくる' do
+          visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
+          expect(page).to have_content('12:00 ～ 22:00')&&have_content('13:00 ～ 22:00')&&have_content('12:00 ～ 23:00')\
+                                      &&have_content('13:00 ～ 23:00')&&have_content('12:00 ～ 23:59')&&have_content('13:00 ～ 23:59')
+        end
+        it '11 のデータは返ってこない'do
+          visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
+          expect(page).not_to have_content('11:00 ～')
+        end
+      end
     end
   end
 end

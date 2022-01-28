@@ -27,17 +27,17 @@ class CourtsController < ApplicationController
         @courts = Court.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
       end
 
-    #   if params.dig(:Court, :'open_time(4i)').blank?
-    #     # リファクタリング余地あり
-    #     close_time = params.dig(:Court, :'close_time(4i)') + ':' + params.dig(:Court, :'close_time(5i)')
-    #     @courts = Court.where('close_time <= ?', close_time)
-    #   end
+      if params.dig(:Court, :'open_time(4i)').blank?
+        # リファクタリング余地あり
+        close_time = Court.convert_time_to_past_sec(params.dig(:Court, :'close_time(4i)'), params.dig(:Court, :'close_time(5i)'))
+        @courts = Court.where('close_time <= ?', close_time)
+      end
 
-    #   if params.dig(:Court, :'close_time(4i)').blank?
-    #     # リファクタリング余地あり
-    #     open_time = params.dig(:Court, :'open_time(4i)') +':'+ params.dig(:Court, :'open_time(5i)')
-    #     @courts = Court.where('open_time >= ?', open_time)
-      # end
+      if params.dig(:Court, :'close_time(4i)').blank?
+        # リファクタリング余地あり
+        open_time = Court.convert_time_to_past_sec(params.dig(:Court, :'open_time(4i)'), params.dig(:Court, :'open_time(5i)'))
+        @courts = Court.where('open_time >= ?', open_time)
+      end
     end
 
 
