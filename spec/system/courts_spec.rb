@@ -49,12 +49,12 @@ RSpec.describe 'Court', type: :system do
 
       context '入力open_time 12 close_time なし 存在データ 11~22,12~22,13~22,11~23,12~23,13~23,11~23:59,12~23:59,13~23:59' do
         it '12~,13~のデータは返ってくる' do
-          visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
+          visit courts_path(court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
           expect(page).to have_content('12:00 ～ 22:00')&&have_content('13:00 ～ 22:00')&&have_content('12:00 ～ 23:00')\
                                       &&have_content('13:00 ～ 23:00')&&have_content('12:00 ～ 23:59')&&have_content('13:00 ～ 23:59')
         end
         it '11 のデータは返ってこない'do
-          visit courts_path(Court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
+          visit courts_path(court: {'open_time(4i)': '12', 'open_time(5i)': '00'})
           expect(page).not_to have_content('11:00 ～')
         end
       end
@@ -63,7 +63,7 @@ RSpec.describe 'Court', type: :system do
       end
       context '入力なし 存在データ null~null' do
         it '何も返ってこない' do
-          visit courts_path(Court: {'open_time(4i)': '', 'open_time(5i)': '', 'close_time(4i)': '', 'close_time(5i)': ''})
+          visit courts_path(court: {'open_time(4i)': '', 'open_time(5i)': '', 'close_time(4i)': '', 'close_time(5i)': ''})
           expect(page).not_to have_content("#{@court.name}")
         end
       end
@@ -79,7 +79,7 @@ RSpec.describe 'Court', type: :system do
       end
       context '入力コートタイプがkey[0],key[1]  データkey[0]~[4]のコートがあるなら' do
         it 'key[0],key[1]のコートが返ってくる' do
-          visit courts_path(Court: {court_types: [@court_types[0], @court_types[1]]})
+          visit courts_path(court: {court_types: [@court_types[0], @court_types[1]]})
           # byebug
           expect(page).to have_content(@courts[0].name)&&have_content(@courts[1].name)
         end
