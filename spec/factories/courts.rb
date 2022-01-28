@@ -14,7 +14,7 @@ FactoryBot.define do
     size { 'なし' }
     price { 'なし' }
     court_type { 1 }
-    bussiness_status { true }
+    business_status { true }
     confirmation_status { false }
   end
 end
