@@ -66,8 +66,17 @@ def register_test_user
      )
 end
 
+def register_tags
+  ['個人利用OK', '子供も安心', 'ミニバスリングあり', '駐車場あり', 'ボールレンタルOK',
+   '団体利用OK', '初心者安心', '予約不要', '予約可能'].each do |tag_name|
+    Tag.create!({
+      name: tag_name
+    })
+   end
+end
+
 def register_dummy_courts
-  10.times{
+  10.times do |n|
     area_id = rand(Area.first.id..Area.last.id)
     address = Area.find(area_id).name
     Court.create!(
@@ -78,32 +87,35 @@ def register_dummy_courts
       address: address,
       latitude: rand(-90.0000..90.0000),
       longitude: rand(-180.0000..180.0000),
+      open_time: n * 3600,
+      close_time: n * 2 * 3600,
       url: 'なし',
       supplement: 'なし',
       size: '確認中',
       price: '確認中',
       court_type: rand(1..5),
-      bussiness_status: true,
-      confirmation_status: false
+      business_status: [true,false].sample,
+      confirmation_status: [true,false].sample
       )
-  }
+  end
 end
 
-def register_tags
-  ['個人利用OK', '子供も安心', 'ミニバスリングあり', '駐車場あり', 'ボールレンタルOK',
-   '団体利用OK', '初心者安心', '予約不要', '予約可能'].each do |tag_name|
-    Tag.create!({
-      name: tag_name
-    })
-   end
 
+def register_dummy_taggings
+  10.times do
+    CourtTagTagging.create!({
+      court_id: rand(Court.first.id..Court.last.id),
+      tag_id: rand(Tag.first.id..Tag.last.id)
+    })
+  end
 end
 
 
 # データを埋め込む際は、コメントアウト外す
-# register_prefecutres
-# register_areas
-# register_test_user
-# register_dummy_courts
-# register_tags
+register_prefecutres
+register_areas
+register_test_user
+register_tags
+register_dummy_courts
+
 

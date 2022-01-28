@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 
+# 全てのテストは、test 環境のDBを空っぽの状態で行うこと。
 RSpec.describe 'Court', type: :system do
   describe "GET /index" do
     describe '地区検索機能' do
-      before(:all) do
+      before do
         @factory_courts = FactoryBot.create_list(:court, 3)
       end
       context 'area_id = [ 1, 2 ] 存在するデータのidが[ 1, 2, 3 ]なら' do
         it 'area_id = 1 と 2 のコートが返ってくる' do
           visit courts_path(Area: {area_ids: [ @factory_courts[0].area_id, @factory_courts[1].area_id ]})
-          # byebug
           expect(page).to have_content(@factory_courts[0].name)&&have_content(@factory_courts[1].name)
         end
         it 'area_id = 3 のコートは返ってこない' do
@@ -26,8 +26,9 @@ RSpec.describe 'Court', type: :system do
         end
       end
     end
+
     describe '時間検索機能' do
-      before(:all) do
+      before do
         [Court.convert_time_to_past_sec('11','00'),
          Court.convert_time_to_past_sec('12','00'),
          Court.convert_time_to_past_sec('13','00')].each do |open_time|
@@ -57,13 +58,23 @@ RSpec.describe 'Court', type: :system do
           expect(page).not_to have_content('11:00 ～')
         end
       end
+      before do
+        @court = FactoryBot.create(:court, open_time: nil, close_time: nil)
+      end
+      context '入力なし 存在データ null~null' do
+        it '何も返ってこない' do
+          visit courts_path(Court: {'open_time(4i)': '', 'open_time(5i)': '', 'close_time(4i)': '', 'close_time(5i)': ''})
+          expect(page).not_to have_content("#{@court.name}")
+        end
+      end
     end
+
     describe 'コートタイプ検索機能' do
-      before(:all) do
+      before do
         @court_types = Court.court_types.keys
         @courts = []
         Court.court_types.keys.each_with_index do |court_type,i|
-          @courts[i] = Fac9ctoryBot.create(:court, court_type: court_type)
+          @courts[i] = FactoryBot.create(:court, court_type: court_type)
         end
       end
       context '入力コートタイプがkey[0],key[1]  データkey[0]~[4]のコートがあるなら' do
@@ -75,13 +86,13 @@ RSpec.describe 'Court', type: :system do
       end
       # 返ってこないver のテストも追加して
     end
+
     describe 'タグ検索機能' do
-      before(:all) do
+      before do
         @taggings = []
         5.times do |i|
           @taggings[i] = FactoryBot.create(:court_tag_tagging)
         end
-        # byebug
       end
       context '入力tag 0,1,2 データ 0~4 （コートとタグと中間テーブルはそれぞれ５つある場合）' do
         it 'データ0,1,2 が返ってくる' do
@@ -92,6 +103,7 @@ RSpec.describe 'Court', type: :system do
         end
         it 'データ3,4 は返ってこない'do
           visit courts_path(Tag: {tag_ids: [Tag.first.id, Tag.second.id, Tag.third.id]})
+          # byebug
           expect(page).not_to have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.fourth.id).first.court_id).first.name)\
                         &&have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.fifth.id).first.court_id).first.name)\
         end
