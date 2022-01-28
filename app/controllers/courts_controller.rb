@@ -1,6 +1,5 @@
 class CourtsController < ApplicationController
   def index
-    @prefectures = Prefecture.all
     @courts = Court.all
     if params[:keyword]
       @courts += @courts.where('name LIKE ?', "%#{:keyword}%")
@@ -32,9 +31,19 @@ class CourtsController < ApplicationController
       end
       @courts = @court_type_search_res
     end
+
+    if params.dig(:Tag, :tag_ids)
+      @tag_search_res = Court.none
+      params.dig(:Tag, :tag_ids).each do |tag_id|
+        Tag.find(tag_id).court_tag_taggings.each do |tagging|
+          @tag_search_res = @tag_search_res.or(@courts.where(id: tagging.court_id))
+        end
+      end
+      @courts = @tag_search_res
+    end
     # open_time,close time はそれぞれ 分まで一緒に入れるようvalidation 入れる
     # open, close 両方入力あれば
-    if params.dig(:Court, :'open_time(4i)')&& params.dig(:Court, :'close_time(4i)')
+    if params.dig(:Court, :'ogipen_time(4i)')&& params.dig(:Court, :'close_time(4i)')
       open_time = Court.convert_time_to_past_sec(params.dig(:Court, :'open_time(4i)'), params.dig(:Court, :'open_time(5i)'))
       close_time = Court.convert_time_to_past_sec(params.dig(:Court, :'close_time(4i)'), params.dig(:Court, :'close_time(5i)'))
       @courts = @courts.where('open_time >= ?', open_time).where('close_time <= ?', close_time)

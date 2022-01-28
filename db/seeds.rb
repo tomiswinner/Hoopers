@@ -89,10 +89,21 @@ def register_dummy_courts
   }
 end
 
+def register_tags
+  ['個人利用OK', '子供も安心', 'ミニバスリングあり', '駐車場あり', 'ボールレンタルOK',
+   '団体利用OK', '初心者安心', '予約不要', '予約可能'].each do |tag_name|
+    Tag.create!({
+      name: tag_name
+    })
+   end
+
+end
+
 
 # データを埋め込む際は、コメントアウト外す
 # register_prefecutres
 # register_areas
 # register_test_user
 # register_dummy_courts
+# register_tags
 
