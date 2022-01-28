@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.string "size", null: false
     t.string "price", null: false
     t.integer "court_type", null: false
-    t.boolean "bussiness_status", null: false
+    t.boolean "business_status", null: false
     t.boolean "confirmation_status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
