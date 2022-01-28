@@ -27,7 +27,7 @@ class CourtsController < ApplicationController
       end
     end
 
-    if params[:Court]&&params.dig(:Court, :'open_time(4i)').blank?
+    if params.dig(:Court, :'close_time(4i)')&&params.dig(:Court, :'open_time(4i)').blank?
       # リファクタリング余地あり
       close_time = Court.convert_time_to_past_sec(params.dig(:Court, :'close_time(4i)'), params.dig(:Court, :'close_time(5i)'))
       if @courts.count == 0
@@ -37,7 +37,7 @@ class CourtsController < ApplicationController
       end
     end
 
-    if params[:Court]&&params.dig(:Court, :'close_time(4i)').blank?
+    if params.dig(:Court, :'open_time(4i)')&&params.dig(:Court, :'close_time(4i)').blank?
       # リファクタリング余地あり
       open_time = Court.convert_time_to_past_sec(params.dig(:Court, :'open_time(4i)'), params.dig(:Court, :'open_time(5i)'))
       if @courts.count == 0
@@ -46,6 +46,21 @@ class CourtsController < ApplicationController
         @courts = Court.where('open_time >= ?', open_time)
       end
     end
+
+
+    if params.dig(:Court, :court_types)
+      # リファクタリング余地あり
+      # 検索をかけていった段階で、検索結果が0となった時、これだとエラーが起きるわ、、、
+      params.dig(:Court, :court_types).each do |court_type|
+        if @courts.count
+          @courts = Court.where(court_type: court_type)
+        else
+          @courts = @courts.or(Court.where(court_type: court_type))
+        end
+      end
+    end
+
+
 
     respond_to do |f|
       f.html
