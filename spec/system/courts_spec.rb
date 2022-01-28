@@ -7,11 +7,10 @@ RSpec.describe 'Court', type: :system do
       before(:all) do
         @factory_courts = FactoryBot.create_list(:court, 3)
       end
-      after(:all) do
-      end
       context 'area_id = [ 1, 2 ] 存在するデータのidが[ 1, 2, 3 ]なら' do
         it 'area_id = 1 と 2 のコートが返ってくる' do
           visit courts_path(Area: {area_ids: [ @factory_courts[0].area_id, @factory_courts[1].area_id ]})
+          # byebug
           expect(page).to have_content(@factory_courts[0].name)&&have_content(@factory_courts[1].name)
         end
         it 'area_id = 3 のコートは返ってこない' do
@@ -22,6 +21,7 @@ RSpec.describe 'Court', type: :system do
       context 'area_id = [] 存在するデータ[ 1, 2, 3 ]なら' do
         it '一致するコートがありませんと表示される' do
           visit courts_path
+          pending('仕様上、検索条件が与えられなかった場合、全ての一覧を返すようになったので、後ほど修正')
           expect(page).to have_content('一致するコートがありません')
         end
       end
