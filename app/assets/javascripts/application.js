@@ -19,6 +19,23 @@
 //= require turbolinks
 //= require_tree .
 
+let isScriptLoaded = false;
+
+// google map src のロードが完了してなければ、callback にて initMap
+function noticeLoadCompletion(){
+  isScriptLoaded = true
+  initMap()
+}
+
+
+// google map src のロードが完了していれば、ページ遷移時にイベント監視
+window.addEventListener('turbolinks:load',()=>{
+  if (isScriptLoaded){
+    initMap()
+  }
+})
+
+
 function initMap(){
   let map;
   if(window.location.href.match('courts/.*/detail') != null){
@@ -52,4 +69,3 @@ function initMap(){
     }
   }
 }
-
