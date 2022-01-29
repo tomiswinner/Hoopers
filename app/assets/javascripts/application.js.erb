@@ -85,6 +85,18 @@ window.addEventListener('turbolinks:load',()=>{
     starHalf: starHalfPath,
     scoreName: 'court_review[accessibility]'
   })
+  $('#eval_security').raty({
+    starOn: starOnPath,
+    starOff: starOffPath,
+    starHalf: starHalfPath,
+    scoreName: 'court_review[security]'
+  })
+  $('#eval_quality').raty({
+    starOn: starOnPath,
+    starOff: starOffPath,
+    starHalf: starHalfPath,
+    scoreName: 'court_review[quality]'
+  })
 
   $('.evaluation').raty({
     readOnly: true,
