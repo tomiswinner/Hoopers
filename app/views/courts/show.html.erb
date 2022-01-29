@@ -1,0 +1,27 @@
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <h2><%= @court.name %></h2>
+    <div>
+      <%= attachment_image_tag(@court, :image, fallback: "no_img.jpg", size: "250x250") %>
+    </div>
+  </div>
+  <div class="col-12 filter-black justify-content-center">
+    <h2>コート基本情報</h2>
+    <h4>情報が違うと思ったら？</h4>
+  </div>
+  <div class="col-12 filter-black justify-content-center">
+    <%= @court.address %>
+    <%= @court.return_business_hour %>
+    <%= @court.url %>
+    <%= @court.price %>
+    <% @court.fetch_tags.each do |tag| %>
+      <%= tag.name %>
+    <% end %>
+  </div>
+  <div class="col-12 filter-black justify-content-center">
+    マップ
+  </div>
+  <div class="col-12 filter-black justify-content-center">
+    レビュー
+  </div>
+</div>
