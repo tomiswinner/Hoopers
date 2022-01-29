@@ -1,4 +1,6 @@
 class Court < ApplicationRecord
+  attachment :image
+
   belongs_to :user
   belongs_to :area
 
@@ -7,6 +9,7 @@ class Court < ApplicationRecord
   has_many :court_favorites,    dependent: :destroy
   has_many :court_histories,    dependent: :destroy
   has_many :court_tag_taggings, dependent: :destroy
+
 
   enum court_type: {体育館: 0, アスファルト: 1, ゴム: 2, 砂: 3, その他: 4, 確認中: 5}
 
@@ -26,5 +29,17 @@ class Court < ApplicationRecord
 
   def convert_close_time_to_hour_min
     return (Time.now.midnight + close_time).strftime("%H:%M")
+  end
+
+  def return_business_hour
+    return convert_open_time_to_hour_min + " ～ " + convert_close_time_to_hour_min
+  end
+
+  def fetch_tags
+    tags = Tag.none
+    CourtTagTagging.where(court_id: id).pluck(:tag_id).each do |tag_id|
+      tags += Tag.where(id: tag_id)
+    end
+    return tags
   end
 end
