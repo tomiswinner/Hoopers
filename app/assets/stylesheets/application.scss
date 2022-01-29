@@ -31,6 +31,10 @@ html, body, main{
   height: 100%;
 }
 
+.height-adjustment{
+  height: 200px !important;
+}
+
 .background-img{
   background-image: image-url("background.jpg");
   background-size: cover;
