@@ -1,5 +1,7 @@
 class CourtReviewsController < ApplicationController
-  def new; end
+  def new
+    @court_review = CourtReview.new()
+  end
 
   def create; end
 

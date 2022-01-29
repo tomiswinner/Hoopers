@@ -13,17 +13,12 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+//= require jquery.raty.js
 
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
 //= require_tree .
-$('#eval_accessibility').raty({
-  starOn: "<%= asset_path('start-on.png') %>",
-  starOff: "<%= asset_path('start-off.png') %>",
-  starHalf: "<%= asset_path('start-half.png') %>",
-  scoreName: 'court_review[accessibility]'
-})
 
 let isScriptLoaded = false;
 
@@ -76,3 +71,28 @@ function initMap(){
     }
   }
 }
+
+
+// raty.js
+const starOnPath = "<%= asset_path('star-on.png') %>"
+const starOffPath = "<%= asset_path('star-off.png') %>"
+const starHalfPath = "<%= asset_path('star-half.png') %>"
+
+window.addEventListener('turbolinks:load',()=>{
+  $('#eval_accessibility').raty({
+    starOn: starOnPath,
+    starOff: starOffPath,
+    starHalf: starHalfPath,
+    scoreName: 'court_review[accessibility]'
+  })
+
+  $('#eval_total_in_detail').raty({
+    readOnly: true,
+    starOn: starOnPath,
+    starOff: starOffPath,
+    starHalf: starHalfPath,
+    score: function(){
+      return $(this).attr('data-score')
+    }
+  })
+})

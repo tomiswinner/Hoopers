@@ -19,10 +19,13 @@
     <% end %>
   </div>
   <div class="col-12  justify-content-center">
+    マップ情報
     <div id="map" class="height-adjustment"></div>
   </div>
   <div class="col-12  justify-content-center">
-    レビュー
+    <h5>レビュー</h5>
+    <h6>総合レビュー点数</h6>
+    <div id="eval_total_in_detail" data-score=<%= @court.average_court_total_reviews %>></div>
   </div>
 </div>
 <input type="hidden" id="lat" value="<%= @court.latitude %>">
