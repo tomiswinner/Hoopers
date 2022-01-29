@@ -101,17 +101,15 @@ def register_dummy_courts
 end
 
 def register_reviews
-  10.times do
-    Court.all.each do |court|
-      CourtReview.create!(
-        court_id: court.id,
-        user_id: 0,
-        accessibility: 3.5,
-        security: 4,
-        quality: 4.5,
-        total_points: [3.5,4.0,4.5].sum.fdiv(3)
-        )
-    end
+  Court.all.each do |court|
+    CourtReview.create!(
+      court_id: court.id,
+      user_id: 0,
+      accessibility: 3.5,
+      security: 4,
+      quality: 4.5,
+      total_points: [3.5,4.0,4.5].sum.fdiv(3)
+      )
   end
 end
 
@@ -132,7 +130,7 @@ end
 # register_tags
 # register_dummy_courts
 # register_dummy_taggings
-register_reviews
+# register_reviews
 
 
 
