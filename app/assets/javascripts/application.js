@@ -18,6 +18,12 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+$('#eval_accessibility').raty({
+  starOn: "<%= asset_path('start-on.png') %>",
+  starOff: "<%= asset_path('start-off.png') %>",
+  starHalf: "<%= asset_path('start-half.png') %>",
+  scoreName: 'court_review[accessibility]'
+})
 
 let isScriptLoaded = false;
 
@@ -34,6 +40,7 @@ window.addEventListener('turbolinks:load',()=>{
     initMap()
   }
 })
+
 
 
 function initMap(){
