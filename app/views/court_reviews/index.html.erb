@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-12 bg-white justify-content-center">
+
+    <h2>レビュー一覧画面</h2>
+    <h3>総合レビュー</h3>
+      <p>総合点</p>
+      <div class="evaluation" data-score=<%= @court.ave_total_points_reviews %>></div>
+      <p>アクセス</p>
+      <div class="evaluation" data-score=<%= @court.ave_accessibility_reviews %>></div>
+      <p>マナー</p>
+      <div class="evaluation" data-score=<%= @court.ave_security_reviews %>></div>
+      <p>設備</p>
+      <div class="evaluation" data-score=<%= @court.ave_quality_reviews %>></div>
+    <h3>みんなのレビュー</h3>
+    <table>
+      <thead>
+        <th>ユーザー名</th>
+        <th>評価</th>
+      </thead>
+      <tbody>
+        <% @court_reviews.each do |review| %>
+          <tr>
+            <td>
+              <%= review.user.name %>
+            </td>
+            <td>
+              <p>総合点</p>
+              <div class="evaluation" data-score=<%= review.total_points %>></div>
+            </td>
+            <td>
+              <p>アクセス</p>
+              <div class="evaluation" data-score=<%= review.accessibility %>></div>
+              <p>マナー</p>
+              <div class="evaluation" data-score=<%= review.security %>></div>
+              <p>設備</p>
+              <div class="evaluation" data-score=<%= review.quality %>></div>
+            </td>
+
+          </tr>
+      </tbody>
+    </table>
+
+    <% end %>
+  </div>
+</div>
+

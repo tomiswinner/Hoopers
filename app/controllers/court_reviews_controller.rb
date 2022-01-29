@@ -5,7 +5,10 @@ class CourtReviewsController < ApplicationController
 
   def create; end
 
-  def index; end
+  def index
+    @court = Court.find(params[:court_id])
+    @court_reviews = @court.court_reviews
+  end
 
   def edit; end
 

@@ -43,7 +43,19 @@ class Court < ApplicationRecord
     return tags
   end
 
-  def average_court_total_reviews
+  def ave_total_points_reviews
     return court_reviews.pluck(:total_points).sum.fdiv(court_reviews.count)
+  end
+
+  def ave_accessibility_reviews
+    return court_reviews.pluck(:accessibility).sum.fdiv(court_reviews.count)
+  end
+
+  def ave_security_reviews
+    return court_reviews.pluck(:security).sum.fdiv(court_reviews.count)
+  end
+
+  def ave_quality_reviews
+    return court_reviews.pluck(:quality).sum.fdiv(court_reviews.count)
   end
 end
