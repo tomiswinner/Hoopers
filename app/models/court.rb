@@ -42,4 +42,8 @@ class Court < ApplicationRecord
     end
     return tags
   end
+
+  def average_court_total_reviews
+    return court_reviews.pluck(:total_points).sum.fdiv(court_reviews.count)
+  end
 end
