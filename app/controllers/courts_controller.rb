@@ -16,9 +16,10 @@ class CourtsController < ApplicationController
         @area_search_res = @area_search_res.or(@courts.where(area_id: area_id.to_i))
       end
       @courts = @area_search_res
+
     end
     # コートタイプが一つ以上ついている場合（ついてない場合、[""]が入っている）
-    if params.dig(:court, :court_types).length > 1
+    if !(params.dig(:court, :court_types).blank?)
       # リファクタリング余地あり
       @court_type_search_res = Court.none
       params.dig(:court, :court_types).each do |court_type|
@@ -78,7 +79,9 @@ class CourtsController < ApplicationController
 
   def map_search; end
 
-  def show; end
+  def show
+    @court = Court.find(params[:id])
+  end
 
   private
     def courts_params

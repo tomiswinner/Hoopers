@@ -83,7 +83,7 @@ def register_dummy_courts
       user_id: 0,
       area_id: area_id,
       name: address + 'バスケ' + 'コート',
-      image_id: 'hoge',
+      image_id: "aa",
       address: address,
       latitude: rand(-90.0000..90.0000),
       longitude: rand(-180.0000..180.0000),
