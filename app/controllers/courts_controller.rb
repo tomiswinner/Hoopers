@@ -17,8 +17,8 @@ class CourtsController < ApplicationController
       end
       @courts = @area_search_res
     end
-
-    if params.dig(:court, :court_types)
+    # コートタイプが一つ以上ついている場合（ついてない場合、[""]が入っている）
+    if params.dig(:court, :court_types).length > 1
       # リファクタリング余地あり
       @court_type_search_res = Court.none
       params.dig(:court, :court_types).each do |court_type|
@@ -38,19 +38,21 @@ class CourtsController < ApplicationController
     end
     # open_time,close time はそれぞれ 分まで一緒に入れるようvalidation 入れる
     # open, close 両方入力あれば=
-    if params.dig(:court, :'ogipen_time(4i)')&& params.dig(:court, :'close_time(4i)')
+    if !(params.dig(:court, :'ogipen_time(4i)').blank?)&& !(params.dig(:court, :'close_time(4i)').blank?)
       open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'), params.dig(:court, :'open_time(5i)'))
       close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'), params.dig(:court, :'close_time(5i)'))
       @courts = @courts.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
     end
 
-    if params.dig(:court, :'close_time(4i)')&&params.dig(:court, :'open_time(4i)').blank?
+    # close 空白 open 入力あれば
+    if !(params.dig(:court, :'close_time(4i)').blank?)&& params.dig(:court, :'open_time(4i)').blank?
       # リファクタリング余地あり
       close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'), params.dig(:court, :'close_time(5i)'))
       @courts = @courts.where('close_time <= ?', close_time)
     end
 
-    if params.dig(:court, :'open_time(4i)')&&params.dig(:court, :'close_time(4i)').blank?
+    # opne 空白 close 入力あれば
+    if !(params.dig(:court, :'open_time(4i)').blank?)&& params.dig(:court, :'close_time(4i)').blank?
       # リファクタリング余地あり
       open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'), params.dig(:court, :'open_time(5i)'))
       @courts = @courts.where('open_time >= ?', open_time)
