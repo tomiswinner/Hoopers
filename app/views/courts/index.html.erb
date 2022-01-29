@@ -47,7 +47,7 @@
     <% else %>
       <% @courts.each do |court| %>
         <div class="row bg-success mb-2">
-          <%= link_to(court.name, court_path(court.id)) %><br>
+          <%= link_to(court.name, detail_court_path(court.id)) %><br>
           <%= court.fetch_pref_name %><br>
           <%= court.court_type %>
           <!--リファクタリング-->

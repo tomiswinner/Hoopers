@@ -79,7 +79,7 @@ class CourtsController < ApplicationController
 
   def map_search; end
 
-  def show
+  def detail
     @court = Court.find(params[:id])
   end
 

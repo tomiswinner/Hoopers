@@ -19,28 +19,37 @@
 //= require turbolinks
 //= require_tree .
 
-let map;
-
 function initMap(){
-  if(window.location.href.match('map_search') != null){
-    return;
+  let map;
+  if(window.location.href.match('courts/.*/detail') != null){
+    var lat = Number(document.getElementById('lat').value)
+    var lng = Number(document.getElementById('lng').value)
+    map = new google.maps.Map(document.getElementById('map'),{
+      center:{
+        lat: lat,
+        lng: lng
+      },
+      zoom: 13
+    })
   }
 
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            },
-          zoom: 8
-          })
-        },
-      () => {
-        // error handling
-      }
-    );
+  if(window.location.href.match('map_search') != null){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              },
+            zoom: 13
+            })
+          },
+        () => {
+          // error handling
+        }
+      );
+    }
   }
 }
 

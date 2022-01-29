@@ -8,6 +8,9 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLEMAP_API_KEY'] %>&callback=initMap">
+    </script>
   </head>
 
   <body class="background-img">
@@ -40,8 +43,5 @@
         <%= yield %>
       </div>
     </main>
-    <script async
-    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLEMAP_API_KEY'] %>&callback=initMap">
-    </script>
   </body>
 </html>
