@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'inqury', to: 'homes#inqury', as: 'inqury'
 
   resources :courts, only: [:index, :new, :create] do
+    resources :court_reviews, only: [:index, :new, :edit, :update]
     member do
       get :detail
     end
@@ -34,7 +35,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :court_reviews, only: [:index, :new, :edit, :update]
 
   resources :court_histories, only: [:index]
 
