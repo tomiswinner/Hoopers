@@ -140,6 +140,18 @@ def register_events
     end
 end
 
+def register_court_favs
+  Court.all.each do |court|
+    if [true,true,false].sample
+    CourtFavorite.create!(
+      court_id: court.id,
+      user_id: 0
+      )
+    end
+  end
+end
+
+
 # データを埋め込む際は、コメントアウト外す
 # register_prefecutres
 # register_areas
@@ -149,6 +161,7 @@ end
 # register_dummy_taggings
 # register_reviews
 # register_events
+# register_court_favs
 
 
 

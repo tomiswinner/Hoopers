@@ -18,7 +18,7 @@
                             {id: 'prefs_select', onchange: 'Rails.fire(this.form,"submit")'}) %>
             <% end %>
             <div id='areas_select'>
-              <%= render(partial: 'areas', locals: {areas: @areas}) %>
+              <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
             </div>
           </div>
           <%= form_with(model: Court, url: courts_path, method: 'get',local: true, id: 'narrow_search') do |f| %>

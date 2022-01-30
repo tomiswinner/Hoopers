@@ -4,7 +4,9 @@ class EventsController < ApplicationController
   def create; end
 
   def index
-
+    if params.dig(:court_id)
+      @events = Event.where(court_id: params.dig(:court_id))
+    end
   end
 
   def show
