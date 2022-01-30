@@ -34,6 +34,8 @@ end
 
 RSpec.configure do |config|
 
+   config.include Rails.application.routes.url_helpers
+
   # capybara test driver
   config.before(:each) do |example|
     if example.metadata[:type] == :system
