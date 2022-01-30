@@ -25,15 +25,30 @@
             <li class="nav-item">
               <%= link_to('つかいかた', root_path(anchor: 'how_to_use',), class: 'text-white') %>
             </li>
-            <li class="nav-item">
-              <%= link_to('コート情報を提供', address_courts_path) %>
-            </li>
-            <li class="nav-item">
-              <%= link_to('ログイン', new_user_session_path) %>
-            </li>
-            <li class="nav-item">
-              <%= link_to('ユーザー登録', new_user_registration_path) %>
-            </li>
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to('コート情報を提供', address_courts_path) %>
+              </li>
+              <li class="nav-item">
+                <%= link_to('イベントを作成', new_event_path) %>
+              </li>
+              <li class="nav-item">
+                <%= link_to('マイページ', mypage_users_path) %>
+              </li>
+              <li class="nav-item">
+                <%= link_to('ログアウト', destroy_user_session_path, method: :delete) %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to('ログイン', new_user_session_path) %>
+              </li>
+              <li class="nav-item">
+                <%= link_to('ユーザー登録', new_user_registration_path) %>
+              </li>
+            <% end %>
+              <li class="nav-item">
+                <%= link_to('問い合わせ', inqury_path) %>
+              </li>
           </ul>
         </div>
       </nav>

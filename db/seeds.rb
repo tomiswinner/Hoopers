@@ -62,7 +62,7 @@ def register_test_user
      id: 0,
      name: 'test_user',
      email: 'hogehogee@example.com',
-     password: 'hogehoge'
+     password: ENV['ADMIN_PASS']
      )
 end
 
