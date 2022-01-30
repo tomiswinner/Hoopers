@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     else
       if @customer.update(user_params)
         flash[:notice] = "更新が完了しました"
-        redirect_to user_mypage_path
+        redirect_to mypage_users_path
 
       else
         flash[:alert] = "更新に失敗しました"
@@ -33,6 +33,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      param.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email)
     end
 end

@@ -13,4 +13,16 @@ RSpec.describe 'User', type: :system do
       expect(User.last.email).to eq'hogehogehoge@example.com'
     end
   end
+  describe 'ユーザー情報編集' do
+    before do
+      @user = FactoryBot.create(:user)
+    end
+    it 'ユーザー情報を変更する' do
+      login_as(@user)
+      visit edit_user_path(@user.id)
+      find('#user_email').set('aaaa@example.com')
+      click_button('編集内容を保存')
+      expect(User.find(@user.id).email).to eq('aaaa@example.com')
+    end
+  end
 end
