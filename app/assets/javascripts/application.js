@@ -63,10 +63,35 @@ function initMap(){
               },
             zoom: 13
             })
-          },
+
+          latlng = new google.maps.LatLng(
+            position.coords.latitude + 0.001,
+            position.coords.longitude + 0.001
+            )
+
+          marker1 = new google.maps.Marker({
+            position: latlng,
+            map: map,
+          })
+
+          infowindow1 = new google.maps.InfoWindow({
+            content: 'さんぷる'
+          })
+
+          marker1.addListener('click',()=>{
+            infowindow1.open({
+              anchor: marker1,
+              map,
+              shouldFocus: false
+            })
+          })
+
+        },
+
         () => {
           // error handling
         }
+
       );
     }
   }
