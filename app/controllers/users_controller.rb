@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def update
-     @customer = current_user
+     @user = current_user
 
     if params[:is_deactivation?]
       @user.update(is_active: false)
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       sign_out_and_redirect(current_user)
 
     else
-      if @customer.update(user_params)
+      if @user.update(user_params)
         flash[:notice] = "更新が完了しました"
         redirect_to mypage_users_path
 
