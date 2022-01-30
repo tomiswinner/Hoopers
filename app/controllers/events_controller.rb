@@ -3,9 +3,13 @@ class EventsController < ApplicationController
 
   def create; end
 
-  def index; end
+  def index
 
-  def show; end
+  end
+
+  def show
+    @event = Event.find(params[:id])
+  end
 
   def edit; end
 
