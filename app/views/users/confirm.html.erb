@@ -1,0 +1,12 @@
+<div class="row justify-content-center">
+  <div class="col-12 bg-white justify-content-center">
+    <p>
+      本当に退会しますか？
+      退会されると、イベント投稿や、コート・イベントのお気に入り、<br>
+      閲覧履歴などは確認することができなくなります。
+    </p>
+     <%= link_to("戻る", user_mypage_path, class: "btn btn-primary") %>
+     <%= link_to("退会する", user_path(is_deactivation?: true), method: :patch, data: {confirm: "本当に退会しますか？"}, class: "btn btn-danger") %>
+  </div>
+</div>
+
