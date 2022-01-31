@@ -2,7 +2,7 @@
   <footer class='fixed-bottom'>
     <div>
       <%= link_to('主催者連絡先',event_path(id: @event.id, anchor: 'contact'), class:'btn bg-orange') %>
-      <%= link_to('検討リストへ追加',event_favorite_path(id: @event.id), method: 'post', class:'btn bg-orange') %>
+      <%= link_to('検討リストへ追加', event_favorites_path(id: @event.id), method: 'post', class:'btn bg-orange') %>
 
     </div>
   </footer>
