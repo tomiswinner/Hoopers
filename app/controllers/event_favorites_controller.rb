@@ -1,5 +1,7 @@
 class EventFavoritesController < ApplicationController
-  def create; end
+  def create
+    
+  end
 
   def index; end
 

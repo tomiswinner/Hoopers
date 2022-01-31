@@ -53,11 +53,13 @@
         </div>
       </nav>
     </header>
-    <main class="fixed-padding">
+    <main class="fixed-padding mb-5 pb-5">
         <%= render(partial: "/layouts/err-msg") %>
       <div class="container">
         <%= yield %>
       </div>
     </main>
+    <div class="height-adjustment"></div>
+    <%= render 'layouts/footer' %>
   </body>
 </html>

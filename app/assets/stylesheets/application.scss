@@ -27,6 +27,14 @@ html, body, main{
   height: 100%;
 }
 
+header{
+  height: 50px;
+}
+
+footer{
+  height: 50px;
+}
+
 #map{
   height: 100%;
 }
@@ -47,4 +55,8 @@ html, body, main{
 
 .fixed-padding{
   padding-top: 75px;
+}
+
+.bg-orange{
+  background: #ffc781;
 }
