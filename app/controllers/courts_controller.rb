@@ -59,9 +59,9 @@ class CourtsController < ApplicationController
       @courts = @courts.where('open_time >= ?', open_time)
     end
 
-    respond_to do |f|
-      f.html
-      f.js
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 

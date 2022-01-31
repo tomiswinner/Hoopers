@@ -1,0 +1,1 @@
+document.getElementById('favorite').innerHTML = "<%= escape_javascript(link_to('検討リストへ追加', event_favorites_path(id: event_id), method: 'post', remote: true,class:'btn bg-orange')) %>";
