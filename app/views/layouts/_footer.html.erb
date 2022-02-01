@@ -16,7 +16,6 @@
           <%= link_to('検討リストへ追加', event_favorites_path(id: event.id), method: 'post', remote: true, class:'btn bg-orange') %>
         <% end %>
         </div>
-      <% end %>
     <% else %>
       <div class="d-inline-block">
         <p class='bg-orange'>！募集が終了しているイベントです！</p>
@@ -26,12 +25,16 @@
   <% end %>
 
   <% if (controller_name == 'courts')&&(action_name == 'detail') %>
-      <div class="d-inline-block">
-        <%= link_to('イベント確認', event_path(court.id), class:'btn bg-orange') %>
-      </div>
-      <div class="d-inline-block">
-        <%= link_to('レビューを投稿', new_court_court_review_path(court.id), class: 'btn bg-orange') %>
-      </div>
+    <div class="d-inline-block">
+      <%= link_to('イベント確認', event_path(court.id), class:'btn bg-orange') %>
+    </div>
+    <div class="d-inline-block">
+      <% if current_user.reviewed_this_court?(court.id) %>
+          <%= link_to('レビューを編集', edit_court_court_review_path(court.id), class: 'btn bg-orange') %>
+      <% else %>
+          <%= link_to('レビューを投稿', new_court_court_review_path(court.id), class: 'btn bg-orange') %>
+      <% end %>
+    </div>
     <% if user_signed_in? %>
       <div id='favorite' class='d-inline-block'>
         <% if current_user.favorites_this_court?(court.id) %>
