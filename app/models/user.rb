@@ -15,4 +15,20 @@ class User < ApplicationRecord
   def active_for_authentication?
     super && is_active
   end
+
+  def favorites_this_court?(court_id)
+    if  court_favorites.find_by(court_id: court_id)
+      return true
+    else
+      return false
+    end
+  end
+
+  def favorites_this_event?(event_id)
+    if  event_favorites.find_by(event_id: event_id)
+      return true
+    else
+      return false
+    end
+  end
 end

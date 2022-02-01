@@ -19,7 +19,7 @@ class EventFavoritesController < ApplicationController
   end
 
   def destroy
-    event_favorite = EventFavorite.new(user_id: current_user.id, event_id: params[:id])
+    event_favorite = EventFavorite.find_by(user_id: current_user.id, event_id: params[:id])
     if event_favorite.destroy
       flash.now[:notice] = '検討リストから削除されました'
       respond_to do |format|

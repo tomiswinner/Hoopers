@@ -1,3 +1,4 @@
+
 class Court < ApplicationRecord
   attachment :image
 
@@ -42,7 +43,6 @@ class Court < ApplicationRecord
     end
     return tags
   end
-
   def ave_total_points_reviews
     return court_reviews.pluck(:total_points).sum.fdiv(court_reviews.count)
   end

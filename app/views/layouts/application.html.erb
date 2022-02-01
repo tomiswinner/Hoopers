@@ -60,6 +60,6 @@
       </div>
     </main>
     <div class="height-adjustment"></div>
-    <%= render 'layouts/footer' %>
+    <%= render(partial: 'layouts/footer', locals: {event: @event, court: @court}) %>
   </body>
 </html>
