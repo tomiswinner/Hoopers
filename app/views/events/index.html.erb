@@ -25,9 +25,9 @@
             <div class="card-body">
               <p>時間</p>
               <%= f.label(:open_time,'開始時間') %>
-              <%= f.datetime_select(:open_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+              <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
               <%= f.label(:close_time,'終了時間') %>
-              <%= f.datetime_select(:close_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+              <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
             </div>
             <div class="card-body">
               <p>コートタイプ</p>
