@@ -52,6 +52,31 @@ function initMap(){
     })
   }
 
+  if(window.location.href.match('map_check') != null){
+    var lat = Number(document.getElementById('center_latitude').value)
+    var lng = Number(document.getElementById('center_longitude').value)
+    map = new google.maps.Map(document.getElementById('map'),{
+      center:{
+        lat: lat,
+        lng: lng
+      },
+      zoom: 13
+    })
+    lats_htmls = document.getElementsByClassName('latitudes')
+    lngs_htmls = document.getElementsByClassName('longitudes')
+    console.log(lats_htmls.item(0))
+    for(n=0; n < lats_htmls.length; n++){
+      latlng = new google.maps.LatLng(
+        lats_htmls.item(n).value,
+        lngs_htmls.item(n).value
+      )
+      marker = new google.maps.Marker({
+        position: latlng,
+        map: map,
+      })
+    }
+  }
+
   if(window.location.href.match('map_search') != null){
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(

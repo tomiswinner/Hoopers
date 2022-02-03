@@ -2,13 +2,9 @@ class CourtsController < ApplicationController
   def index
     @courts = Court.where(confirmation_status: true).where(business_status: true)
 
-    if params[:keyword]
-      @courts += @courts.where('name LIKE ?', "%#{:keyword}%")
-    end
+    @courts += @courts.where('name LIKE ?', '%keyword%') if params[:keyword]
 
-    if params.dig(:prefecture, :id)
-      @areas = Area.where(prefecture_id: params.dig(:prefecture, :id))
-    end
+    @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) if params.dig(:prefecture, :id)
 
     if params.dig(:Area, :area_ids)
       @area_search_res = Court.none
@@ -19,7 +15,7 @@ class CourtsController < ApplicationController
 
     end
     # コートタイプが一つ以上ついている場合（ついてない場合、[""]が入っている）
-    if !(params.dig(:court, :court_types).blank?)
+    if params.dig(:court, :court_types).present?
       # リファクタリング余地あり
       @court_type_search_res = Court.none
       params.dig(:court, :court_types).each do |court_type|
@@ -39,23 +35,27 @@ class CourtsController < ApplicationController
     end
     # open_time,close time はそれぞれ 分まで一緒に入れるようvalidation 入れる
     # open, close 両方入力あれば=
-    if !(params.dig(:court, :'ogipen_time(4i)').blank?)&& !(params.dig(:court, :'close_time(4i)').blank?)
-      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'), params.dig(:court, :'open_time(5i)'))
-      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'), params.dig(:court, :'close_time(5i)'))
+    if params.dig(:court, :'ogipen_time(4i)').present? && params.dig(:court, :'close_time(4i)').present?
+      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
+                                                 params.dig(:court, :'open_time(5i)'))
+      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
+                                                  params.dig(:court, :'close_time(5i)'))
       @courts = @courts.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
     end
 
     # close 空白 open 入力あれば
-    if !(params.dig(:court, :'close_time(4i)').blank?)&& params.dig(:court, :'open_time(4i)').blank?
+    if params.dig(:court, :'close_time(4i)').present? && params.dig(:court, :'open_time(4i)').blank?
       # リファクタリング余地あり
-      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'), params.dig(:court, :'close_time(5i)'))
+      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
+                                                  params.dig(:court, :'close_time(5i)'))
       @courts = @courts.where('close_time <= ?', close_time)
     end
 
     # opne 空白 close 入力あれば
-    if !(params.dig(:court, :'open_time(4i)').blank?)&& params.dig(:court, :'close_time(4i)').blank?
+    if params.dig(:court, :'open_time(4i)').present? && params.dig(:court, :'close_time(4i)').blank?
       # リファクタリング余地あり
-      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'), params.dig(:court, :'open_time(5i)'))
+      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
+                                                 params.dig(:court, :'open_time(5i)'))
       @courts = @courts.where('open_time >= ?', open_time)
     end
 
@@ -67,8 +67,22 @@ class CourtsController < ApplicationController
 
   def address; end
 
+
+  Lat_range = 0.02
+  Lng_range = 0.05
   def map_check
-    
+    res = fetch_geocoding_response(params.dig(:court, :address))
+    if !(res.nil?) && res.message == 'OK'
+      geocoded_data = JSON.parse(res.body)
+      @center_lat = geocoded_data["results"][0]['geometry']['location']['lat']
+      @center_lng = geocoded_data["results"][0]['geometry']['location']['lng']
+      @courts = Court.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
+      @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude', @center_lng + Lng_range)
+
+    else
+      # リファクタリング
+      flash.now[:alert] = "エラーが発生しました。"
+    end
   end
 
   def new; end
@@ -86,7 +100,8 @@ class CourtsController < ApplicationController
   end
 
   private
-    def courts_params
-      params.require(:courts).permit(:name)
-    end
+
+  def courts_params
+    params.require(:courts).permit(:name)
+  end
 end

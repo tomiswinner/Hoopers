@@ -1,9 +1,8 @@
 <div class="row justify-content-center">
   <div class="col-12 filter-black justify-content-center">
-    <div>コート検索結果</div>
-    <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true) %>
+    <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true) do |f| %>
       <%= f.label(:address, '住所入力') %>
-      <% f.text_field(:address) %>
+      <%= f.text_field(:address) %>
       <%= f.submit('検索') %>
     <% end %>
   </div>
