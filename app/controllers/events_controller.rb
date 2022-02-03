@@ -27,6 +27,9 @@ class EventsController < ApplicationController
 
     end
     
+    
+    
+    
     if !(params.dig(:court, :court_types).blank?)
       # リファクタリング余地あり
       @court_type_search_res = Court.none
