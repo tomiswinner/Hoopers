@@ -67,7 +67,9 @@ class CourtsController < ApplicationController
 
   def address; end
 
-  def map_check; end
+  def map_check
+    
+  end
 
   def new; end
 

@@ -25,9 +25,9 @@
             <div class="card-body">
               <p>時間</p>
               <%= f.label(:open_time,'開始時間') %>
-              <%= f.time_select(:open_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+              <%= f.datetime_select(:open_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
               <%= f.label(:close_time,'終了時間') %>
-              <%= f.time_select(:close_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+              <%= f.datetime_select(:close_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
             </div>
             <div class="card-body">
               <p>コートタイプ</p>
@@ -35,10 +35,6 @@
               <%= f.collection_check_boxes(:court_type, Court.court_types, :first, :first, {include_hidden: false,checked: false}, {form: 'narrow_search'}) %>
             </div>
           <% end %>
-          <div class="card-body">
-            <p>タグ</p>
-            <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {form: 'narrow_search'}) %>
-          </div>
       </div>
     </div>
 
