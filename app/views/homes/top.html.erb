@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+  <div class="col-10 filter-black justify-content-center">
+    <p class="text-white">
+      Hoopers!<br>
+      バスケコート<br>
+      バスケイベント<br>
+      が探せるWEBサイト！
+    </p>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="card bg-light">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a href="#court_card" class="nav-link active" data-toggle="tab">コートを探す</a>
+      </li>
+      <li class="nav-item">
+        <a href="#event_card" class="nav-link" data-toggle="tab">イベントを探す</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane bg-success fade show active" id="court_card">
+          <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
+            <%= f.submit 'コート名から探す' %>
+            <%= f.text_field :keyword %>
+          <% end %>
+          <%= form_with(url: map_search_courts_path, method: 'get', local: true) do |f| %>
+            <%= f.submit '現在地から探す！' %>
+            <%= f.hidden_field :user_location, value: "設定中" %>
+          <% end %>
+          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true) do |f| %>
+            <%= f.submit '県から探す' %>
+            <%= f.select :id, Prefecture.all.collect { |pref| [ pref.name, pref.id]} %>
+          <% end %>
+      </div>
+      <div class="tab-pane bg-secondary fade" id="event_card">
+        <div>
+          <%= link_to('最新のイベントを表示する', url: events_path) %>
+        </div>
+        <%= form_with(url: events_path, method: 'get', local: true) do |f| %>
+          <%= f.submit '時間を指定して探す' %>
+          <%= f.date_field :date %>
+          <%= f.time_select :opne_time %> ～
+          <%= f.time_select :close_time %>
+        <% end %>
+        <div>
+          <%= link_to( 'お気に入りコートから探す', court_favorites_path) %>
+        </div>
+        <%= link_to('コートからイベント情報を見るには？', root_path(anchor: 'court_card')) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="bg-secondary" style="height: 100px; width: 200px;">
+    <%= link_to('コート情報募集中', address_courts_path) %>
+  </div>
+</div>
+<div class="row">
+  <div class="bg-danger" id="how_to_use" style="height: 1000px; width: 200px;">
+    つかいかた
+  </div>
+</div>

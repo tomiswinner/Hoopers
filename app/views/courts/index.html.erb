@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <div>コート検索結果</div>
+
+    <div class="accordion" id="search_accordion">
+      <div class="card bg-light">
+        <div class="card-header" id="header-4a">
+          <button class="btn btn-link text-success font-weight-bold" type="button" data-toggle="collapse" data-target="#serach_bar">
+            絞り込み
+            <%= submit_tag('絞り込む', {form: 'narrow_search'}) %>
+          </button>
+        </div>
+        <div id="serach_bar" class="collapse" data-parent="#search_accordion">
+          <div class="card-body">
+            <%= form_with(model: Prefecture, url: courts_path, method: 'get') do |f| %>
+                <p>地区</p>
+                <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id),prompt: "県を選択"}, \
+                            {id: 'prefs_select', onchange: 'Rails.fire(this.form,"submit")'}) %>
+            <% end %>
+            <div id='areas_select'>
+              <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
+            </div>
+          </div>
+          <%= form_with(model: Court, url: courts_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
+            <div class="card-body">
+              <p>時間</p>
+              <%= f.label(:open_time,'開始時間') %>
+              <%= f.time_select(:open_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+              <%= f.label(:close_time,'終了時間') %>
+              <%= f.time_select(:close_time, {include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+            </div>
+            <div class="card-body">
+              <p>コートタイプ</p>
+              <!--リファクタリング、確認中を排除したら？-->
+              <%= f.collection_check_boxes(:court_type, Court.court_types, :first, :first, {include_hidden: false,checked: false}, {form: 'narrow_search'}) %>
+            </div>
+          <% end %>
+          <div class="card-body">
+            <p>タグ</p>
+            <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {form: 'narrow_search'}) %>
+          </div>
+      </div>
+    </div>
+
+    <% if @courts.blank? %>
+      <div>検索条件に一致するコートがありません</div>
+    <% else %>
+      <% @courts.each do |court| %>
+        <div class="row bg-success mb-2">
+          <%= link_to(court.name, detail_court_path(court.id)) %><br>
+          <%= court.fetch_pref_name %><br>
+          <%= court.court_type %>
+          <!--リファクタリング-->
+          <%= court.convert_open_time_to_hour_min if court.open_time %>
+          ～ <%= court.convert_close_time_to_hour_min if court.close_time %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

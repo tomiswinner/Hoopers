@@ -1,0 +1,17 @@
+<div class="row justify-content-center">
+  <div class="col-12 bg-white justify-content-center">
+
+    <h2>レビュー投稿画面</h2>
+    <h3>星をクリックでレビュー</h3>
+    <%= form_with(model: @court_review, url: court_court_reviews_path, local: true) do |f| %>
+      <%= f.label(:accessibility, 'アクセス') %>
+      <div id="eval_accessibility"></div>
+      <%= f.label(:security, 'マナー') %>
+      <div id="eval_security"></div>
+      <%= f.label(:quality, '設備') %>
+      <div id="eval_quality"></div>
+      <%= f.submit('投稿') %>
+    <% end %>
+  </div>
+</div>
+

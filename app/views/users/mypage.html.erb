@@ -1,0 +1,11 @@
+<div class="row justify-content-center">
+  <div class="col-12 bg-white justify-content-center">
+    <div><%= current_user.name %>のマイページ</div>
+    <div><%= link_to('投稿イベント', events_path) %></div>
+    <div><%= link_to('イベント検討リスト', event_favorites_path) %></div>
+    <div><%= link_to('イベント閲覧履歴', event_histories_path) %></div>
+    <div><%= link_to('お気に入りコート', court_favorites_path) %></div>
+    <div><%= link_to('コート閲覧履歴', court_histories_path) %></div>
+    <div><%= link_to('ユーザー情報編集', edit_user_path(current_user.id)) %></div>
+  </div>
+</div>
