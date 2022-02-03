@@ -130,5 +130,26 @@ RSpec.describe 'Court', type: :system do
         end
       end
     end
+    describe do
+      before do
+        Center_lat = 35.4762362
+        Center_lng = 139.6369951
+        # 小数点の計算で微妙に誤差あり？
+        Lat_range = 0.02
+        Lng_range = 0.05
+        FactoryBot.create(:user, id:0)
+        @court_ok1 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat + Lat_range, longitude: Center_lng + Lng_range)
+        @court_ok2 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat + Lat_range, longitude: Center_lng - Lng_range)
+        @court_ok3 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat - Lat_range, longitude: Center_lng + Lng_range)
+        @court_ok4 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat - Lat_range, longitude: Center_lng - Lng_range)
+      end
+      it 'court_okはすべて返ってくる' do
+        visit address_courts_path
+        page.find(:id, "court_address").set('神奈川県横浜市神奈川区東神奈川2-49-7')
+        click_button('検索')
+        expect(page).to  find("##{@court_ok1.name}_lat", visible: false)
+        pending('少数の比較ができないためpending')
+      end
+    end
   end
 end

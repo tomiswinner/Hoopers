@@ -3,6 +3,6 @@
 <%= hidden_field_tag(:center_latitude, @center_lat) %>
 <%= hidden_field_tag(:center_longitude, @center_lng) %>
 <% @courts.each do |court| %>
- <%= hidden_field_tag(:latitude, court.latitude, {class: 'latitudes'}) %>
- <%= hidden_field_tag(:longitude, court.longitude, {class: 'longitudes'}) %>
+ <%= hidden_field_tag(:latitude, court.latitude, {class: 'latitudes', id: "#{court.name}_lat"}) %>
+ <%= hidden_field_tag(:longitude, court.longitude, {class: 'longitudes', id: "#{court.name}_lng"}) %>
 <% end %>
