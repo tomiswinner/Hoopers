@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
 
     return @res
   end
-
   # sign in, sign out, log in 後はすべて root へ遷移
   protected
   def configure_permitted_parameters

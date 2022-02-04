@@ -24,15 +24,14 @@
           <%= form_with(model: Court, url: events_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
             <div class="card-body">
               <p>時間</p>
-              <%= f.label(:open_time,'開始時間') %>
-              <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
-              <%= f.label(:close_time,'終了時間') %>
-              <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
-            </div>
-            <div class="card-body">
-              <p>コートタイプ</p>
-              <!--リファクタリング、確認中を排除したら？-->
-              <%= f.collection_check_boxes(:court_type, Court.court_types, :first, :first, {include_hidden: false,checked: false}, {form: 'narrow_search'}) %>
+              <div>
+                <%= f.label(:open_time,'開始時間') %>
+                <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+              </div>
+              <div>
+                <%= f.label(:close_time,'終了時間') %>
+                <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true}, {form: 'narrow_search'}) %>
+              </div>
             </div>
           <% end %>
       </div>
