@@ -26,6 +26,9 @@ class EventsController < ApplicationController
 
     end
 
+    @events = Event.where(court_id: @courts.pluck(:id))
+    puts @events
+
     # リファクタリング予知あり
     # validationは後ほど
 
