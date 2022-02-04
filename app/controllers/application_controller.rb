@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::Base
+
+  Lat_range = 0.03
+  Lng_range = 0.06
+
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def fetch_geocoding_response(address)

@@ -64,7 +64,20 @@ class EventsController < ApplicationController
 
   def address; end
 
-  def court_select; end
+  def court_select
+    res = fetch_geocoding_response(params.dig(:court, :address))
+    if !(res.nil?) && res.message == 'OK'
+      geocoded_data = JSON.parse(res.body)
+      @center_lat = geocoded_data["results"][0]['geometry']['location']['lat']
+      @center_lng = geocoded_data["results"][0]['geometry']['location']['lng']
+      @courts = Court.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
+      @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude', @center_lng + Lng_range)
+
+    else
+      # リファクタリング
+      flash.now[:alert] = "エラーが発生しました。"
+    end
+  end
 
   private
     def extract_formatted_time_from_params(str)

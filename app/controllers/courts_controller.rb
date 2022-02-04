@@ -67,9 +67,6 @@ class CourtsController < ApplicationController
 
   def address; end
 
-
-  Lat_range = 0.03
-  Lng_range = 0.06
   def map_check
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !(res.nil?) && res.message == 'OK'

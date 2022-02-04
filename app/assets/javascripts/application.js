@@ -52,7 +52,7 @@ function initMap(){
     })
   }
 
-  if(window.location.href.match('map_check') != null){
+  if((window.location.href.match('map_check') != null)||(window.location.href.match('court_select') != null)){
     var lat = Number(document.getElementById('center_latitude').value)
     var lng = Number(document.getElementById('center_longitude').value)
     map = new google.maps.Map(document.getElementById('map'),{
