@@ -76,12 +76,12 @@ class EventsController < ApplicationController
     end
 
     def is_time_filled_in?(str)
-      5.times do |n|
-        if params.dig(:court, :"#{str}_time(#{n}i})").blank?
+      [*1..5].each do|n|
+        if params.dig(:court, :"#{str}_time(#{n}i)").blank?
           return false
         end
-        return true
       end
+      return true
     end
 
 end

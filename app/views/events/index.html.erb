@@ -44,8 +44,7 @@
         <div class="row bg-success mb-2">
           <%= link_to(event.name, event_path(event.id)) %><br>
           <!--リファクタリング-->
-          <%= event.open_time %>
-          ～ <%= event.close_time %>
+          <%= event.return_event_time %>
         </div>
       <% end %>
     <% end %>
