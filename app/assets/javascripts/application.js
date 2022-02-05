@@ -78,15 +78,14 @@ function initMap(){
 
           console.log('うんｋ',opened_window)
           infowindow = new google.maps.InfoWindow({
-            content: names_htmls.item(n).value,
-
+            content: "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
           })
 
           marker = new google.maps.Marker({
             position: latlng,
             map: map,
-            url: links_htmls.item(n).value
           })
+          console.log(links_htmls.item(n).value)
 
           // クロージャ
           function set_infowindow(marker, infowindow){
