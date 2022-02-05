@@ -66,31 +66,37 @@ function initMap(){
     lngs_htmls = document.getElementsByClassName('longitudes')
     links_htmls = document.getElementsByClassName('links')
     names_htmls = document.getElementsByClassName('names')
-    console.log(lats_htmls.item(0))
+
     for(n=0; n < lats_htmls.length; n++){
-      latlng = new google.maps.LatLng(
-        lats_htmls.item(n).value,
-        lngs_htmls.item(n).value
-      )
+      (function(){
+          latlng = new google.maps.LatLng(
+            lats_htmls.item(n).value,
+            lngs_htmls.item(n).value
+          )
 
-      infowindow = new google.maps.InfoWindow({
-        content: names_htmls.item(n).value,
+          infowindow = new google.maps.InfoWindow({
+            content: names_htmls.item(n).value,
 
-      })
+          })
 
-      marker = new google.maps.Marker({
-        position: latlng,
-        map: map,
-        url: links_htmls.item(n).value
-      })
+          marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            url: links_htmls.item(n).value
+          })
 
-      marker.addListener("click", ()=>{
-        infowindow.open({
-          anchor: marker,
-          map,
-          shouldFocus: false
-        })
-      })
+          // クロージャ
+          function set_infowindow(marker, infowindow){
+            marker.addListener("click", ()=>{
+              infowindow.open({
+                anchor: marker,
+                map,
+                shouldFocus: false
+              })
+            })
+          }
+          return set_infowindow(marker, infowindow)
+      })();
     }
   }
 
