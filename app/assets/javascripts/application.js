@@ -67,6 +67,8 @@ function initMap(){
     links_htmls = document.getElementsByClassName('links')
     names_htmls = document.getElementsByClassName('names')
 
+    var opened_window = ""
+
     for(n=0; n < lats_htmls.length; n++){
       (function(){
           latlng = new google.maps.LatLng(
@@ -74,6 +76,7 @@ function initMap(){
             lngs_htmls.item(n).value
           )
 
+          console.log('うんｋ',opened_window)
           infowindow = new google.maps.InfoWindow({
             content: names_htmls.item(n).value,
 
@@ -93,6 +96,10 @@ function initMap(){
                 map,
                 shouldFocus: false
               })
+              if(opened_window){
+                opened_window.close()
+              }
+              opened_window = infowindow
             })
           }
           return set_infowindow(marker, infowindow)
