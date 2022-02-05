@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
-  def new; end
+  def new
+    @court_id = params[:court_id]
+  end
 
   def create; end
 
@@ -60,7 +62,9 @@ class EventsController < ApplicationController
 
   def destroy; end
 
-  def confirm; end
+  def confirm
+    @event = Event.new(events_params)
+  end
 
   def address; end
 
@@ -80,6 +84,10 @@ class EventsController < ApplicationController
   end
 
   private
+    def events_params
+      return params.require(:event).permit(:court_id, :user_id, :description, :condition, :contact, :open_time, :close_time, :status)
+    end
+
     def extract_formatted_time_from_params(str)
       datetime = Time.new(
         yaer = params.dig(:court, :"#{str}_time(1i)"),
