@@ -135,7 +135,7 @@ class CourtsController < ApplicationController
                                                                              @center_lng + Lng_range)
   end
 
-  def detail
+  def show
     @court = Court.find(params[:id])
     return unless user_signed_in?
       if current_user.history_exists?(@court)

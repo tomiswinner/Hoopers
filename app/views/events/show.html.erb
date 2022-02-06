@@ -9,7 +9,7 @@
     <h2>イベント基本情報</h2>
   </div>
   <div class="col-12  justify-content-center">
-    <%= link_to(@event.court.name, detail_court_path(@event.court.id)) %>
+    <%= link_to(@event.court.name, court_path(@event.court.id)) %>
     <p><%= @event.court.address %></p>
     <p><%= @event.open_time %></p>
     <p><%= @event.close_time %></p>

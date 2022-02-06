@@ -40,7 +40,7 @@ window.addEventListener('turbolinks:load',()=>{
 
 function initMap(){
   let map;
-  if((window.location.href.match('courts/.*/detail') != null)||(window.location.href.match('courts/.*/detail') != null)){
+  if(($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'show')){
     var lat = Number(document.getElementById('lat').value)
     var lng = Number(document.getElementById('lng').value)
     map = new google.maps.Map(document.getElementById('map'),{
@@ -49,6 +49,11 @@ function initMap(){
         lng: lng
       },
       zoom: 13
+    })
+    latlng = new google.maps.LatLng(lat,lng)
+    marker = new google.maps.Marker({
+      position: latlng,
+      map: map,
     })
   }
 
@@ -138,8 +143,6 @@ function initMap(){
             position: latlng,
             map: map,
           })
-          console.log(links_htmls.item(n).value)
-
           // クロージャ
           function set_infowindow(marker, infowindow){
             marker.addListener("click", ()=>{

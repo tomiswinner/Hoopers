@@ -9,7 +9,7 @@
           <%= link_to(event.name, event_path(event.id)) %><br>
           <%= event.name %><br>
           <!--リファクタリング-->
-          <%= link_to(event.court.name, detail_court_path(id: event.court.id)) %>
+          <%= link_to(event.court.name, court_path(id: event.court.id)) %>
         </div>
       <% end %>
     <% end %>

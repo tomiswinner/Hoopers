@@ -26,7 +26,6 @@
   edit_court_court_review GET    /courts/:court_id/court_reviews/:id/edit(.:format)                                       court_reviews#edit
        court_court_review PATCH  /courts/:court_id/court_reviews/:id(.:format)                                            court_reviews#update
                           PUT    /courts/:court_id/court_reviews/:id(.:format)                                            court_reviews#update
-             detail_court GET    /courts/:id/detail(.:format)                                                             courts#detail
            address_courts GET    /courts/address(.:format)                                                                courts#address
          map_check_courts GET    /courts/map_check(.:format)                                                              courts#map_check
            confirm_courts GET    /courts/confirm(.:format)                                                                courts#confirm
@@ -35,6 +34,7 @@
                    courts GET    /courts(.:format)                                                                        courts#index
                           POST   /courts(.:format)                                                                        courts#create
                 new_court GET    /courts/new(.:format)                                                                    courts#new
+                    court GET    /courts/:id(.:format)                                                                    courts#show
            confirm_events GET    /events/confirm(.:format)                                                                events#confirm
            address_events GET    /events/address(.:format)                                                                events#address
       court_select_events GET    /events/court_select(.:format)                                                           events#court_select
