@@ -50,7 +50,7 @@
       </div>
       <div>
         <%= f.label(:court_type, 'コートタイプ') %>
-        <%= f.select(:court_type, Court.court_types, {prompt: "コートタイプを選択"},{}) %>
+        <%= f.select(:court_type, Court.court_types_i18n.except(:checking).collect {|elem| [elem.last, elem.first]}, {prompt: "コートタイプを選択"},{}) %>
       </div>
       <div>
         <p>タグ</p>

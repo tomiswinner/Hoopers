@@ -12,7 +12,7 @@ class Court < ApplicationRecord
   has_many :court_tag_taggings, dependent: :destroy
 
 
-  enum court_type: {確認中: 0, その他: 1, 体育館: 2, アスファルト: 3, 砂: 4, ゴム: 5}
+  enum court_type: {checking: 0, others: 1, gym: 2, asphalt: 3, sand: 4, rubber: 5}
 
   def fetch_pref_name
     return Prefecture.find(Area.find(area_id).prefecture_id).name
