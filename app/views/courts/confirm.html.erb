@@ -1,0 +1,69 @@
+<div class="row bg-white justify-content-center">
+  <div class="col-12  justify-content-center">
+  <div class="col-12  justify-content-center">
+    <h2>コート情報確認画面</h2>
+  </div>
+  <%= form_with(model: @court, url: events_path, method: 'post', local: true) do |f|%>
+      <%= f.hidden_field(:user_id, value: current_user.id) %>
+      <%= f.hidden_field(:name, value: @court.name) %>
+      <%= f.hidden_field(:open_time, value: @court.open_time) %>
+      <%= f.hidden_field(:close_time, value: @court.close_time) %>
+      <%= f.hidden_field(:supplement, value: @court.supplement) %>
+      <%= f.hidden_field(:address, value: @court.address) %>
+      <%= f.hidden_field(:url, value: @court.url) %>
+      <%= f.hidden_field(:size, value: @court.size) %>
+      <%= f.hidden_field(:price, value: @court.price) %>
+      <%= f.hidden_field(:court_type, value: @court.court_type) %>
+      <%= f.hidden_field(:image, value: @court.image_id) %>
+      <%= f.hidden_field(:business_status, value: true) %>
+      <%= f.hidden_field(:confirmation_status, value: false) %>
+    <%= f.submit('この内容で投稿する') %>
+  <% end %>
+  <%= link_to('内容を修正する','javascript:history.back()') %>
+    <div>
+      <%= attachment_image_tag(@court, :image, fallback: "no_img.png", size: "250x250") %>
+    </div>
+  </div>
+  <div class="col-12  justify-content-center">
+    <div>
+      <p>コート名</p>
+      <%= @court.name %>
+    </div>
+    <div>
+      <p>住所</p>
+      <%= @court.address %>
+    </div>
+    <div>
+      <p>営業時間</p>
+      <%= @court.return_business_hour %>
+    </div>
+    <div>
+      <p>ホームページ</p>
+      <%= @court.url %>
+    </div>
+    <div>
+      <p>料金</p>
+      <%= @court.price %>
+    </div>
+    <div>
+      <p>コートサイズ</p>
+      <%= @court.size %>
+    </div>
+    <div>
+      <p>コートタイプ</p>
+      <%= @court.court_type %>
+    </div>
+    <div>
+      <p>タグ</p>
+      <% @court.fetch_tags.each do |tag| %>
+        <%= tag.name %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-12  justify-content-center">
+    マップ情報
+    <div id="map" class="height-adjustment"></div>
+  </div>
+</div>
+<input type="hidden" id="lat" value="<%= @court.latitude %>">
+<input type="hidden" id="lng" value="<%= @court.longitude %>">

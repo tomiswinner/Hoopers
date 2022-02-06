@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <div>コート情報入力ページ</div>
+    <%= form_with(model: @court, url: confirm_courts_path, method: 'get', local: true) do |f| %>
+      <%= f.hidden_field(:user_id, value: current_user.id) %>
+      <%= f.hidden_field(:business_status, value: true) %>
+      <%= f.hidden_field(:confirmation_status, value: false) %>
+      <div>
+        <%= f.label(:name, 'コート名') %>
+        <%= f.text_field(:name) %>
+      </div>
+      <div>
+        <%= f.label(:image, '画像') %>
+        <%= f.attachment_field(:image) %>
+      </div>
+      <div>
+        <%= f.label(:open_time, '営業開始時間') %>
+        <%= f.time_select(:open_time, {}) %>
+      </div>
+      <div>
+        <%= f.label(:close_time, '営業終了時間') %>
+        <%= f.time_select(:close_time, {}) %>
+      </div>
+      <div>
+        <%= f.label(:supplement, '営業時間補足') %>
+        <%= f.text_field(:supplement) %>
+      </div>
+      <div>
+        <%= f.label(:address, '住所') %>
+        <%= f.text_field(:address) %>
+      </div>
+      <div>
+        <%= f.label(:url, 'HPリンク') %>
+        <%= f.text_field(:url) %>
+      </div>
+      <div>
+        <%= f.label(:size, 'コートサイズ') %>
+        <%= f.text_field(:size) %>
+      </div>
+      <div>
+        <%= f.label(:price, '利用料金') %>
+        <%= f.text_field(:price) %>
+      </div>
+      <div>
+        <%= f.label(:court_type, 'コートタイプ') %>
+        <%= f.text_field(:court_type) %>
+      </div>
+      <div>
+        <%= f.submit('入力内容を確認する') %>
+      </div>
+    <% end %>
+  </div>
+</div>

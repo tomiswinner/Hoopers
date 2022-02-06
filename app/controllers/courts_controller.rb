@@ -69,22 +69,29 @@ class CourtsController < ApplicationController
 
   def map_check
     res = fetch_geocoding_response(params.dig(:court, :address))
-    if !(res.nil?) && res.message == 'OK'
+    if !res.nil? && res.message == 'OK'
       geocoded_data = JSON.parse(res.body)
-      @center_lat = geocoded_data["results"][0]['geometry']['location']['lat']
-      @center_lng = geocoded_data["results"][0]['geometry']['location']['lng']
+      @address = params.dig(:court, :address)
+      @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
+      @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
       @courts = Court.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
-      @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude', @center_lng + Lng_range)
-
+      @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude',
+                                                                               @center_lng + Lng_range)
     else
       # リファクタリング
-      flash.now[:alert] = "エラーが発生しました。"
+      flash.now[:alert] = 'エラーが発生しました。'
+      render :address
     end
   end
 
-  def new; end
+  def new
+    @court = Court.new(address: params[:address])
+  end
 
-  def confirm; end
+  def confirm
+    # ここでの validation は緯度経度をスキップ
+    @court = Court.new(courts_params)
+  end
 
   def create; end
 
@@ -99,6 +106,7 @@ class CourtsController < ApplicationController
   private
 
   def courts_params
-    params.require(:courts).permit(:name)
+    return params.require(:court).permit(:user_id, :name, :image, :open_time, :close_time, :supplement, :address, :url,
+                                          :size, :price, :court_type, :business_status, :confirmation_status)
   end
 end

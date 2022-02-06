@@ -10,12 +10,11 @@ class ApplicationController < ActionController::Base
     uri = URI("https://maps.googleapis.com/maps/api/geocode/json?address=#{escaped_address}&key=#{ENV['GOOGLEMAP_API_KEY']}")
 
     req = Net::HTTP::Get.new(uri)
+    res = nil
     Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |https|
-      @res = https.request(req)
-      puts @res
+       res = https.request(req)
     end
-
-    return @res
+    return res
   end
   # sign in, sign out, log in 後はすべて root へ遷移
   protected

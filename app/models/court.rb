@@ -24,16 +24,13 @@ class Court < ApplicationRecord
     return hours_sec + mins_sec
   end
 
-  def convert_open_time_to_hour_min
-    return (Time.now.midnight + open_time).strftime("%H:%M")
-  end
-
-  def convert_close_time_to_hour_min
-    return (Time.now.midnight + close_time).strftime("%H:%M")
-  end
 
   def return_business_hour
-    return convert_open_time_to_hour_min + " ～ " + convert_close_time_to_hour_min
+    if open_time && close_time
+      return convert_open_time_to_hour_min + " ～ " + convert_close_time_to_hour_min
+    else
+      return '確認中'
+    end
   end
 
   def fetch_tags
@@ -58,4 +55,14 @@ class Court < ApplicationRecord
   def ave_quality_reviews
     return court_reviews.pluck(:quality).sum.fdiv(court_reviews.count)
   end
+
+  private
+    def convert_open_time_to_hour_min
+      return (Time.now.midnight + open_time).strftime("%H:%M")
+    end
+
+    def convert_close_time_to_hour_min
+      return (Time.now.midnight + close_time).strftime("%H:%M")
+    end
+
 end
