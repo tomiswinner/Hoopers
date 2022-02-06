@@ -2,11 +2,11 @@
   <div class="col-12 filter-black justify-content-center">
     <div>イベント投稿</div>
       <div>
-        コート名： <%= Court.find(@court_id).name %>
+        コート名： <%= @event.court.name %>
       </div>
     <%= form_with(model: @event, url: confirm_events_path, method: 'get', local: true) do |f| %>
-      <%= f.hidden_field(:court_id, value: @court_id) %>
-      <%= f.hidden_field(:use_id, value: current_user.id) %>
+      <%= f.hidden_field(:court_id, value: @event.court_id) %>
+      <%= f.hidden_field(:user_id, value: current_user.id) %>
       <%= f.hidden_field(:status, value: true) %>
       <div>
         <%= f.label(:name, 'イベント名') %>

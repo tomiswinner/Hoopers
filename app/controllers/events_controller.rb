@@ -1,14 +1,10 @@
 class EventsController < ApplicationController
   def new
-    @court_id = params[:court_id]
-    @event = Event.new()
+    @event = Event.new(court_id: params[:court_id])
   end
 
   def create
     @event = Event.new(events_params)
-    puts @event
-    puts events_params
-    puts 'うんｋ'
     if @event.save
       flash.now[:notice] = 'イベントが投稿されました'
       redirect_to(event_path(@event.id))
@@ -17,7 +13,7 @@ class EventsController < ApplicationController
       @event.errors.full_messages.each do |msg|
         err_msg += msg + "\n"
       end
-      flash[:alert] = err_msg
+      flash.now[:alert] = err_msg
       render :confirm
     end
 
@@ -82,6 +78,14 @@ class EventsController < ApplicationController
 
   def confirm
     @event = Event.new(events_params)
+    if @event.invalid?
+      err_msg = "イベント投稿に必要な内容が不足しています。\n"
+      @event.errors.full_messages.each do |msg|
+        err_msg += msg + "\n"
+      end
+      flash.now[:alert] = err_msg
+      render :new
+    end
   end
 
   def address; end
