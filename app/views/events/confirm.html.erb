@@ -26,12 +26,29 @@
     <h2>イベント基本情報</h2>
   </div>
   <div class="col-12  justify-content-center">
-    <%= @event.court.name %>
-    <p><%= @event.court.address %></p>
-    <p><%= @event.open_time %></p>
-    <p><%= @event.close_time %></p>
-    <p id="contact"><%= @event.contact %></p>
-    <p><%= @event.condition %></p>
-    <p><%= @event.description %></p>
+    <div>
+      <p>コート名</p>
+      <p><%= @event.court.name %></p>
+    </div>
+    <div>
+      <p>イベント開始時間</p>
+      <p><%= @event.open_time %></p>
+    </div>
+    <div>
+      <p>イベント終了時間</p>
+      <p><%= @event.close_time %></p>
+    </div>
+    <div>
+      <p>連絡先</p>
+      <p><%= @event.contact %></p>
+    </div>
+    <div>
+      <p>参加条件</p>
+      <p><%= @event.condition %></p>
+    </div>
+    <div>
+      <p>イベント説明</p>
+      <p><%= @event.description %></p>
+    </div>
   </div>
 </div>

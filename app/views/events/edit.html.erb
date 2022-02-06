@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <div>イベント編集</div>
+      <div>
+        コート名： <%= @event.court.name %>
+      </div>
+    <%= form_with(model: @event, url: event_path(@event.id), method: 'patch', local: true) do |f| %>
+      <%= f.hidden_field(:court_id, value: @event.court_id) %>
+      <%= f.hidden_field(:user_id, value: current_user.id) %>
+      <%= f.hidden_field(:status, value: true) %>
+      <div>
+        <%= f.label(:name, 'イベント名') %>
+        <%= f.text_field(:name) %>
+      </div>
+      <div>
+        <%= f.label(:image, '画像') %>
+        <%= f.attachment_field(:image) %>
+      </div>
+      <div>
+        <%= f.label(:open_time, '開始時間') %>
+        <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now()}) %>
+      </div>
+      <div>
+        <%= f.label(:close_time, '終了時間') %>
+        <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now()}) %>
+      </div>
+      <div>
+        <%= f.label(:condition, '参加条件') %>
+        <%= f.text_field(:condition) %>
+      </div>
+      <div>
+        <%= f.label(:contact, '連絡先') %>
+        <%= f.text_field(:contact) %>
+      </div>
+      <div>
+        <%= f.label(:description, 'イベント説明') %>
+        <%= f.text_field(:description) %>
+      </div>
+      <div>
+        <%= f.submit('修正する') %>
+        <%= link_to('イベントを削除', event_path(@event.id), method: 'delete', data: {confirm: '削除しますか？'}, class: 'btn btn-danger' ) %>
+      </div>
+    <% end %>
+  </div>
+</div>
