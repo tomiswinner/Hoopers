@@ -10,8 +10,7 @@
           <%= court.fetch_pref_name %><br>
           <%= court.court_type %>
           <!--リファクタリング-->
-          <%= court.convert_open_time_to_hour_min if court.open_time %>
-          ～ <%= court.convert_close_time_to_hour_min if court.close_time %>
+          <%= court.return_business_hour %>
         </div>
       <% end %>
     <% end %>

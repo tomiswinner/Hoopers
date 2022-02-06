@@ -130,6 +130,13 @@ class CourtsController < ApplicationController
 
   def detail
     @court = Court.find(params[:id])
+    return unless user_signed_in? && !(@court.court_history_exists?(current_user.id))
+    CourtHistory.create(
+      user_id: current_user.id,
+      court_id: params[:id]
+      )
+    return unless current_user.histories_reached_to_limit?(@court.class.name)
+      CourtHistory.where(user_id: current_user.id).order(:created_at).first.destroy
   end
 
   private
