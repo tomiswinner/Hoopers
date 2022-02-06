@@ -153,15 +153,15 @@ end
 
 
 # データを埋め込む際は、コメントアウト外す
-# register_prefecutres
-# register_areas
-# register_test_user
-# register_tags
-# register_dummy_courts
-# register_dummy_taggings
-# register_reviews
-# register_events
-# register_court_favs
+register_prefecutres
+register_areas
+register_test_user
+register_tags
+register_dummy_courts
+register_dummy_taggings
+register_reviews
+register_events
+register_court_favs
 
 
 

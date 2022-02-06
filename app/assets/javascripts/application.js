@@ -76,7 +76,6 @@ function initMap(){
             lngs_htmls.item(n).value
           )
 
-          console.log('うんｋ',opened_window)
           infowindow = new google.maps.InfoWindow({
             content: "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
           })

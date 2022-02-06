@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "court_id", null: false
     t.integer "user_id", null: false
     t.string "name", null: false
-    t.string "image_id", null: false
+    t.string "image_id"
     t.string "description", null: false
     t.string "condition", null: false
     t.string "contact", null: false

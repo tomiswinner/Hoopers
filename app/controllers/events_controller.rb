@@ -1,9 +1,27 @@
 class EventsController < ApplicationController
   def new
     @court_id = params[:court_id]
+    @event = Event.new()
   end
 
-  def create; end
+  def create
+    @event = Event.new(events_params)
+    puts @event
+    puts events_params
+    puts 'うんｋ'
+    if @event.save
+      flash.now[:notice] = 'イベントが投稿されました'
+      redirect_to(event_path(@event.id))
+    else
+      err_msg = "イベント投稿に失敗しました。\n"
+      @event.errors.full_messages.each do |msg|
+        err_msg += msg + "\n"
+      end
+      flash[:alert] = err_msg
+      render :confirm
+    end
+
+  end
 
   def index
     @events = Event.all
@@ -85,7 +103,7 @@ class EventsController < ApplicationController
 
   private
     def events_params
-      return params.require(:event).permit(:court_id, :user_id, :description, :condition, :contact, :open_time, :close_time, :status)
+      return params.require(:event).permit(:user_id, :court_id, :name, :image, :description, :condition, :contact, :open_time, :close_time, :status)
     end
 
     def extract_formatted_time_from_params(str)
