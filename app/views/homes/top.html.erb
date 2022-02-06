@@ -36,13 +36,15 @@
       </div>
       <div class="tab-pane bg-secondary fade" id="event_card">
         <div>
-          <%= link_to('最新のイベントを表示する', url: events_path) %>
+          <%= link_to('最新のイベントを表示する', events_path) %>
         </div>
         <%= form_with(url: events_path, method: 'get', local: true) do |f| %>
           <%= f.submit '時間を指定して探す' %>
-          <%= f.date_field :date %>
-          <%= f.time_select :opne_time %> ～
-          <%= f.time_select :close_time %>
+          <div>
+            <%= f.date_field :date %><br>
+            <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}) %> ～
+            <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}) %>
+          </div>
         <% end %>
         <div>
           <%= link_to( 'お気に入りコートから探す', court_favorites_path) %>

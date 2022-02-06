@@ -11,7 +11,7 @@
       </div>
       <div id='favorite' class='d-inline-block'>
         <% if current_user.favorites_this_event?(event.id) %>
-          <%= link_to('検討リストから削除', event_favorite_path(id: event_id), method: 'delete', remote: true, class:'btn bg-orange') %>
+          <%= link_to('検討リストから削除', event_favorite_path(id: event.id), method: 'delete', remote: true, class:'btn bg-orange') %>
         <% else %>
           <%= link_to('検討リストへ追加', event_favorites_path(id: event.id), method: 'post', remote: true, class:'btn bg-orange') %>
         <% end %>

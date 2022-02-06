@@ -60,8 +60,14 @@ end
 def register_test_user
    User.create!(
      id: 0,
-     name: 'test_user',
+     name: 'admin_user',
      email: 'hogehogee@example.com',
+     password: ENV['ADMIN_PASS']
+     )
+   User.create!(
+     id: 1,
+     name: 'test_user',
+     email: 'hogehogehoge@example.com',
      password: ENV['ADMIN_PASS']
      )
 end
