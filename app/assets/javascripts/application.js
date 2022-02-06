@@ -105,7 +105,8 @@ function initMap(){
     }
   }
 
-  if(window.location.href.match('map_check') != null){
+  if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_check'))||
+  (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_search'))){
     var lat = Number(document.getElementById('center_latitude').value)
     var lng = Number(document.getElementById('center_longitude').value)
     map = new google.maps.Map(document.getElementById('map'),{
@@ -147,7 +148,7 @@ function initMap(){
                 map,
                 shouldFocus: false
               })
-              if(opened_window){
+              if((opened_window)&&(opened_window!=infowindow)){
                 opened_window.close()
               }
               opened_window = infowindow
@@ -158,49 +159,31 @@ function initMap(){
     }
   }
 
-  if(window.location.href.match('map_search') != null){
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-              },
-            zoom: 13
+  if(($("body")[0].dataset.controller == 'homes')&&($("body")[0].dataset.action == 'top')){
+      document.getElementById('location_btn').addEventListener('click', (e)=>{
+        e.preventDefault()
+        if(navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              document.getElementById('latlng').value = JSON.stringify(
+                  {
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+                }
+              )
             })
-
-          latlng = new google.maps.LatLng(
-            position.coords.latitude + 0.001,
-            position.coords.longitude + 0.001
-            )
-
-          marker1 = new google.maps.Marker({
-            position: latlng,
-            map: map,
-          })
-
-          infowindow1 = new google.maps.InfoWindow({
-            content: 'さんぷる'
-          })
-
-          marker1.addListener('click',()=>{
-            infowindow1.open({
-              anchor: marker1,
-              map,
-              shouldFocus: false
-            })
-          })
-
-        },
-
-        () => {
-          // error handling
         }
+      })
+      const target = document.getElementById('latlng')
+      let m_observer = new MutationObserver((m)=>{
+        document.getElementById('location_form').submit()
+      })
+      const config = {
+        attributes: true,
+      }
+      m_observer.observe(target, config)
 
-      );
     }
-  }
 }
 
 

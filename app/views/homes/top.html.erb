@@ -22,12 +22,12 @@
     <div class="tab-content">
       <div class="tab-pane bg-success fade show active" id="court_card">
           <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
-            <%= f.submit 'コート名から探す' %>
+            <%= f.submit('コート名から探す') %>
             <%= f.text_field :keyword %>
           <% end %>
-          <%= form_with(url: map_search_courts_path, method: 'get', local: true) do |f| %>
-            <%= f.submit '現在地から探す！' %>
-            <%= f.hidden_field :user_location, value: "設定中" %>
+          <%= form_with(url: map_search_courts_path, local: true, method: 'get', id: 'location_form') do |f| %>
+            <%= f.hidden_field(:latlng, {id: "latlng"}) %>
+            <%= f.submit('現在地から探す！', id: 'location_btn') %>
           <% end %>
           <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true) do |f| %>
             <%= f.submit '県から探す' %>

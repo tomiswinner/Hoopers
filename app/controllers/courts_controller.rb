@@ -95,8 +95,8 @@ class CourtsController < ApplicationController
   end
 
   def confirm
+    # @court.valid?
     # リファクタリング
-    @court.valid?
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
       geocoded_data = JSON.parse(res.body)
@@ -126,7 +126,14 @@ class CourtsController < ApplicationController
 
   def thanks; end
 
-  def map_search; end
+  def map_search
+    latlng = JSON.parse(params[:latlng])
+    @center_lat = latlng["latitude"]
+    @center_lng = latlng["longitude"]
+    @courts = Court.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
+    @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude',
+                                                                             @center_lng + Lng_range)
+  end
 
   def detail
     @court = Court.find(params[:id])
