@@ -44,9 +44,6 @@ class Court < ApplicationRecord
     end
   end
 
-  def court_history_exists?(user_id)
-    return CourtHistory.where(court_id: id, user_id: user_id).count > 0
-  end
   def fetch_tags
     tags = Tag.none
     CourtTagTagging.where(court_id: id).pluck(:tag_id).each do |tag_id|

@@ -40,8 +40,17 @@ class User < ApplicationRecord
     end
   end
 
-  def histories_reached_to_limit?(model_name)
-    case model_name
+  def history_exists?(model)
+    case model.class.name
+    when 'Court'
+      return CourtHistory.where(user_id: id, court_id: model.id).count != 0
+    when 'Event'
+      return EventHistory.where(user_id: id, event_id: model.id).count != 0
+    end
+  end
+
+  def histories_reached_to_limit?(model)
+    case model.class.name
     when 'Court'
       return CourtHistory.where(user_id: id).count > 10
     when 'Event'

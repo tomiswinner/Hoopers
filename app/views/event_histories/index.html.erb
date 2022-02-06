@@ -1,0 +1,17 @@
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <div>コート検索結果</div>
+
+    <% if @events.blank? %>
+      <div>イベント閲覧履歴がありません</div>
+    <% else %>
+      <% @events.each do |event| %>
+        <div class="row bg-success mb-2">
+          <%= link_to(event.name, event_path(event.id)) %><br>
+          <!--リファクタリング-->
+          <%= event.return_event_time %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -62,6 +62,14 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    return unless user_signed_in?
+      if current_user.history_exists?(@event)
+        CourtHistory.find_by(user_id: current_user.id, event_id: params[:id]).destroy
+      end
+      EventHistory.create(user_id: current_user.id, event_id: params[:id])
+      return unless current_user.histories_reached_to_limit?(@event)
+        EventHistory.where(user_id: current_user.id).order(:created_at).first.destroy
+
   end
 
   def edit
