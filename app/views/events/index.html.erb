@@ -26,11 +26,11 @@
               <p>時間</p>
               <div>
                 <%= f.label(:open_time,'開始時間') %>
-                <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true}, {form: 'narrow_search'}) %>
+                <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {form: 'narrow_search'}) %>
               </div>
               <div>
                 <%= f.label(:close_time,'終了時間') %>
-                <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true}, {form: 'narrow_search'}) %>
+                <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {form: 'narrow_search'}) %>
               </div>
             </div>
           <% end %>

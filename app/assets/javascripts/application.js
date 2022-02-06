@@ -40,7 +40,7 @@ window.addEventListener('turbolinks:load',()=>{
 
 function initMap(){
   let map;
-  if(window.location.href.match('courts/.*/detail') != null){
+  if((window.location.href.match('courts/.*/detail') != null)||(window.location.href.match('courts/.*/detail') != null)){
     var lat = Number(document.getElementById('lat').value)
     var lng = Number(document.getElementById('lng').value)
     map = new google.maps.Map(document.getElementById('map'),{
@@ -52,7 +52,60 @@ function initMap(){
     })
   }
 
-  if((window.location.href.match('map_check') != null)||(window.location.href.match('court_select') != null)){
+  if(window.location.href.match('court_select') != null){
+    var lat = Number(document.getElementById('center_latitude').value)
+    var lng = Number(document.getElementById('center_longitude').value)
+    map = new google.maps.Map(document.getElementById('map'),{
+      center:{
+        lat: lat,
+        lng: lng
+      },
+      zoom: 13
+    })
+    lats_htmls = document.getElementsByClassName('latitudes')
+    lngs_htmls = document.getElementsByClassName('longitudes')
+    links_htmls = document.getElementsByClassName('links')
+    names_htmls = document.getElementsByClassName('names')
+
+    var opened_window = ""
+
+    for(n=0; n < lats_htmls.length; n++){
+      (function(){
+          latlng = new google.maps.LatLng(
+            lats_htmls.item(n).value,
+            lngs_htmls.item(n).value
+          )
+
+          infowindow = new google.maps.InfoWindow({
+            content: "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
+          })
+
+          marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+          })
+          console.log(links_htmls.item(n).value)
+
+          // クロージャ
+          function set_infowindow(marker, infowindow){
+            marker.addListener("click", ()=>{
+              infowindow.open({
+                anchor: marker,
+                map,
+                shouldFocus: false
+              })
+              if(opened_window){
+                opened_window.close()
+              }
+              opened_window = infowindow
+            })
+          }
+          return set_infowindow(marker, infowindow)
+      })();
+    }
+  }
+
+  if(window.location.href.match('map_check') != null){
     var lat = Number(document.getElementById('center_latitude').value)
     var lng = Number(document.getElementById('center_longitude').value)
     map = new google.maps.Map(document.getElementById('map'),{

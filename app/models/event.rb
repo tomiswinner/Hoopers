@@ -15,7 +15,7 @@ class Event < ApplicationRecord
   validates :contact        ,presence: true
   validates :open_time      ,presence: true
   validates :close_time     ,presence: true
-  validates :status         ,presence: true
+  validates :status         ,inclusion: [true, false]
 
 
   def is_event_in_favorite?

@@ -18,11 +18,11 @@
       </div>
       <div>
         <%= f.label(:open_time, '開始時間') %>
-        <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now()}) %>
+        <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now(), minute_step: 15}) %>
       </div>
       <div>
         <%= f.label(:close_time, '終了時間') %>
-        <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now()}) %>
+        <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now(), minute_step: 15}) %>
       </div>
       <div>
         <%= f.label(:condition, '参加条件') %>
