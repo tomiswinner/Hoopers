@@ -22,11 +22,11 @@
       </div>
       <div>
         <%= f.label(:open_time, '営業開始時間') %>
-        <%= f.time_select(:open_time, {}) %>
+        <%= f.time_select(:open_time, {include_blank: true, minute_step: 15}) %>
       </div>
       <div>
         <%= f.label(:close_time, '営業終了時間') %>
-        <%= f.time_select(:close_time, {}) %>
+        <%= f.time_select(:close_time, {include_blank: true, minute_step: 15}) %>
       </div>
       <div>
         <%= f.label(:supplement, '営業時間補足') %>
