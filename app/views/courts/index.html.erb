@@ -35,6 +35,7 @@
               <%= f.collection_check_boxes(:court_type, Court.court_types, :first, :first, {include_hidden: false,checked: false}, {form: 'narrow_search'}) %>
             </div>
           <% end %>
+          
           <div class="card-body">
             <p>タグ</p>
             <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {form: 'narrow_search'}) %>

@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.integer "area_id", null: false
     t.string "name", null: false
-    t.string "image_id", null: false
+    t.string "image_id"
     t.string "address", null: false
     t.decimal "latitude", precision: 9, scale: 6, null: false
     t.decimal "longitude", precision: 9, scale: 6, null: false

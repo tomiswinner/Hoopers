@@ -70,7 +70,11 @@ class CourtsController < ApplicationController
   def map_check
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
+      # リファクタリング
       geocoded_data = JSON.parse(res.body)
+      components_length = geocoded_data['results'][0]['address_components'].length
+      prefecture_name = geocoded_data['results'][0]['address_components'][components_length - 3]['long_name']
+      @prefecture_id = Prefecture.find_by(name: prefecture_name).id
       @address = params.dig(:court, :address)
       @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
       @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
@@ -79,21 +83,46 @@ class CourtsController < ApplicationController
                                                                                @center_lng + Lng_range)
     else
       # リファクタリング
-      flash.now[:alert] = 'エラーが発生しました。'
+      flash.now[:alert] = 'エラーが発生しました。住所が誤っている可能性があります。'
       render :address
     end
   end
 
   def new
     @court = Court.new(address: params[:address])
+    @prefecture = Prefecture.find(params[:prefecture_id])
+    @areas = Area.where(prefecture_id: params[:prefecture_id])
   end
 
   def confirm
     # ここでの validation は緯度経度をスキップ
-    @court = Court.new(courts_params)
+    # リファクタリング
+    res = fetch_geocoding_response(params.dig(:court, :address))
+    if !res.nil? && res.message == 'OK'
+      geocoded_data = JSON.parse(res.body)
+      @court = Court.new(courts_params)
+      @court.latitude = geocoded_data['results'][0]['geometry']['location']['lat']
+      @court.longitude = geocoded_data['results'][0]['geometry']['location']['lng']
+    else
+      flash.now[:alert] = 'エラーが発生しました。住所が誤っている可能性があります。'
+      render :new
+    end
   end
 
-  def create; end
+  def create
+    @court = Court.new(courts_params)
+    if @court.save
+      flash[:notice] = 'コートが投稿されました'
+      redirect_to(thanks_courts_path)
+    else
+      err_msg = "コートの投稿に失敗しました。\n"
+      @court.errors.full_messages.each do |msg|
+        err_msg += "#{msg}\n"
+      end
+      flash.now[:alert] = err_msg
+      render :confirm
+    end
+  end
 
   def thanks; end
 
@@ -106,7 +135,7 @@ class CourtsController < ApplicationController
   private
 
   def courts_params
-    return params.require(:court).permit(:user_id, :name, :image, :open_time, :close_time, :supplement, :address, :url,
-                                          :size, :price, :court_type, :business_status, :confirmation_status)
+    return params.require(:court).permit(:user_id, :area_id, :name, :image, :open_time, :close_time, :supplement,
+                                         :address, :url, :latitude, :longitude, :size, :price, :court_type, :business_status, :confirmation_status)
   end
 end
