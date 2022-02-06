@@ -11,6 +11,18 @@ class Court < ApplicationRecord
   has_many :court_histories,    dependent: :destroy
   has_many :court_tag_taggings, dependent: :destroy
 
+  validates :name                 ,presence: true
+  validates :user_id              ,presence: true
+  validates :area_id              ,presence: true
+  validates :latitude             ,presence: true
+  validates :longitude            ,presence: true
+  validates :url                  ,presence: true
+  validates :address              ,presence: true
+  validates :supplement           ,presence: true
+  validates :size                 ,presence: true
+  validates :court_type           ,presence: true
+  validates :business_status      ,inclusion: [true, false]
+  validates :confirmation_status  ,inclusion: [true, false]
 
   enum court_type: {checking: 0, others: 1, gym: 2, asphalt: 3, sand: 4, rubber: 5}
 

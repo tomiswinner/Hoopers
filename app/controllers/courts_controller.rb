@@ -95,8 +95,8 @@ class CourtsController < ApplicationController
   end
 
   def confirm
-    # ここでの validation は緯度経度をスキップ
     # リファクタリング
+    @court.valid?
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
       geocoded_data = JSON.parse(res.body)
