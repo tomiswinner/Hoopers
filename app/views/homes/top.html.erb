@@ -37,7 +37,7 @@
           <% end %>
           <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, class: 'form-group pb-4 d-flex justify-content-center') do |f| %>
             <%= f.submit '地域から探す' %>
-            <%= f.select :id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'} %>
+            <%= f.select(:id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'}) %>
           <% end %>
       </div>
 

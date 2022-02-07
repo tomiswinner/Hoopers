@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
   <div class="col-12 filter-black justify-content-center">
-    <div>コート検索結果</div>
+    <div>イベント検索結果</div>
 
     <div class="accordion" id="search_accordion">
       <div class="card bg-light">
@@ -21,16 +21,18 @@
               <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
             </div>
           </div>
-          <%= form_with(model: Court, url: events_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
+          <%= form_with(model: Event, url: events_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
             <div class="card-body">
               <p>時間</p>
               <div>
                 <%= f.label(:open_time,'開始時間') %>
-                <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {form: 'narrow_search'}) %>
+                <%= f.date_field(:open_time) %>
+                <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {form: 'narrow_search'}) %>
               </div>
               <div>
                 <%= f.label(:close_time,'終了時間') %>
-                <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {form: 'narrow_search'}) %>
+                <%= f.date_field(:close_time) %>
+                <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {form: 'narrow_search'}) %>
               </div>
             </div>
           <% end %>

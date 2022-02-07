@@ -3,7 +3,7 @@ require 'rails_helper'
 
 # 全てのテストは、test 環境のDBを空っぽの状態で行うこと。
 # リファクタリング、渡す空の変数をクラス化して継承するようにしてしまえ
-RSpec.describe 'Court', type: :system do
+RSpec.describe 'Event', type: :system do
   describe "GET /index" do
     describe '場所検索機能' do
       before do
@@ -17,15 +17,11 @@ RSpec.describe 'Court', type: :system do
       end
       context '入力：エリアid 1 存在するデータ：エリアid 1,2,3 のコートで開催されるイベント' do
         it 'エリア　id 1 のコートだけが返ってくる(2,3は返ってこない)' do
-          visit events_path(court: {
-            'open_time(1i)': '',
-            'open_time(2i)': '',
-            'open_time(3i)': '',
-            'open_time(4i)': '',
-            'open_time(5i)': '',
-            'close_time(1i)': '',
-            'close_time(2i)': '',
-            'close_time(3i)': '',
+          visit events_path(event: {
+            'open_time':      '',
+            'open_time(4i)':  '',
+            'open_time(5i)':  '',
+            'close_time':     '',
             'close_time(4i)': '',
             'close_time(5i)': ''},
           Area: {
@@ -55,15 +51,11 @@ RSpec.describe 'Court', type: :system do
 
       context '入力time 08:00~11:00 存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '8-10,8-11,9-10,9-11のデータが返ってくる' do
-          visit events_path(court: {
-            'open_time(1i)': '2022',
-            'open_time(2i)': '01',
-            'open_time(3i)': '01',
-            'open_time(4i)': '08',
-            'open_time(5i)': '00',
-            'close_time(1i)': '2022',
-            'close_time(2i)': '01',
-            'close_time(3i)': '01',
+          visit events_path(event: {
+            'open_time':      '2022-01-01',
+            'open_time(4i)':  '08',
+            'open_time(5i)':  '00',
+            'close_time':     '2022-01-01',
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )
@@ -80,15 +72,11 @@ RSpec.describe 'Court', type: :system do
       end
       context '入力なし、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it 'すべて返ってくる' do
-          visit events_path(court: {
-            'open_time(1i)': '',
-            'open_time(2i)': '',
-            'open_time(3i)': '',
+          visit events_path(event: {
+            'open_time':     '',
             'open_time(4i)': '',
             'open_time(5i)': '',
-            'close_time(1i)': '',
-            'close_time(2i)': '',
-            'close_time(3i)': '',
+            'close_time':     '',
             'close_time(4i)': '',
             'close_time(5i)': ''}
           )
@@ -105,15 +93,11 @@ RSpec.describe 'Court', type: :system do
       end
       context 'opentime 8~ のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '7~ 以外のでーたは返ってくる' do
-          visit events_path(court: {
-          'open_time(1i)': '2022',
-          'open_time(2i)': '01',
-          'open_time(3i)': '01',
+          visit events_path(event: {
+          'open_time':     '2022-01-01',
           'open_time(4i)': '08',
           'open_time(5i)': '00',
-          'close_time(1i)': '',
-          'close_time(2i)': '',
-          'close_time(3i)': '',
+          'close_time':     '',
           'close_time(4i)': '',
           'close_time(5i)': ''}
           )
@@ -130,15 +114,11 @@ RSpec.describe 'Court', type: :system do
       end
       context 'closetime ~11 のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '~10 以外のでーたは返ってこない' do
-          visit events_path(court: {
-            'open_time(1i)': '',
-            'open_time(2i)': '',
-            'open_time(3i)': '',
-            'open_time(4i)': '',
-            'open_time(5i)': '',
-            'close_time(1i)': '2022',
-            'close_time(2i)': '01',
-            'close_time(3i)': '01',
+          visit events_path(event: {
+            'open_time':      '',
+            'open_time(4i)':  '',
+            'open_time(5i)':  '',
+            'close_time':     '2022-01-01',
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )

@@ -140,19 +140,18 @@ class EventsController < ApplicationController
   end
 
   def extract_formatted_time_from_params(str)
-    datetime = Time.zone.local(
-      yaer: params.dig(:court, :"#{str}_time(1i)"),
-      mon: params.dig(:court, :"#{str}_time(2i)"),
-      day: params.dig(:court, :"#{str}_time(3i)"),
-      hour: params.dig(:court, :"#{str}_time(4i)"),
-      min: params.dig(:court, :"#{str}_time(5i)")
-    )
+    date = params.dig(:event, :"#{str}_time")
+    hour = params.dig(:event, :"#{str}_time(4i)")
+    min = params.dig(:event, :"#{str}_time(5i)")
+
+    datetime = Time.parse("#{date} #{hour}:#{min}")
     return datetime
   end
 
   def time_filled_in?(str)
-    [*1..5].each do |n|
-      return false if params.dig(:court, :"#{str}_time(#{n}i)").blank?
+
+    ["","(4i)","(5i)"].each do |elem|
+      return false if params.dig(:event, :"#{str}_time#{elem}").blank?
     end
     return true
   end

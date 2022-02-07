@@ -6,6 +6,9 @@ class CourtsController < ApplicationController
 
     @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) if params.dig(:prefecture, :id)
 
+    if params.dig(:prefecture, :id)
+      @courts = @courts.where(area_id: Area.where(prefecture_id: params.dig(:prefecture, :id)).ids)
+    end
     if params.dig(:Area, :area_ids)
       @area_search_res = Court.none
       params.dig(:Area, :area_ids).each do |area_id|
