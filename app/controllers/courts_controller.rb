@@ -95,12 +95,21 @@ class CourtsController < ApplicationController
   end
 
   def confirm
-    # @court.valid?
+    @court = Court.new(courts_params)
+    # name,addres,area の validation
+    err_msg = @court.validate_about_name_address_area()
+    unless err_msg.blank?
+      flash.now[:alert] = err_msg
+      @prefecture = Prefecture.find(params[:prefecture_id])
+      @areas = Area.where(prefecture_id: params[:prefecture_id])
+      render :new
+      return
+    end
+    @court.set_default_values_to_court()
     # リファクタリング
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
       geocoded_data = JSON.parse(res.body)
-      @court = Court.new(courts_params)
       @court.latitude = geocoded_data['results'][0]['geometry']['location']['lat']
       @court.longitude = geocoded_data['results'][0]['geometry']['location']['lng']
     else

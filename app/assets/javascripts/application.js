@@ -29,7 +29,7 @@ function noticeLoadCompletion(){
 }
 
 
-// google map src のロードが完了していれば、ページ遷移時にイベント監視
+// google map src のロードが完了していれば、ページ遷移時にinitMap
 window.addEventListener('turbolinks:load',()=>{
   if (isScriptLoaded){
     initMap()
@@ -40,7 +40,8 @@ window.addEventListener('turbolinks:load',()=>{
 
 function initMap(){
   let map;
-  if(($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'show')){
+  if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'show'))||
+     (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'confirm'))){
     var lat = Number(document.getElementById('lat').value)
     var lng = Number(document.getElementById('lng').value)
     map = new google.maps.Map(document.getElementById('map'),{
@@ -57,7 +58,7 @@ function initMap(){
     })
   }
 
-  if(window.location.href.match('court_select') != null){
+  if(($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'court_select')){
     var lat = Number(document.getElementById('center_latitude').value)
     var lng = Number(document.getElementById('center_longitude').value)
     map = new google.maps.Map(document.getElementById('map'),{

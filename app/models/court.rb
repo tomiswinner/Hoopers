@@ -67,6 +67,41 @@ class Court < ApplicationRecord
     return court_reviews.pluck(:quality).sum.fdiv(court_reviews.count)
   end
 
+  def validate_about_name_address_area()
+    # 可能ならエラーメッセジを引っ張ってきたい
+    err_msg = ''
+    if name.blank?
+      err_msg += "コート名が入力されていません\n"
+    end
+    if address.blank?
+      err_msg += "住所が入力されていません\n"
+    end
+    if area_id.blank?
+      err_msg += "地域が入力されていません\n"
+    end
+    return err_msg
+  end
+
+
+  def set_default_values_to_court()
+    if self.url.blank?
+      puts 'うんｋ  '
+      self.url = "確認中"
+    end
+    if self.supplement.blank?
+      self.supplement = "確認中"
+    end
+    if self.size.blank?
+      self.size = "確認中"
+    end
+    if self.price.blank?
+      self.price = "確認中"
+    end
+    if self.court_type.blank?
+      self.court_type = 0
+    end
+  end
+
   private
     def convert_open_time_to_hour_min
       return (Time.now.midnight + open_time).strftime("%H:%M")
