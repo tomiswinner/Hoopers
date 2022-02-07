@@ -10,9 +10,12 @@
   </div>
   <div class="col-12  justify-content-center">
     <%= link_to(@event.court.name, court_path(@event.court.id)) %>
+    <i class="fas fa-map-marker-alt"></i>
     <p><%= @event.court.address %></p>
+    <i class="far fa-clock"></i>
     <p><%= @event.open_time %></p>
     <p><%= @event.close_time %></p>
+    <i class="fas fa-envelope"></i>
     <p id="contact"><%= @event.contact %></p>
     <p><%= @event.condition %></p>
     <p><%= @event.description %></p>

@@ -10,8 +10,9 @@
     <h4>情報が違うと思ったら？</h4>
   </div>
   <div class="col-12  justify-content-center">
+    <i class="fas fa-map-marker-alt"></i>
     <%= @court.address %>
-    <%= @court.return_business_hour %>
+    <i class="far fa-clock"></i><%= @court.return_business_hour %>
     <%= @court.url %>
     <%= @court.price %>
     <% @court.fetch_tags.each do |tag| %>

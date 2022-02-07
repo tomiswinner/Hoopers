@@ -23,7 +23,7 @@
           </div>
           <%= form_with(model: Court, url: courts_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
             <div class="card-body">
-              <p>時間</p>
+              <p><i class="far fa-clock"></i> 時間</p>
               <%= f.label(:open_time,'開始時間') %>
               <%= f.time_select(:open_time, {include_blank: true, ignore_date: true, minute_step: 15}, {form: 'narrow_search'}) %>
               <%= f.label(:close_time,'終了時間') %>

@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-  <div class="col-10 filter-black justify-content-center">
+  <div class="col-12 filter-black justify-content-center py-5">
     <p class="text-white text-center">
       Hoopers!<br>
       バスケコート<br>
@@ -10,7 +10,7 @@
 </div>
 
 <div class="row justify-content-center">
-  <div class="card bg-transparent w-90">
+  <div class="card bg-transparent col-12">
     <div class="card-header bg-transparent w-100">
       <ul class="nav nav-tabs card-header-tabs w-100">
         <li class="nav-item">
@@ -25,18 +25,20 @@
       <div class="tab-pane fade show active bg-orange justify-content-center rounded" id="court_card">
           <%= form_with(url: courts_path, method: 'get', local: true, class: 'form-group pt-4', id: 'keyword_form') do |f| %>
             <%= button_tag(type: 'submit', form: 'keyword_form', class: 'btn btn-sm') do %>
-              コート名から探す<i class="fas fa-search"></i>
+              <i class="fas fa-search"></i>　コート名から探す
             <% end %>
             <%= f.text_field(:keyword, placeholder: 'キーワードを入力') %>
           <% end %>
           <%= form_with(url: map_search_courts_path, local: true, method: 'get', id: 'location_form', class: 'form-group') do |f| %>
             <%= f.hidden_field(:latlng, {id: "latlng"}) %>
             <%= button_tag(type: 'submit', id: 'location_btn', form: 'location_form', class:'d-block m-auto') do %>
-              現在地から探す<i class="fas fa-map-marker-alt"></i>
+              <i class="fas fa-map-marker-alt"></i> 現在地から探す
             <% end %>
           <% end %>
-          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, class: 'form-group pb-4 d-flex justify-content-center') do |f| %>
-            <%= f.submit '地域から探す' %>
+          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, id: 'area_form', class: 'form-group pb-4 d-flex justify-content-center') do |f| %>
+            <%= button_tag(type: 'submit', form: 'area_form', class: 'btn btn-sm') do %>
+              <i class="fas fa-map-marked-alt"></i>　地域から探す
+            <% end %>
             <%= f.select(:id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'}) %>
           <% end %>
       </div>
@@ -49,7 +51,7 @@
         </div>
         <%= form_with(model: Event, url: events_path, method: 'get', local: true, class: 'form-group d-flex justify-content-center', id: 'time_form') do |f| %>
           <%= button_tag(form: 'time_form', class: 'btn btn-sm') do %>
-            時間で探す
+            <i class="far fa-clock"></i>　時間で探す
           <% end %>
           <div class="d-flex flex-column">
             <%= f.date_field(:date, {class: 'form-select'}) %>

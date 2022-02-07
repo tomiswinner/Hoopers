@@ -23,7 +23,7 @@
           </div>
           <%= form_with(model: Event, url: events_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
             <div class="card-body">
-              <p>時間</p>
+              <p><i class="far fa-clock"></i> 時間</p>
               <div>
                 <%= f.date_field(:date) %>
                 <%= f.label(:open_time,'開始時間') %>
