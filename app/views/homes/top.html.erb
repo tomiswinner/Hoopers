@@ -47,15 +47,15 @@
         <div>
           <%= link_to('最新のイベントを表示する', events_path, class: 'btn btn-sm d-block pt-4') %>
         </div>
-        <%= form_with(url: events_path, method: 'get', local: true, class: 'form-group d-flex justify-content-center', id: 'time_form') do |f| %>
+        <%= form_with(model: Event, url: events_path, method: 'get', local: true, class: 'form-group d-flex justify-content-center', id: 'time_form') do |f| %>
           <%= button_tag(form: 'time_form', class: 'btn btn-sm') do %>
             時間で探す
           <% end %>
           <div class="d-flex flex-column">
             <%= f.date_field(:date, {class: 'form-select'}) %>
             <div class=>
-              <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'form-select'}) %> ～
-              <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'form-select'}) %>
+              <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select'}) %> ～
+              <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select'}) %>
             </div>
           </div>
         <% end %>
