@@ -18,10 +18,9 @@ RSpec.describe 'Event', type: :system do
       context '入力：エリアid 1 存在するデータ：エリアid 1,2,3 のコートで開催されるイベント' do
         it 'エリア　id 1 のコートだけが返ってくる(2,3は返ってこない)' do
           visit events_path(event: {
-            'open_time':      '',
+            'date':      '',
             'open_time(4i)':  '',
             'open_time(5i)':  '',
-            'close_time':     '',
             'close_time(4i)': '',
             'close_time(5i)': ''},
           Area: {
@@ -52,10 +51,9 @@ RSpec.describe 'Event', type: :system do
       context '入力time 08:00~11:00 存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '8-10,8-11,9-10,9-11のデータが返ってくる' do
           visit events_path(event: {
-            'open_time':      '2022-01-01',
+            'date':           '2022-01-01',
             'open_time(4i)':  '08',
             'open_time(5i)':  '00',
-            'close_time':     '2022-01-01',
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )
@@ -73,10 +71,9 @@ RSpec.describe 'Event', type: :system do
       context '入力なし、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it 'すべて返ってくる' do
           visit events_path(event: {
-            'open_time':     '',
+            'date':          '',
             'open_time(4i)': '',
             'open_time(5i)': '',
-            'close_time':     '',
             'close_time(4i)': '',
             'close_time(5i)': ''}
           )
@@ -94,10 +91,9 @@ RSpec.describe 'Event', type: :system do
       context 'opentime 8~ のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '7~ 以外のでーたは返ってくる' do
           visit events_path(event: {
-          'open_time':     '2022-01-01',
+          'date':          '2022-01-01',
           'open_time(4i)': '08',
           'open_time(5i)': '00',
-          'close_time':     '',
           'close_time(4i)': '',
           'close_time(5i)': ''}
           )
@@ -115,10 +111,9 @@ RSpec.describe 'Event', type: :system do
       context 'closetime ~11 のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '~10 以外のでーたは返ってこない' do
           visit events_path(event: {
-            'open_time':      '',
+            'date':           '2022-01-01',
             'open_time(4i)':  '',
             'open_time(5i)':  '',
-            'close_time':     '2022-01-01',
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )

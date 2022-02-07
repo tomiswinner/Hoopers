@@ -140,7 +140,7 @@ class EventsController < ApplicationController
   end
 
   def extract_formatted_time_from_params(str)
-    date = params.dig(:event, :"#{str}_time")
+    date = params.dig(:event, :"date")
     hour = params.dig(:event, :"#{str}_time(4i)")
     min = params.dig(:event, :"#{str}_time(5i)")
 
@@ -149,9 +149,8 @@ class EventsController < ApplicationController
   end
 
   def time_filled_in?(str)
-
-    ["","(4i)","(5i)"].each do |elem|
-      return false if params.dig(:event, :"#{str}_time#{elem}").blank?
+    ["date","#{str}_time(4i)","#{str}_time(5i)"].each do |elem|
+      return false if params.dig(:event, :"#{elem}").blank?
     end
     return true
   end
