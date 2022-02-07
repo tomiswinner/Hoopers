@@ -22,52 +22,58 @@
       </ul>
     </div>
     <div class="tab-content">
-      <div class="tab-pane fade show active bg-orange" id="court_card">
-          <%= form_with(url: courts_path, method: 'get', local: true, class: '') do |f| %>
-            <%= f.submit('コート名から探す', class: 'btn btn-sm') %>
+      <div class="tab-pane fade show active bg-orange justify-content-center rounded" id="court_card">
+          <%= form_with(url: courts_path, method: 'get', local: true, class: 'form-group pt-4', id: 'keyword_form') do |f| %>
+            <%= button_tag(type: 'submit', form: 'keyword_form', class: 'btn btn-sm') do %>
+              コート名から探す<i class="fas fa-search"></i>
+            <% end %>
             <%= f.text_field(:keyword, placeholder: 'キーワードを入力') %>
           <% end %>
-          <%= form_with(url: map_search_courts_path, local: true, method: 'get', id: 'location_form', class: '') do |f| %>
+          <%= form_with(url: map_search_courts_path, local: true, method: 'get', id: 'location_form', class: 'form-group') do |f| %>
             <%= f.hidden_field(:latlng, {id: "latlng"}) %>
-            <%= button_tag(type: 'submit', id: 'location_btn', form: 'location_form') do %>
-              現在地から探す<img src="<%= asset_path('location.png') %>">
+            <%= button_tag(type: 'submit', id: 'location_btn', form: 'location_form', class:'d-block m-auto') do %>
+              現在地から探す<i class="fas fa-map-marker-alt"></i>
             <% end %>
           <% end %>
-          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true) do |f| %>
-            <%= f.submit '県から探す' %>
-            <%= f.select :id, Prefecture.all.collect { |pref| [ pref.name, pref.id]} %>
+          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, class: 'form-group pb-4 d-flex justify-content-center') do |f| %>
+            <%= f.submit '地域から探す' %>
+            <%= f.select :id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'} %>
           <% end %>
       </div>
 
 
 
-      <div class="tab-pane bg-lightblue fade show" id="event_card">
+      <div class="tab-pane bg-lightblue fade show rounded " id="event_card">
         <div>
-          <%= link_to('最新のイベントを表示する', events_path) %>
+          <%= link_to('最新のイベントを表示する', events_path, class: 'btn btn-sm d-block pt-4') %>
         </div>
-        <%= form_with(url: events_path, method: 'get', local: true) do |f| %>
-          <%= f.submit '時間を指定して探す' %>
-          <div>
-            <%= f.date_field :date %><br>
-            <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}) %> ～
-            <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}) %>
+        <%= form_with(url: events_path, method: 'get', local: true, class: 'form-group d-flex justify-content-center', id: 'time_form') do |f| %>
+          <%= button_tag(form: 'time_form', class: 'btn btn-sm') do %>
+            時間で探す
+          <% end %>
+          <div class="d-flex flex-column">
+            <%= f.date_field(:date, {class: 'form-select'}) %>
+            <div class=>
+              <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'form-select'}) %> ～
+              <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'form-select'}) %>
+            </div>
           </div>
         <% end %>
         <div>
-          <%= link_to( 'お気に入りコートから探す', court_favorites_path) %>
+          <%= link_to( 'お気に入りコートから探す', court_favorites_path, class: 'btn btn-sm d-block m-auto') %>
         </div>
-        <%= link_to('コートからイベント情報を見るには？', root_path(anchor: 'court_card')) %>
+        <%= link_to('コートからイベント情報を見るには？', root_path(anchor: 'court_card'), class: 'btn btn-sm d-block m-auto pb-3') %>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row">
+<div class="row mt-2 d-flex justify-content-center">
   <div class="bg-secondary" style="height: 100px; width: 200px;">
     <%= link_to('コート情報募集中', address_courts_path) %>
   </div>
 </div>
-<div class="row">
+<div class="row mt-2 d-flex justify-content-center">
   <div class="bg-danger" id="how_to_use" style="height: 1000px; width: 200px;">
     つかいかた
   </div>
