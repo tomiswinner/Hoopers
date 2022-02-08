@@ -26,6 +26,7 @@ let isScriptLoaded = false;
 function noticeLoadCompletion(){
   isScriptLoaded = true
   initMap()
+  initRaty()
 }
 
 
@@ -33,6 +34,7 @@ function noticeLoadCompletion(){
 window.addEventListener('turbolinks:load',()=>{
   if (isScriptLoaded){
     initMap()
+    initRaty()
   }
 })
 
@@ -190,27 +192,28 @@ function initMap(){
     }
 }
 
+function initRaty(){
+  // raty.js
+  const starOnPath = "<%= asset_path('star-on.png') %>"
+  const starOffPath = "<%= asset_path('star-off.png') %>"
+  const starHalfPath = "<%= asset_path('star-half.png') %>"
 
-// raty.js
-const starOnPath = "<%= asset_path('star-on.png') %>"
-const starOffPath = "<%= asset_path('star-off.png') %>"
-const starHalfPath = "<%= asset_path('star-half.png') %>"
+    $('#eval_accessibility').raty({
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      scoreName: 'court_review[accessibility]'
+    })
 
-window.addEventListener('turbolinks:load',()=>{
-  $('#eval_accessibility').raty({
-    starOn: starOnPath,
-    starOff: starOffPath,
-    starHalf: starHalfPath,
-    scoreName: 'court_review[accessibility]'
-  })
-
-  $('.evaluation').raty({
-    readOnly: true,
-    starOn: starOnPath,
-    starOff: starOffPath,
-    starHalf: starHalfPath,
-    score: function(){
-      return $(this).attr('data-score')
-    }
-  })
-})
+    $('.evaluation').raty({
+      readOnly: true,
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
+    console.log($('.evaluation'))
+    console.log($('うｎ'))
+}
