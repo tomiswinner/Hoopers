@@ -1,16 +1,15 @@
 <div class="row justify-content-center">
   <div class="col-12 filter-black justify-content-center">
-    <div>イベント検索結果</div>
+    <div class="py-3 d-flex">
+      <div class="text-white align-text-bottom">イベント検索結果</div>
+        <button class="btn btn-sm bg-success ml-auto text-white d-block" type="button" data-toggle="collapse" data-target="#serach_bar">
+          詳細検索
+        </button>
+      </div>
 
-    <div class="accordion" id="search_accordion">
-      <div class="card bg-light">
-        <div class="card-header" id="header-4a">
-          <button class="btn btn-link text-success font-weight-bold" type="button" data-toggle="collapse" data-target="#serach_bar">
-            絞り込み
-            <%= submit_tag('絞り込む', {form: 'narrow_search'}) %>
-          </button>
-        </div>
+    <div class="bg-danger"></div>
         <div id="serach_bar" class="collapse" data-parent="#search_accordion">
+            <%= submit_tag('絞り込む', {class: 'btn btn-sm btn-success d-block ml-auto', form: 'narrow_search'}) %>
           <div class="card-body">
             <%= form_with(model: Prefecture, url: events_path, method: 'get') do |f| %>
                 <p>地区</p>
