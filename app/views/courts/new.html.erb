@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <div>コート情報入力ページ</div>
+    <p>
+      コート名と地域、住所の入力は必須です。<br>
+      その他わからない場所は空欄とすると、確認中と表示されます。
+    </p>
+    <%= form_with(model: @court, url: confirm_courts_path, method: 'get', local: true, id: 'form') do |f| %>
+      <%= f.hidden_field(:user_id, value: current_user.id) %>
+      <%= f.hidden_field(:latitude, value: true) %>
+      <%= f.hidden_field(:longitude, value: true) %>
+      <%= f.hidden_field(:business_status, value: true) %>
+      <%= f.hidden_field(:confirmation_status, value: false) %>
+      <%= hidden_field_tag(:prefecture_id, @prefecture.id, {form: 'form'}) %>
+      <div>
+        <%= f.label(:name, 'コート名') %>
+        <%= f.text_field(:name) %>
+      </div>
+      <div>
+        <%= f.label(:area_id, 'コート地区') %>
+        <%= @prefecture.name %>
+        <%= f.select(:area_id, @areas.pluck(:name,:id), {prompt: "地域を選択"},{}) %>
+      </div>
+      <div>
+        <%= f.label(:image, '画像') %>
+        <%= f.attachment_field(:image) %>
+      </div>
+      <div>
+        <%= f.label(:open_time, '営業開始時間') %>
+        <%= f.time_select(:open_time, {include_blank: true, minute_step: 15}) %>
+      </div>
+      <div>
+        <%= f.label(:close_time, '営業終了時間') %>
+        <%= f.time_select(:close_time, {include_blank: true, minute_step: 15}) %>
+      </div>
+      <div>
+        <%= f.label(:supplement, '営業時間補足') %>
+        <%= f.text_field(:supplement) %>
+      </div>
+      <div>
+        <%= f.label(:address, '住所') %>
+        <%= f.text_field(:address) %>
+      </div>
+      <div>
+        <%= f.label(:url, 'HPリンク') %>
+        <%= f.text_field(:url) %>
+      </div>
+      <div>
+        <%= f.label(:size, 'コートサイズ') %>
+        <%= f.text_field(:size) %>
+      </div>
+      <div>
+        <%= f.label(:price, '利用料金') %>
+        <%= f.text_field(:price) %>
+      </div>
+      <div>
+        <%= f.label(:court_type, 'コートタイプ') %>
+        <%= f.select(:court_type, Court.court_types_i18n.except(:checking).collect {|elem| [elem.last, elem.first]}, {prompt: "コートタイプを選択"},{}) %>
+      </div>
+      <div>
+        <p>タグ</p>
+        <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {form: 'form'}) %>
+      </div>
+      <div>
+        <%= f.submit('入力内容を確認する') %>
+      </div>
+    <% end %>
+  </div>
+</div>

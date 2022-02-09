@@ -60,9 +60,15 @@ end
 def register_test_user
    User.create!(
      id: 0,
-     name: 'test_user',
+     name: 'admin_user',
      email: 'hogehogee@example.com',
-     password: 'hogehoge'
+     password: ENV['ADMIN_PASS']
+     )
+   User.create!(
+     id: 1,
+     name: 'test_user',
+     email: 'hogehogehoge@example.com',
+     password: ENV['ADMIN_PASS']
      )
 end
 
@@ -82,7 +88,7 @@ def register_dummy_courts
     Court.create!(
       user_id: 0,
       area_id: area_id,
-      name: address + 'バスケ' + 'コート',
+      name: "#{address}",
       image_id: "aa",
       address: address,
       latitude: rand(-90.0000..90.0000),
@@ -94,8 +100,8 @@ def register_dummy_courts
       size: '確認中',
       price: '確認中',
       court_type: rand(1..5),
-      business_status: [true,false].sample,
-      confirmation_status: [true,false].sample
+      business_status: [true,true,true,false].sample,
+      confirmation_status: [true,true,true,false].sample
       )
   end
 end
@@ -122,15 +128,46 @@ def register_dummy_taggings
   end
 end
 
+def register_events
+  Court.all.each do |court|
+    open_time = Time.now - rand(1..10) * 50000
+    Event.create!(
+      court_id: court.id,
+      name: "#{court.name}ピックアップ",
+      user_id: 0,
+      image_id: 'aa',
+      condition: '10000円　ボール持参',
+      description: 'あああああああああああああaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      contact: '123-456-7189',
+      open_time: open_time,
+      close_time: open_time + rand(1..10) * 30000,
+      status: [true,true,true,false].sample
+      )
+    end
+end
+
+def register_court_favs
+  Court.all.each do |court|
+    if [true,true,false].sample
+    CourtFavorite.create!(
+      court_id: court.id,
+      user_id: 0
+      )
+    end
+  end
+end
+
 
 # データを埋め込む際は、コメントアウト外す
-# register_prefecutres
-# register_areas
-# register_test_user
-# register_tags
-# register_dummy_courts
-# register_dummy_taggings
-# register_reviews
+register_prefecutres
+register_areas
+register_test_user
+register_tags
+register_dummy_courts
+register_dummy_taggings
+register_reviews
+register_events
+register_court_favs
 
 
 

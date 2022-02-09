@@ -1,0 +1,9 @@
+<% flash.each do |type, msg| %>
+  <% if type == "notice" %>
+    <div class="alert alert-success">
+  <% elsif type == "alert" %>
+    <div class="alert alert-danger">
+  <% end %>
+      <%= h(msg).gsub(/\n/,"<br>").html_safe %>
+    </div>
+<% end %>

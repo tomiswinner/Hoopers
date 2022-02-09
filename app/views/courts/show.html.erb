@@ -1,0 +1,63 @@
+<div class="row bg-white d-flex flex-column">
+  <div class="col-12  justify-content-center my-3 pb-3">
+    <h2><%= @court.name %></h2>
+  <div class="col-12  justify-content-center my-3 pb-3">
+    <%= attachment_image_tag(@court, :image, fallback: "no_img.png", size: "250x250") %>
+  </div>
+  </div>
+  <div class="col-12  justify-content-center mb-3">
+    <h2 class="font-weight-bold">コート基本情報</h2>
+    <p>情報が違うと思ったら？</p>
+  </div>
+  <table class="col-10 mx-auto mb-3">
+    <tr>
+      <td>
+        <i class="fas fa-map-marker-alt"></i>　<%= @court.address %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="far fa-clock"></i>　<%= @court.return_business_hour %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="fas fa-link"></i>　<%= @court.url %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="fas fa-yen-sign"></i>　<%= @court.price %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="fas fa-tags"></i>
+        <% @court.fetch_tags.each do |tag| %>
+          <%= tag.name %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+  <div class="col-12  justify-content-center">
+    <p class="font-weight-bold">
+      <i class="fas fa-map-marked-alt"></i>　マップ情報
+    </p>
+    <div id="map" class="height-adjustment mb-3"></div>
+  </div>
+  <div class="col-12  justify-content-center">
+    <p class="font-weight-bold">レビュー</p>
+    <p>総合レビュー点数</p>
+    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_total_points_reviews %>></div>
+    <p>アクセス</p>
+    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_accessibility_reviews %>></div>
+    <p>マナー</p>
+    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_security_reviews %>></div>
+    <p>設備</p>
+    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_quality_reviews %>></div>
+    <%= link_to('レビューの一覧を見る', court_court_reviews_path(@court.id)) %>
+  </div>
+
+</div>
+<input type="hidden" id="lat" value="<%= @court.latitude %>">
+<input type="hidden" id="lng" value="<%= @court.longitude %>">

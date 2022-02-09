@@ -13,11 +13,8 @@ Rails.application.routes.draw do
   root to: 'homes#top'
   get 'inqury', to: 'homes#inqury', as: 'inqury'
 
-  resources :courts, only: [:index, :new, :create] do
+  resources :courts, only: [:index, :new, :create, :show] do
     resources :court_reviews, only: [:index, :new, :edit, :update]
-    member do
-      get :detail
-    end
     collection do
       get :address
       get :map_check

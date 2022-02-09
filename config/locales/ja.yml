@@ -2,3 +2,12 @@ ja:
  time:
   formats:
    default: "%Y/%m/%d %H:%M:%S"
+ enums:
+  court:
+   court_type:
+    checking: '確認中'
+    others: 'その他'
+    gym: '体育館'
+    asphalt: 'アスファルト'
+    sand: '砂'
+    rubber: 'ゴム'

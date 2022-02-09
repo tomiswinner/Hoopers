@@ -1,0 +1,14 @@
+<div id='map'></div>
+<%= link_to('住所入力へ戻る', address_events_path) %>
+<div>
+ 新しいコートが見つからない場合？
+ <%= link_to('新しいコートを提供する', new_court_path) %>
+</div>
+<%= hidden_field_tag(:center_latitude, @center_lat) %>
+<%= hidden_field_tag(:center_longitude, @center_lng) %>
+<% @courts.each do |court| %>
+ <%= hidden_field_tag(:name, court.name, {class: 'names', id: "#{court.name}_name"}) %>
+ <%= hidden_field_tag(:latitude, court.latitude, {class: 'latitudes', id: "#{court.name}_lat"}) %>
+ <%= hidden_field_tag(:longitude, court.longitude, {class: 'longitudes', id: "#{court.name}_lng"}) %>
+ <%= hidden_field_tag(:path, new_event_path(court_id: court.id), {class: 'links', id: "#{court.name}_links"}) %>
+<% end %>

@@ -26,13 +26,15 @@ let isScriptLoaded = false;
 function noticeLoadCompletion(){
   isScriptLoaded = true
   initMap()
+  initRaty()
 }
 
 
-// google map src のロードが完了していれば、ページ遷移時にイベント監視
+// google map src のロードが完了していれば、ページ遷移時にinitMap
 window.addEventListener('turbolinks:load',()=>{
   if (isScriptLoaded){
     initMap()
+    initRaty()
   }
 })
 
@@ -40,7 +42,8 @@ window.addEventListener('turbolinks:load',()=>{
 
 function initMap(){
   let map;
-  if(window.location.href.match('courts/.*/detail') != null){
+  if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'show'))||
+     (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'confirm'))){
     var lat = Number(document.getElementById('lat').value)
     var lng = Number(document.getElementById('lng').value)
     map = new google.maps.Map(document.getElementById('map'),{
@@ -50,61 +53,168 @@ function initMap(){
       },
       zoom: 13
     })
+    latlng = new google.maps.LatLng(lat,lng)
+    marker = new google.maps.Marker({
+      position: latlng,
+      map: map,
+    })
   }
 
-  if(window.location.href.match('map_search') != null){
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-              },
-            zoom: 13
+  if(($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'court_select')){
+    var lat = Number(document.getElementById('center_latitude').value)
+    var lng = Number(document.getElementById('center_longitude').value)
+    map = new google.maps.Map(document.getElementById('map'),{
+      center:{
+        lat: lat,
+        lng: lng
+      },
+      zoom: 13
+    })
+    lats_htmls = document.getElementsByClassName('latitudes')
+    lngs_htmls = document.getElementsByClassName('longitudes')
+    links_htmls = document.getElementsByClassName('links')
+    names_htmls = document.getElementsByClassName('names')
+
+    var opened_window = ""
+
+    for(n=0; n < lats_htmls.length; n++){
+      (function(){
+          latlng = new google.maps.LatLng(
+            lats_htmls.item(n).value,
+            lngs_htmls.item(n).value
+          )
+
+          infowindow = new google.maps.InfoWindow({
+            content: "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
+          })
+
+          marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+          })
+          console.log(links_htmls.item(n).value)
+
+          // クロージャ
+          function set_infowindow(marker, infowindow){
+            marker.addListener("click", ()=>{
+              infowindow.open({
+                anchor: marker,
+                map,
+                shouldFocus: false
+              })
+              if(opened_window){
+                opened_window.close()
+              }
+              opened_window = infowindow
             })
-          },
-        () => {
-          // error handling
-        }
-      );
+          }
+          return set_infowindow(marker, infowindow)
+      })();
     }
   }
+
+  if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_check'))||
+  (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_search'))){
+    var lat = Number(document.getElementById('center_latitude').value)
+    var lng = Number(document.getElementById('center_longitude').value)
+    map = new google.maps.Map(document.getElementById('map'),{
+      center:{
+        lat: lat,
+        lng: lng
+      },
+      zoom: 13
+    })
+    lats_htmls = document.getElementsByClassName('latitudes')
+    lngs_htmls = document.getElementsByClassName('longitudes')
+    links_htmls = document.getElementsByClassName('links')
+    names_htmls = document.getElementsByClassName('names')
+
+    var opened_window = ""
+
+    for(n=0; n < lats_htmls.length; n++){
+      (function(){
+          latlng = new google.maps.LatLng(
+            lats_htmls.item(n).value,
+            lngs_htmls.item(n).value
+          )
+
+          infowindow = new google.maps.InfoWindow({
+            content: "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
+          })
+
+          marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+          })
+          // クロージャ
+          function set_infowindow(marker, infowindow){
+            marker.addListener("click", ()=>{
+              infowindow.open({
+                anchor: marker,
+                map,
+                shouldFocus: false
+              })
+              if((opened_window)&&(opened_window!=infowindow)){
+                opened_window.close()
+              }
+              opened_window = infowindow
+            })
+          }
+          return set_infowindow(marker, infowindow)
+      })();
+    }
+  }
+
+  if(($("body")[0].dataset.controller == 'homes')&&($("body")[0].dataset.action == 'top')){
+      document.getElementById('location_btn').addEventListener('click', (e)=>{
+        e.preventDefault()
+        if(navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              document.getElementById('latlng').value = JSON.stringify(
+                  {
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+                }
+              )
+            })
+        }
+      })
+      const target = document.getElementById('latlng')
+      let m_observer = new MutationObserver((m)=>{
+        document.getElementById('location_form').submit()
+      })
+      const config = {
+        attributes: true,
+      }
+      m_observer.observe(target, config)
+
+    }
 }
 
+function initRaty(){
+  // raty.js
+  const starOnPath = "<%= asset_path('star-on.png') %>"
+  const starOffPath = "<%= asset_path('star-off.png') %>"
+  const starHalfPath = "<%= asset_path('star-half.png') %>"
 
-// raty.js
-const starOnPath = "<%= asset_path('star-on.png') %>"
-const starOffPath = "<%= asset_path('star-off.png') %>"
-const starHalfPath = "<%= asset_path('star-half.png') %>"
+    $('#eval_accessibility').raty({
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      scoreName: 'court_review[accessibility]'
+    })
 
-window.addEventListener('turbolinks:load',()=>{
-  $('#eval_accessibility').raty({
-    starOn: starOnPath,
-    starOff: starOffPath,
-    starHalf: starHalfPath,
-    scoreName: 'court_review[accessibility]'
-  })
-  $('#eval_security').raty({
-    starOn: starOnPath,
-    starOff: starOffPath,
-    starHalf: starHalfPath,
-    scoreName: 'court_review[security]'
-  })
-  $('#eval_quality').raty({
-    starOn: starOnPath,
-    starOff: starOffPath,
-    starHalf: starHalfPath,
-    scoreName: 'court_review[quality]'
-  })
+    $('.evaluation').raty({
+      readOnly: true,
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
 
-  $('.evaluation').raty({
-    readOnly: true,
-    starOn: starOnPath,
-    starOff: starOffPath,
-    starHalf: starHalfPath,
-    score: function(){
-      return $(this).attr('data-score')
-    }
-  })
-})
+    <!--詳細なレビューへのリンクと、-->
+    <!--その他のレビューも乗せる-->
+}

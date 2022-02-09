@@ -1,0 +1,2 @@
+document.getElementById('favorite').innerHTML = "<%= escape_javascript(link_to('検討リストから削除', event_favorite_path(id: event_id), method: 'delete', remote: true, class:'btn bg-orange')) %>";
+alert('検討リストに追加しました')

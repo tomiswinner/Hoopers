@@ -1,1 +1,17 @@
-<div>コート情報入力</div>
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center">
+    <div>
+      <h2>コート住所の入力をお願いします。</h2>
+      <p>
+        コート情報の提供ありがとうございます。<br>
+        コート情報の重複を防ぐため、同じコートが登録されていないか<br>
+        住所による確認をお願いします。
+      </p>
+    </div>
+    <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true) do |f| %>
+      <%= f.label(:address, '住所入力') %>
+      <%= f.text_field(:address) %>
+      <%= f.submit('検索') %>
+    <% end %>
+  </div>
+</div>
