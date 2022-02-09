@@ -16,6 +16,7 @@ class EventFavoritesController < ApplicationController
 
   def index
     @events = Event.where(id: current_user.event_favorites.pluck(:event_id))
+    @events =   Kaminari.paginate_array(@events).page(params[:page]).per(10)
   end
 
   def destroy

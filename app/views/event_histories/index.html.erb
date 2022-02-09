@@ -1,17 +1,12 @@
 <div class="row justify-content-center">
   <div class="col-12 filter-black justify-content-center">
-    <div>コート検索結果</div>
+    <div class="py-3 d-flex">
+      <div class="text-white align-text-bottom">イベント閲覧履歴</div>
+    </div>
 
-    <% if @events.blank? %>
-      <div>イベント閲覧履歴がありません</div>
-    <% else %>
-      <% @events.each do |event| %>
-        <div class="row bg-success mb-2">
-          <%= link_to(event.name, event_path(event.id)) %><br>
-          <!--リファクタリング-->
-          <%= event.return_event_time %>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render(partial: 'layouts/event-index', locals: {no_result_text: 'イベント閲覧履歴がありません', events: @events}) %>
+  </div>
+  <div class="mt-3">
+    <%= paginate(@events) %>
   </div>
 </div>
