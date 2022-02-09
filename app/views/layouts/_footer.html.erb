@@ -10,9 +10,9 @@
           <%= link_to('主催者連絡先',event_path(id: event.id, anchor: 'contact'), class:'btn bg-orange') %>
         </div>
         <div id='favorite' class='d-inline-block'>
-          <% if current_user.favorites_this_event?(event.id) %>
+          <% if user_signed_in? && current_user.favorites_this_event?(event.id) %>
             <%= link_to('検討リストから削除', event_favorite_path(id: event.id), method: 'delete', remote: true, class:'btn bg-orange') %>
-          <% else %>
+          <% elsif user_signed_in? %>
             <%= link_to('検討リストへ追加', event_favorites_path(id: event.id), method: 'post', remote: true, class:'btn bg-orange') %>
           <% end %>
           </div>
@@ -31,20 +31,18 @@
         <%= link_to('イベント確認', event_path(court.id), class:'btn bg-orange') %>
       </div>
       <div class="d-inline-block">
-        <% if current_user.reviewed_this_court?(court.id) %>
+        <% if user_signed_in? && current_user.reviewed_this_court?(court.id) %>
             <%= link_to('レビューを編集', edit_court_court_review_path(court.id), class: 'btn bg-orange') %>
-        <% else %>
+        <% elsif user_signed_in? %>
             <%= link_to('レビューを投稿', new_court_court_review_path(court.id), class: 'btn bg-orange') %>
         <% end %>
       </div>
-      <% if user_signed_in? %>
-        <div id='favorite' class='d-inline-block'>
-          <% if current_user.favorites_this_court?(court.id) %>
+        <% if user_signed_in? && current_user.favorites_this_court?(court.id) %>
+          <div id='favorite' class='d-inline-block'>
             <%= link_to('お気に入りから削除', court_favorite_path(id: court.id), method: 'delete', remote: true, class:'btn bg-orange') %>
-          <% else %>
+        <% elsif user_signed_in? %>
             <%= link_to('お気に入りへ追加', court_favorites_path(id: court.id), method: 'post', remote: true, class:'btn bg-orange') %>
-          <% end %>
-        </div>
-      <% end %>
+          </div>
+        <% end %>
     </footer>
   <% end %>
