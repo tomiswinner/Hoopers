@@ -30,7 +30,7 @@ function noticeLoadCompletion(){
 }
 
 
-// google map src のロードが完了していれば、ページ遷移時にinitMap
+// google map src のロードが完了していれば、ページ遷移時にinit
 window.addEventListener('turbolinks:load',()=>{
   if (isScriptLoaded){
     initMap()
@@ -58,6 +58,7 @@ function initMap(){
       position: latlng,
       map: map,
     })
+    console.log(marker)
   }
 
   if(($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'court_select')){

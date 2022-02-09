@@ -51,6 +51,14 @@ class Court < ApplicationRecord
     end
     return tags
   end
+
+  def has_tag?(tag_name)
+    Tag.where(id: court_tag_taggings.pluck(:tag_id)).each do |tag|
+      return true if tag_name == tag.name
+    end
+    return false
+  end
+
   def ave_total_points_reviews
     return court_reviews.pluck(:total_points).sum.fdiv(court_reviews.count)
   end
