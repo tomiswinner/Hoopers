@@ -79,9 +79,9 @@
         <%= render(partial: "/layouts/err-msg") %>
       <div class="container">
         <%= yield %>
+        <div class="footer-height-adjustment"></div>
       </div>
     </main>
-    <div class="height-adjustment"></div>
     <%= render(partial: 'layouts/footer', locals: {event: @event, court: @court}) %>
   </body>
 </html>
