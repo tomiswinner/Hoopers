@@ -1,16 +1,16 @@
-<div class="row bg-white d-flex flex-column">
-  <div class="col-12  justify-content-center my-3 pb-3">
+<div class="row filter-black text-white d-flex flex-column">
+  <div class="col-12 justify-content-center my-3 py-3 text-white">
     <h2><%= @court.name %></h2>
-  <div class="col-12  justify-content-center my-3 pb-3">
-    <%= attachment_image_tag(@court, :image, fallback: "no_img.png", size: "250x250") %>
+  <div class="col-12 d-flex justify-content-center my-3 pb-3">
+    <%= attachment_image_tag(@court, :image, fallback: "no_img.png", size: "250x250", class: 'mx-auto d-block') %>
   </div>
   </div>
   <div class="col-12  justify-content-center mb-3">
   </div>
-  <table class="col-10 mx-auto mb-3 table">
-    <caption>
-      <h3 class="font-weight-bold">コート基本情報</h3>
-      <p class="small text-right">情報が違うと思ったら？</p>
+  <table class="col-10 mx-auto mb-3 table text-white">
+    <caption class="text-white">
+      <h3 class="font-weight-bold"><i class="fab fa-dribbble"></i> コート基本情報</h3>
+      <p class="small text-right text-success"><u>情報が違うと思ったら？</u></p>
     </caption>
     <tr>
       <td>
@@ -57,9 +57,9 @@
         <p class="small mb-1 font-weight-bold">
           <i class="fas fa-tags"></i> タグ
         </p>
-        <div>
+        <div class="mt-2">
           <% Tag.pluck(:name).each do |tag_name| %>
-            <div class="d-inline-block">
+            <div class="d-inline-block mb-2">
               <%= check_box_tag(tag_name, value= 1, checked= @court.has_tag?(tag_name), {readonly: true}) %>
               <%= label_tag(tag_name) %>
             </div>
@@ -69,23 +69,34 @@
       </td>
     </tr>
   </table>
-  <div class="col-12  justify-content-center">
-    <p class="font-weight-bold">
+  <div class="col-12  justify-content-center mb-3">
+    <p class="font-weight-bold mb-3">
       <i class="fas fa-map-marked-alt"></i>　マップ情報
     </p>
     <div id="map" class="height-adjustment mb-3"></div>
   </div>
   <div class="col-12  justify-content-center">
-    <h3 class="font-weight-bold">レビュー</h3>
-    <p>総合レビュー点数</p>
-    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_total_points_reviews %>></div>
-    <p>アクセス</p>
-    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_accessibility_reviews %>></div>
-    <p>マナー</p>
-    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_security_reviews %>></div>
-    <p>設備</p>
-    <div class="evaluation" id="eval_total_in_detail" data-score=<%= @court.ave_quality_reviews %>></div>
-    <%= link_to('レビューの一覧を見る', court_court_reviews_path(@court.id), class: 'btn btn-sm d-block') %>
+    <p class="font-weight-bold">
+      <i class="far fa-star"></i> レビュー
+    </p>
+    <p class="samll mb-0">
+      総合レビュー点数 <span class="font-weight-bold"><%= @court.ave_total_points_reviews %></span>
+    </p>
+    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_total_points_reviews %>></div>
+    <p class="samll mb-0">
+      アクセス <span class="font-weight-bold"><%= @court.ave_accessibility_reviews %></span>
+    </p>
+    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_accessibility_reviews %>></div>
+    <p class="samll mb-0">
+      マナー <span class="font-weight-bold"><%= @court.ave_security_reviews %></span>
+    </p>
+    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_security_reviews %>></div>
+    <p class="samll mb-0">
+      設備 <span class="font-weight-bold"><%= @court.ave_quality_reviews %></span>
+    </p>
+    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_quality_reviews %>></div>
+
+    <%= link_to('レビューの一覧を見る', court_court_reviews_path(@court.id), class: 'btn btn-sm btn-success d-block mb-3 text-center') %>
   </div>
 
 </div>
