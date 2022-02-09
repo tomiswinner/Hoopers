@@ -62,7 +62,7 @@ class CourtsController < ApplicationController
       @courts = @courts.where('open_time >= ?', open_time)
     end
 
-    @courts =   Kaminari.paginate_array(@courts).page(params[:page]).per(2)
+    @courts =   Kaminari.paginate_array(@courts).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html

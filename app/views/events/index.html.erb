@@ -2,40 +2,12 @@
   <div class="col-12 filter-black justify-content-center">
     <div class="py-3 d-flex">
       <div class="text-white align-text-bottom">イベント検索結果</div>
-        <button class="btn btn-sm bg-success ml-auto text-white d-block" type="button" data-toggle="collapse" data-target="#serach_bar">
-          詳細検索
-        </button>
-      </div>
-
-    <div class="bg-danger"></div>
-        <div id="serach_bar" class="collapse" data-parent="#search_accordion">
-            <%= submit_tag('絞り込む', {class: 'btn btn-sm btn-success d-block ml-auto', form: 'narrow_search'}) %>
-          <div class="card-body">
-            <%= form_with(model: Prefecture, url: events_path, method: 'get') do |f| %>
-                <p>地区</p>
-                <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id),prompt: "県を選択"}, \
-                            {id: 'prefs_select', onchange: 'Rails.fire(this.form,"submit")'}) %>
-            <% end %>
-            <div id='areas_select'>
-              <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
-            </div>
-          </div>
-          <%= form_with(model: Event, url: events_path, method: 'get',local: true, id: 'narrow_search') do |f| %>
-            <div class="card-body">
-              <p><i class="far fa-clock"></i> 時間</p>
-              <div>
-                <%= f.date_field(:date) %>
-                <%= f.label(:open_time,'開始時間') %>
-                <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {form: 'narrow_search'}) %>
-              </div>
-              <div>
-                <%= f.label(:close_time,'終了時間') %>
-                <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {form: 'narrow_search'}) %>
-              </div>
-            </div>
-          <% end %>
-      </div>
+      <button class="btn btn-sm bg-success ml-auto text-white d-block" type="button" data-toggle="collapse" data-target="#search_bar">
+        詳細検索
+      </button>
     </div>
+
+    <%= render(partial: 'layouts/narrow_search_bar', locals: {model: Event, path: events_path}) %>
 
     <% if @events.blank? %>
       <div>検索条件に一致するイベントがありません</div>

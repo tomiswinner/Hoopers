@@ -2,49 +2,12 @@
   <div class="col-12 filter-black justify-content-center">
     <div class="py-3 d-flex">
       <div class="text-white align-text-bottom">コート検索結果</div>
-        <button class="btn btn-sm bg-success ml-auto text-white d-block" type="button" data-toggle="collapse" data-target="#serach_bar">
+        <button class="btn btn-sm bg-success ml-auto text-white d-block" type="button" data-toggle="collapse" data-target="#search_bar">
           詳細検索
         </button>
       </div>
 
-    <div class="bg-light mb-4">
-      <div id="serach_bar" class="collapse">
-        <div class="card-body">
-          <%= submit_tag('絞り込む', {class:'btn btn-sm  btn-success d-block ml-auto mb-3', form: 'narrow_search'}) %>
-          <%= form_with(model: Prefecture, url: courts_path, method: 'get', class: 'form-group') do |f| %>
-          <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
-            <h4 class="align-self-center mb-0"><i class="fas fa-map-marked-alt"></i>　地区</h4>
-          </div>
-            <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id),prompt: "県を選択"}, \
-                        {id: 'prefs_select',class: 'mb-2',  onchange: 'Rails.fire(this.form,"submit")'}) %>
-            <div id='areas_select'>
-              <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
-            </div>
-          <% end %>
-        <%= form_with(model: Court, url: courts_path, method: 'get',local: true, id: 'narrow_search', class:'form-group') do |f| %>
-          <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
-            <h4 class="align-self-center mb-0"><i class="far fa-clock"></i> 時間</h4>
-          </div>
-          <div>
-            <%= f.label(:open_time,'開始時間', class: 'form-label') %>
-            <%= f.time_select(:open_time, {include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select', form: 'narrow_search'}) %>
-          </div>
-          <div>
-            <%= f.label(:close_time,'終了時間', class: 'form-label') %>
-            <%= f.time_select(:close_time, {include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select', form: 'narrow_search'}) %>
-          </div>
-          <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
-            <h4 class="align-self-center mb-0"><i class="fas fa-warehouse"></i>　コートタイプ</h4>
-          </div>
-          <%= f.collection_check_boxes(:court_types, Court.court_types_i18n.except(:checking), :first, :last, {include_hidden: false, checked: false}, {class: 'ml-3', form: 'narrow_search'}) %>
-        <% end %>
-          <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
-            <h4 class="align-self-center mb-0"><i class="fas fa-tags"></i>　タグ</h4>
-          </div>
-          <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {class: 'ml-3', form: 'narrow_search'}) %>
-        </div>
-      </div>
-    </div>
+    <%= render(partial: 'layouts/narrow_search_bar', locals: {model: Court, path: courts_path}) %>
 
     <% if @courts.blank? %>
       <div>検索条件に一致するコートがありません</div>
