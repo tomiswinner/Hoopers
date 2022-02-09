@@ -9,30 +9,8 @@
 
     <%= render(partial: 'layouts/narrow_search_bar', locals: {model: Court, path: courts_path}) %>
 
-    <% if @courts.blank? %>
-      <div>検索条件に一致するコートがありません</div>
-    <% else %>
-      <% @courts.each do |court| %>
-        <div class="row bg-light mb-3">
-          <div class="pl-3 py-3">
-            <%= attachment_image_tag(court, :image, fallback: "no_img.png", size: "75x75") %>
-          </div>
-          <div class="pl-3 mt-3">
-            <p class="text-center font-weight-bold align-middle mb-1">
-              <%= link_to(court.name, court_path(court.id)) %>
-            </p>
-            <p class="mb-1">
-              <i class="fas fa-map-marked-alt"></i>：<%= court.fetch_pref_name %>
-              　<i class="fas fa-warehouse"></i>：<%= court.court_type_i18n %>
-            </p>
-            <!--リファクタリング-->
-            <p class="mb-0">
-              <i class="far fa-clock"></i>：<%= court.return_business_hour %>
-            </p>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render(partial: 'layouts/court-index', locals: {courts: @courts}) %>
+
   </div>
   <div class="mt-3">
     <%= paginate(@courts) %>

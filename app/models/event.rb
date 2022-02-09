@@ -24,6 +24,6 @@ class Event < ApplicationRecord
   end
 
   def return_event_time
-    return "#{open_time.strftime('%Y年%m月%d日 %H:%M')} ～ #{close_time.strftime('%Y年%m月%d日 %H:%M')}"
+    return "#{open_time.strftime('%Y/%m/%d %H:%M')} ～ #{close_time.strftime('%H:%M')}"
   end
 end

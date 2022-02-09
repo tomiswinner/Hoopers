@@ -54,6 +54,8 @@ class EventsController < ApplicationController
       @events = @events.where('close_time <= ?', close_time)
     end
 
+    @events =   Kaminari.paginate_array(@events).page(params[:page]).per(10)
+
     respond_to do |f|
       f.html
       f.js
