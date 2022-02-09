@@ -9,7 +9,7 @@
 
     <%= render(partial: 'layouts/narrow_search_bar', locals: {model: Court, path: courts_path}) %>
 
-    <%= render(partial: 'layouts/court-index', locals: {courts: @courts}) %>
+    <%= render(partial: 'layouts/court-index', locals: {no_result_text: '検索条件に一致するコートがありません', courts: @courts}) %>
 
   </div>
   <div class="mt-3">

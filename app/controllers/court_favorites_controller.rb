@@ -17,6 +17,7 @@ class CourtFavoritesController < ApplicationController
 
   def index
     @courts = Court.where(id: current_user.court_favorites.pluck(:court_id))
+    @courts = Kaminari.paginate_array(@courts).page(params[:page]).per(10)
   end
 
   def destroy
