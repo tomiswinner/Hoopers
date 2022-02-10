@@ -59,7 +59,7 @@
         </p>
         <div class="mt-2">
           <% Tag.pluck(:name).each do |tag_name| %>
-            <div class="d-inline-block mb-2">
+            <div class="d-inline-block mb-2 no_change_color_disabled">
               <%= check_box_tag(tag_name, value= 1, checked= @court.has_tag?(tag_name), {readonly: true}) %>
               <%= label_tag(tag_name) %>
             </div>

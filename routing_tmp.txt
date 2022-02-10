@@ -22,6 +22,7 @@
                      root GET    /                                                                                        homes#top
                    inqury GET    /inqury(.:format)                                                                        homes#inqury
       court_court_reviews GET    /courts/:court_id/court_reviews(.:format)                                                court_reviews#index
+                          POST   /courts/:court_id/court_reviews(.:format)                                                court_reviews#create
    new_court_court_review GET    /courts/:court_id/court_reviews/new(.:format)                                            court_reviews#new
   edit_court_court_review GET    /courts/:court_id/court_reviews/:id/edit(.:format)                                       court_reviews#edit
        court_court_review PATCH  /courts/:court_id/court_reviews/:id(.:format)                                            court_reviews#update

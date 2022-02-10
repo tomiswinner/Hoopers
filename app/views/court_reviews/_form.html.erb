@@ -1,0 +1,42 @@
+<!--submit_btn_text: 投稿/修正-->
+<!--title: レビュー投稿画面/レビュー編集画面-->
+<!--path: 一緒か-->
+<!--method: get?-->
+<div class="row filter-black justify-content-center">
+  <div class="col-12 justify-content-center text-white pb-3">
+    <h2 class="font-weight-bold"><%= title %></h2>
+    <p class="text-success pl-3">星をクリックでレビュー</p>
+  </div>
+  <div class="col-12 justify-content-center text-white pb-3">
+    <%= form_with(model: @court_review, url: path, method: method, local: true, class: 'form-group') do |f| %>
+    <div class="pl-3">
+      <div class="pb-3">
+        <%= f.label(:accessibility) do %>
+          <i class="fas fa-walking"></i> アクセス
+        <% end %>
+        <%= f.hidden_field(:accessibility) %>
+        <div id="eval_accessibility" data-score=<%= @court_review.accessibility %>></div>
+      </div>
+      <div class="pb-3">
+        <%= f.label(:security) do %>
+          <i class="fas fa-smile"></i> マナー
+        <% end %>
+        <%= f.hidden_field(:security) %>
+        <div id="eval_security" data-score=<%= @court_review.security %>></div>
+      </div>
+      <div class="pb-3">
+        <%= f.label(:quality) do %>
+          <i class="fas fa-building"></i> 設備
+        <% end %>
+        <%= f.hidden_field(:quality) %>
+        <div id="eval_quality" data-score=<%= @court_review.quality %>></div>
+      </div>
+        <%= f.submit( submit_btn_text, class: 'btn btn-sm btn-success w-50 d-block align-self-center') %>
+        <%= link_to('レビュー画面に戻る', court_court_reviews_path(params[:court_id]), class: 'btn btn-sm btn-primary d-block w-50 mt-3') %>
+        <%= f.hidden_field(:court_id, value: params[:court_id]) %>
+        <%= f.hidden_field(:user_id, value: current_user.id) %>
+    </div>
+    <% end %>
+  </div>
+</div>
+

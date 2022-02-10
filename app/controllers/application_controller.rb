@@ -29,5 +29,6 @@ class ApplicationController < ActionController::Base
       return true if controller_name == "courts" && ["index","show","map_search"].all? {|elem| elem != action_name}
       return true if controller_name == "events" && (action_name != "index" && action_name != "show")
       return true if controller_name == "users"
+      return true if controller_name == "court_reviews" && action_name != "index"
     end
 end

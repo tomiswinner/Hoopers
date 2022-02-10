@@ -27,6 +27,7 @@ function noticeLoadCompletion(){
   isScriptLoaded = true
   initMap()
   initRaty()
+  disabled_check_btn()
 }
 
 
@@ -203,7 +204,28 @@ function initRaty(){
       starOn: starOnPath,
       starOff: starOffPath,
       starHalf: starHalfPath,
-      scoreName: 'court_review[accessibility]'
+      scoreName: 'court_review[accessibility]',
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
+    $('#eval_security').raty({
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      scoreName: 'court_review[security]',
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
+    $('#eval_quality').raty({
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      scoreName: 'court_review[quality]',
+      score: function(){
+        return $(this).attr('data-score')
+      }
     })
 
     $('.evaluation').raty({
@@ -218,4 +240,15 @@ function initRaty(){
 
     <!--詳細なレビューへのリンクと、-->
     <!--その他のレビューも乗せる-->
+}
+
+function disabled_check_btn(){
+  disableds = document.getElementsByClassName('no_change_color_disabled')
+
+  for(n = 0; n < disableds.length; n++){
+
+    disableds[n].addEventListener('click', (e)=>(
+      e.preventDefault()
+    ))
+  }
 }

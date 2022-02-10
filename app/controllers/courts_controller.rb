@@ -151,6 +151,7 @@ class CourtsController < ApplicationController
 
   def show
     @court = Court.find(params[:id])
+    @tags = Tag.where(id: @court.court_tag_taggings.pluck(:id))
     return unless user_signed_in?
       if current_user.history_exists?(@court)
         CourtHistory.find_by(user_id: current_user.id, court_id: params[:id]).destroy

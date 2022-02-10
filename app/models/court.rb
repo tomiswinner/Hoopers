@@ -44,14 +44,6 @@ class Court < ApplicationRecord
     end
   end
 
-  def fetch_tags
-    tags = Tag.none
-    CourtTagTagging.where(court_id: id).pluck(:tag_id).each do |tag_id|
-      tags += Tag.where(id: tag_id)
-    end
-    return tags
-  end
-
   def has_tag?(tag_name)
     Tag.where(id: court_tag_taggings.pluck(:tag_id)).each do |tag|
       return true if tag_name == tag.name
@@ -93,7 +85,6 @@ class Court < ApplicationRecord
 
   def set_default_values_to_court()
     if self.url.blank?
-      puts 'うんｋ  '
       self.url = "確認中"
     end
     if self.supplement.blank?

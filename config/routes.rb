@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get 'inqury', to: 'homes#inqury', as: 'inqury'
 
   resources :courts, only: [:index, :new, :create, :show] do
-    resources :court_reviews, only: [:index, :new, :edit, :update]
+    resources :court_reviews, only: [:index, :new, :edit, :update, :create]
     collection do
       get :address
       get :map_check

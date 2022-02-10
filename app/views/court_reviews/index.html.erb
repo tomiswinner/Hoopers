@@ -1,4 +1,4 @@
-<div class="row justify-content-center filter-black flex-column">
+<div class="row filter-black flex-column">
   <div class="col-10 mb-3 text-white align-self-center border-bottom border-primary">
     <h4 class="font-weight-bold py-3"><%= @court.name %>のレビュー</h4>
     <h5 class="text-white py-3">
@@ -28,10 +28,10 @@
     </div>
   </div>
   <div class="col-10 pb-3 text-white d-flex justify-content-end pt-3">
-    <% if user_signed_in? && @court_reviews.user_ids.include?(current_user.id) %>
-      <%= link_to('レビューを編集する', new_court_court_review_path, class: 'btn btn-sm btn-success align-self-end') %>
+    <% if user_signed_in? && @user_review %>
+      <%= link_to('レビューを編集する', edit_court_court_review_path(court_id: @court.id, id: @user_review.id), class: 'btn btn-sm btn-success align-self-end') %>
     <% elsif user_signed_in? %>
-      <%= link_to('レビューを投稿する', new_court_court_review_path, class: 'btn btn-sm btn-success align-self-end') %>
+      <%= link_to('レビューを投稿する', new_court_court_review_path(court_id: @court.id), class: 'btn btn-sm btn-success align-self-end') %>
     <% end %>
   </div>
 
