@@ -1,17 +1,19 @@
-<div class="row justify-content-center">
-  <div class="col-12 filter-black justify-content-center">
-    <div>
-      <h2>コート住所の入力をお願いします。</h2>
-      <p>
-        コート情報の提供ありがとうございます。<br>
-        コート情報の重複を防ぐため、同じコートが登録されていないか<br>
-        住所による確認をお願いします。
+<div class="row filter-black justify-content-center">
+  <div class="col-12 justify-content-center text-white">
+    <h4 class="py-3">コート重複確認</h4>
+      <p class="small">
+        コート情報の提供ありがとうございます！<br>
+        <mark><strong>重複を防ぐため、既に登録されていないか住所での確認</strong></mark><br>
+        をお願いします。
       </p>
-    </div>
-    <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true) do |f| %>
-      <%= f.label(:address, '住所入力') %>
-      <%= f.text_field(:address, value: @address) %>
-      <%= f.submit('検索') %>
+    <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true, class: 'form-group') do |f| %>
+      <div class="pb-3">
+        <%= f.label(:address, '住所を入力') %>
+        <%= f.text_field(:address, value: @address, placeholder: '住所を入力', class: 'w-100') %>
+      </div>
+      <div class="d-flex justify-content-end">
+        <%= f.submit('検索する', class: 'btn btn-sm btn-success d-block') %>
+      </div>
     <% end %>
   </div>
 </div>
