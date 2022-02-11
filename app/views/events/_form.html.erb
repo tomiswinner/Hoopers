@@ -1,0 +1,92 @@
+<!--method get or patch-->
+<!--path confirm_events_path or event_path(@event.id)-->
+<!--event: @event-->
+<!--submit_btn_txt 入力内容を確認する　修正する-->
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center text-white pt-3">
+    <div class="pb-3">イベント編集</div>
+      <div class="pb-3">
+        <div>
+          <i class="fab fa-dribbble"></i> コート名
+        </div>
+        <div class="pl-3 font-weight-bold">
+          <%= event.court.name %>
+        </div>
+      </div>
+    <%= form_with(model: event, url: path, method: method, local: true, class: 'form-group') do |f| %>
+      <%= f.hidden_field(:court_id, value: event.court_id) %>
+      <%= f.hidden_field(:user_id, value: current_user.id) %>
+      <%= f.hidden_field(:status, value: true) %>
+      <div class="pb-3">
+        <div>
+          <i class="fas fa-users"></i> <%= f.label(:name, 'イベント名') %>
+        </div>
+        <div>
+          <%= f.text_field(:name, class: 'w-100 form-control') %>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div>
+          <i class="fas fa-image"></i> <%= f.label(:image, '画像') %>
+        </div>
+        <div>
+          <%= f.attachment_field(:image, class: 'btn btn-sm text-white') %>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div>
+          <i class="far fa-calendar-alt"></i> <%= f.label(:date, '開催日') %>
+        </div>
+        <div>
+          <%= f.date_field(:date, {use_month_numbers: true, default: Time.now(), class: 'form-control w-50'}) %>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div>
+          <i class="far fa-clock"></i> <%= f.label(:open_time, '開始時間') %>
+        </div>
+        <div>
+          <%= f.time_select(:open_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div>
+        </div>
+          <i class="far fa-clock"></i> <%= f.label(:close_time, '終了時間') %>
+        <div>
+          <%= f.time_select(:close_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div>
+          <i class="fas fa-envelope"></i> <%= f.label(:contact, '連絡先') %>
+        </div>
+        <div>
+          <%= f.text_area(:contact, rows: 3, class: 'form-control') %>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div>
+          <i class="fas fa-exclamation-circle"></i> <%= f.label(:condition, '参加条件') %>
+        </div>
+        <div>
+          <%= f.text_area(:condition, rows: 5, class: 'form-control') %>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div>
+          <i class="fas fa-comment-dots"></i> <%= f.label(:description, 'イベント説明') %>
+        </div>
+        <div>
+          <%= f.text_area(:description, rows: 10, class: 'form-control') %>
+        </div>
+      </div>
+      <div class="pb-3 d-flex justify-content-start">
+        <%= f.submit(submit_btn_txt, class: 'btn btn-sm btn-success d-block') %>
+        <% if action_name == 'edit' %>
+          <%= link_to('イベントを削除', event_path(event.id), method: 'delete', data: {confirm: '削除しますか？'}, class: 'btn btn-sm btn-danger d-block ml-auto' ) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
