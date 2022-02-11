@@ -1,10 +1,16 @@
-<div class="row justify-content-center">
-  <div class="col-12 filter-black justify-content-center">
-    <div>イベントコート選択</div>
-    <%= form_with(model: Court, url: court_select_events_path, method: 'get', local: true) do |f| %>
-      <%= f.label(:address, '住所を入力') %>
-      <%= f.text_field(:address) %>
-      <%= f.submit('検索する') %>
+<div class="row filter-black justify-content-center">
+  <div class="col-12 justify-content-center text-white">
+    <h4 class="py-3">イベントコート選択</h4>
+    <%= form_with(model: Court, url: court_select_events_path, method: 'get', local: true, class: 'form-group') do |f| %>
+      <div class="pb-3">
+        <%= f.label(:address, '住所を入力') %>
+      </div>
+      <div class="pb-3">
+        <%= f.text_field(:address, placeholder: '住所を入力', class: 'w-100') %>
+      </div>
+      <div class="d-flex justify-content-end">
+        <%= f.submit('検索する', class: 'btn btn-sm btn-success d-block') %>
+      </div>
     <% end %>
   </div>
 </div>

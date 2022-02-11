@@ -62,7 +62,7 @@ function initMap(){
     console.log(marker)
   }
 
-  if(($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'court_select')){
+  if(($("body")[0].dataset.controller == 'events')&&($("body")[0].dataset.action == 'court_select')){
     var lat = Number(document.getElementById('center_latitude').value)
     var lng = Number(document.getElementById('center_longitude').value)
     map = new google.maps.Map(document.getElementById('map'),{

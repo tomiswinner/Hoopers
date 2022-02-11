@@ -122,6 +122,7 @@ class EventsController < ApplicationController
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
       geocoded_data = JSON.parse(res.body)
+      @entered_address = params.dig(:court, :address)
       @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
       @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
       @courts = Court.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
@@ -137,8 +138,17 @@ class EventsController < ApplicationController
   private
 
   def events_params
+    params[:event][:open_time] = extract_formatted_time_from_params('open')
+    params[:event][:close_time] = extract_formatted_time_from_params('close')
+    delete_unnecessary_time_params('open')
+    delete_unnecessary_time_params('close')
     return params.require(:event).permit(:user_id, :court_id, :name, :image, :description, :condition, :contact,
                                          :open_time, :close_time, :status)
+  end
+
+  def delete_unnecessary_time_params(str)
+    params[:event].delete(:"#{str}_time(4i)")
+    params[:event].delete(:"#{str}_time(5i)")
   end
 
   def extract_formatted_time_from_params(str)

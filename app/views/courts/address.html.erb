@@ -10,7 +10,7 @@
     </div>
     <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true) do |f| %>
       <%= f.label(:address, '住所入力') %>
-      <%= f.text_field(:address) %>
+      <%= f.text_field(:address, value: @address) %>
       <%= f.submit('検索') %>
     <% end %>
   </div>

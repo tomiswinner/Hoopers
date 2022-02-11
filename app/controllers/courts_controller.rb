@@ -70,7 +70,9 @@ class CourtsController < ApplicationController
     end
   end
 
-  def address; end
+  def address
+    @address = params[:address]
+  end
 
   def map_check
     res = fetch_geocoding_response(params.dig(:court, :address))
