@@ -1,28 +1,28 @@
-  <div class="row justify-content-center">
-  <div class="col-12 bg-white justify-content-center">
-    <h2>ログイン</h2>
+<div class="row justify-content-center">
+  <div class="col-12 filter-black text-white">
+    <h4 class="py-3">ログイン</h4>
 
-    <%= form_with(model: @user, url: user_session_path, local: true) do |f| %>
+    <%= form_with(model: @user, url: user_session_path, local: true, class: "form-group") do |f| %>
 
-      <div class="field">
-        <%= f.label :email, 'メールアドレス' %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <div class="pb-3">
+        <%= f.label(:email, 'メールアドレス') %>
+        <%= f.email_field(:email, autofocus: true, autocomplete: "email", class: "form-control") %>
       </div>
 
-      <div class="field">
-        <%= f.label :password, 'パスワード' %><br />
-        <%= f.password_field :password, autocomplete: "current-password" %>
+      <div class="pb-3">
+        <%= f.label(:password, 'パスワード') %>
+        <%= f.password_field(:password, autocomplete: "current-password", class: "form-control") %>
       </div>
 
       <% if devise_mapping.rememberable? %>
-        <div class="field">
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me, 'ログイン状態を維持する' %>
+        <div class="pb-3">
+          <%= f.check_box(:remember_me, class: 'form-check d-inline') %>
+          <%= f.label(:remember_me, 'ログイン状態を維持する') %>
         </div>
       <% end %>
 
-      <div class="actions">
-        <%= f.submit "ログイン" %>
+      <div class="pb-3">
+        <%= f.submit("ログイン", class: 'btn btn-sm btn-success') %>
       </div>
     <% end %>
 
@@ -30,3 +30,4 @@
 
   </div>
 </div>
+

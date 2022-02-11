@@ -1,36 +1,35 @@
 <div class="row justify-content-center">
-  <div class="col-12 bg-white justify-content-center">
+  <div class="col-12 filter-black text-white">
+    <h4 class="py-3">ユーザー登録</h4>
 
-    <h2>ユーザー登録</h2>
-
-    <%= form_with(model: @user, url: user_registration_path, local: true) do |f| %>
+    <%= form_with(model: @user, url: user_registration_path, local: true, class: 'form-group') do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="field">
-        <%= f.label :name, 'ユーザー名' %><br />
-        <%= f.text_field :name, autofocus: true %>
+      <div class="pb-3">
+        <%= f.label(:name, 'ユーザー名') %><br>
+        <%= f.text_field(:name, autofocus: true, class: 'fomr-control') %>
       </div>
 
-      <div class="field">
-        <%= f.label :email, 'メールアドレス' %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <div class="pb-3">
+        <%= f.label(:email, 'メールアドレス') %><br>
+        <%= f.email_field(:email, autofocus: true, autocomplete: "email", class: "form-control") %>
       </div>
 
-      <div class="field">
-        <%= f.label :password, 'パスワード' %>
+      <div class="pb-3">
+        <%= f.label(:password, 'パスワード') %>
         <% if @minimum_password_length %>
         <em>(<%= @minimum_password_length %>文字以上  )</em>
-        <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password" %>
+        <% end %><br>
+        <%= f.password_field(:password, autocomplete: "new-password", class: "form-control") %>
       </div>
 
-      <div class="field">
-        <%= f.label :password_confirmation, 'パスワード確認'%><br />
-        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      <div class="pb-3">
+        <%= f.label(:password_confirmation, 'パスワード確認')%><br>
+        <%= f.password_field(:password_confirmation, autocomplete: "new-password", class: 'form-control') %>
       </div>
 
-      <div class="actions">
-        <%= f.submit "ユーザー登録" %>
+      <div class="pb-3">
+        <%= f.submit("ユーザー登録", class: 'btn btn-sm btn-success') %>
       </div>
     <% end %>
 
