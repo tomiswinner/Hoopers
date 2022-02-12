@@ -37,6 +37,12 @@ class EventsController < ApplicationController
 
     end
 
+    if params.dig(:fav_court_id)
+      @courts = Court.where(id: params.dig(:fav_court_id))
+      puts 'こうげ'
+      puts @courts
+    end
+
     @events = Event.where(court_id: @courts.pluck(:id))
 
     # リファクタリング予知あり
@@ -53,6 +59,7 @@ class EventsController < ApplicationController
       close_time = extract_formatted_time_from_params('close')
       @events = @events.where('close_time <= ?', close_time)
     end
+
 
     @events =   Kaminari.paginate_array(@events).page(params[:page]).per(10)
 

@@ -16,6 +16,7 @@
         </p>
         <p class="mb-3">
           <i class="far fa-clock"></i>：<%= court.return_business_hour %>
+          <%= link_to('イベント確認', events_path(fav_court_id: court.id), class: 'btn btn-sm btn-success') %>
         </p>
       </div>
     </div>
