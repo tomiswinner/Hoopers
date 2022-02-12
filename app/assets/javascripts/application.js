@@ -28,6 +28,7 @@ function noticeLoadCompletion(){
   initMap()
   initRaty()
   disabled_check_btn()
+  card_switching()
 }
 
 
@@ -36,6 +37,8 @@ window.addEventListener('turbolinks:load',()=>{
   if (isScriptLoaded){
     initMap()
     initRaty()
+    disabled_check_btn()
+    card_switching()
   }
 })
 
@@ -59,7 +62,6 @@ function initMap(){
       position: latlng,
       map: map,
     })
-    console.log(marker)
   }
 
   if(($("body")[0].dataset.controller == 'events')&&($("body")[0].dataset.action == 'court_select')){
@@ -250,5 +252,25 @@ function disabled_check_btn(){
     disableds[n].addEventListener('click', (e)=>(
       e.preventDefault()
     ))
+  }
+}
+
+function card_switching(){
+  if(controller_name='homes'){
+    document.getElementById('court-tab').addEventListener('click', ()=>{
+      if($('#court_card').hasClass('is_active')){
+        return
+      }
+      document.getElementById('event_card').classList.remove('is_active')
+      document.getElementById('court_card').classList.add('is_active')
+    })
+    
+    document.getElementById('event-tab').addEventListener('click', ()=>{
+      if($('#event_card').hasClass('is_active')){
+        return
+      }
+      document.getElementById('court_card').classList.remove('is_active')
+      document.getElementById('event_card').classList.add('is_active')
+    })
   }
 }

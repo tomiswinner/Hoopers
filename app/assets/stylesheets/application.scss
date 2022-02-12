@@ -63,7 +63,7 @@ footer{
 }
 
 .filter-black{
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .fixed-padding{
@@ -103,4 +103,13 @@ footer{
 }
 .font-smaller{
   font-size: 0.9rem;
+}
+
+.is_active{
+  display: block !important;
+}
+
+.tab-contents{
+  display: none;
+  margin-top: -2px;
 }

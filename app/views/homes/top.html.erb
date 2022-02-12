@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
-  <div class="col-12 filter-black justify-content-center py-5">
+  <div class="col-12 filter-black d0 text-white justify-content-center py-5">
+    <h1>Hoopers!</h1>
     <p class="text-white text-center">
-      Hoopers!<br>
       バスケコート<br>
       バスケイベント<br>
       が探せるWEBサイト！
@@ -11,30 +11,33 @@
 
 <div class="row justify-content-center">
   <div class="card bg-transparent col-12">
-    <div class="card-header bg-transparent w-100">
-      <ul class="nav nav-tabs card-header-tabs w-100">
-        <li class="nav-item">
-          <a href="#court_card" class="nav-link bg-orange active" data-toggle="tab">コートを探す</a>
-        </li>
-        <li class="nav-item">
-          <a href="#event_card" class="nav-link bg-lightblue" data-toggle="tab">イベントを探す</a>
-        </li>
-      </ul>
+
+    <div class="d-flex mt-5">
+      <div id="court-tab" class="w-50 bg-orange text-center py-2">
+        コートを探す
+      </div>
+      <div id="event-tab" class="w-50 bg-lightblue text-center py-2">
+        <div class="bg-lightblue">イベントを探す</div>
+      </div>
     </div>
+
     <div class="tab-content">
-      <div class="tab-pane fade show active bg-orange justify-content-center rounded" id="court_card">
+      <div class="tab-contents is_active bg-orange justify-content-center rounded" id="court_card">
           <%= form_with(url: courts_path, method: 'get', local: true, class: 'form-group pt-4', id: 'keyword_form') do |f| %>
-            <%= button_tag(type: 'submit', form: 'keyword_form', class: 'btn btn-sm') do %>
-              <i class="fas fa-search"></i>　コート名から探す
-            <% end %>
+            <p>コート名から探す</p>
             <%= f.text_field(:keyword, placeholder: 'キーワードを入力') %>
+            <%= button_tag(type: 'submit', form: 'keyword_form', class: 'btn btn-sm') do %>
+              <i class="fas fa-search"></i>
+            <% end %>
           <% end %>
+          
           <%= form_with(url: map_search_courts_path, local: true, method: 'get', id: 'location_form', class: 'form-group') do |f| %>
             <%= f.hidden_field(:latlng, {id: "latlng"}) %>
             <%= button_tag(type: 'submit', id: 'location_btn', form: 'location_form', class:'d-block m-auto') do %>
               <i class="fas fa-map-marker-alt"></i> 現在地から探す
             <% end %>
           <% end %>
+          
           <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, id: 'area_form', class: 'form-group pb-4 d-flex justify-content-center') do |f| %>
             <%= button_tag(type: 'submit', form: 'area_form', class: 'btn btn-sm') do %>
               <i class="fas fa-map-marked-alt"></i>　地域から探す
@@ -43,9 +46,7 @@
           <% end %>
       </div>
 
-
-
-      <div class="tab-pane bg-lightblue fade show rounded " id="event_card">
+      <div class="tab-contents bg-lightblue rounded " id="event_card">
         <div>
           <%= link_to('最新のイベントを表示する', events_path, class: 'btn btn-sm d-block pt-4') %>
         </div>

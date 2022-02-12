@@ -1,7 +1,10 @@
 <div class="row filter-black justify-content-center">
   <div class="col-12 justify-content-center text-white">
     <h4 class="py-3">マップ検索</h4>
-    <p class="pb-3">現在地周辺のコートを表示しています。</p>
+    <p class="pb-3">
+      現在地周辺のコートを表示中<br>
+      マーカーをタップでコートへのリンクを表示
+    </p>
     <div id='map' class="big-map mb-3"></div>
     <%= form_with(url: new_court_path, method: 'get', local: true, class: 'form-group') do |f|  %>
      <%= f.hidden_field(:center_latitude, value: @center_lat) %>
