@@ -2,7 +2,7 @@
   <div class="col-12 justify-content-center text-white">
     <h4 class="py-3">コート重複確認</h4>
     <p class="pb-3 small">提供するコートは登録されていませんか？</p>
-    <div id='map' class="height-adjustment mb-3">></div>
+    <div id='map' class="big-map mb-3"></div>
     <%= form_with(url: new_court_path, method: 'get', local: true, class: 'form-group') do |f|  %>
      <%= f.hidden_field(:center_latitude, value: @center_lat) %>
      <%= f.hidden_field(:center_longitude, value: @center_lng) %>
