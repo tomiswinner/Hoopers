@@ -80,7 +80,7 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
-    if @event.update(events_params)
+    if @event.update(events_params_for_datetime)
       flash[:notice] = 'イベントが修正されました'
       redirect_to(event_path(@event.id))
     else
@@ -105,7 +105,7 @@ class EventsController < ApplicationController
   end
 
   def confirm
-    @event = Event.new(events_params)
+    @event = Event.new(events_params_for_datetime)
     return unless @event.invalid?
 
     err_msg = "イベント投稿に必要な内容が不足しています。\n"
@@ -137,11 +137,16 @@ class EventsController < ApplicationController
 
   private
 
-  def events_params
+  def events_params_for_datetime
     params[:event][:open_time] = extract_formatted_time_from_params('open')
     params[:event][:close_time] = extract_formatted_time_from_params('close')
     delete_unnecessary_time_params('open')
     delete_unnecessary_time_params('close')
+    return params.require(:event).permit(:user_id, :court_id, :name, :image, :description, :condition, :contact,
+                                         :open_time, :close_time, :status)
+  end
+
+  def events_params
     return params.require(:event).permit(:user_id, :court_id, :name, :image, :description, :condition, :contact,
                                          :open_time, :close_time, :status)
   end

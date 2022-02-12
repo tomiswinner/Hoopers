@@ -1,54 +1,22 @@
 <!--show.htmlとあわせてプレビューとしちゃう-->
 
-<div class="row bg-white justify-content-center">
-  <div class="col-12  justify-content-center">
-    <div>イベント確認画面</div>
-    <h2><%= @event.name %></h2>
-    <%= form_with(model: @event, url: events_path, method: 'post', local: true) do |f|%>
-      <%= f.hidden_field(:user_id, value: current_user.id) %>
-      <%= f.hidden_field(:court_id, value: @event.court_id) %>
-      <%= f.hidden_field(:name, value: @event.name) %>
-      <%= f.hidden_field(:open_time, value: @event.open_time) %>
-      <%= f.hidden_field(:close_time, value: @event.close_time) %>
-      <%= f.hidden_field(:condition, value: @event.condition) %>
-      <%= f.hidden_field(:description, value: @event.description) %>
-      <%= f.hidden_field(:contact, value: @event.contact) %>
-      <%= f.hidden_field(:image, value: @event.image_id) %>
-      <%= f.hidden_field(:status, value: true) %>
-    <%= f.submit('この内容で投稿する') %>
-    <% end %>
-    <%= link_to('内容を修正する','javascript:history.back()') %>
-    <div>
-      <%= attachment_image_tag(@event, :image, fallback: "no_img.png", size: "250x250") %>
-    </div>
-  </div>
-  <div class="col-12  justify-content-center">
-    <h2>イベント基本情報</h2>
-  </div>
-  <div class="col-12  justify-content-center">
-    <div>
-      <p>コート名</p>
-      <p><%= @event.court.name %></p>
-    </div>
-    <div>
-      <p>イベント開始時間</p>
-      <p><%= @event.open_time %></p>
-    </div>
-    <div>
-      <p>イベント終了時間</p>
-      <p><%= @event.close_time %></p>
-    </div>
-    <div>
-      <p>連絡先</p>
-      <p><%= @event.contact %></p>
-    </div>
-    <div>
-      <p>参加条件</p>
-      <p><%= @event.condition %></p>
-    </div>
-    <div>
-      <p>イベント説明</p>
-      <p><%= @event.description %></p>
-    </div>
+<%= form_with(model: @event, url: events_path, id: 'form', method: 'post', local: true) do |f|%>
+  <%= f.hidden_field(:user_id, value: current_user.id) %>
+  <%= f.hidden_field(:court_id, value: @event.court_id) %>
+  <%= f.hidden_field(:name, value: @event.name) %>
+  <%= f.hidden_field(:open_time, value: @event.open_time) %>
+  <%= f.hidden_field(:close_time, value: @event.close_time) %>
+  <%= f.hidden_field(:condition, value: @event.condition) %>
+  <%= f.hidden_field(:description, value: @event.description) %>
+  <%= f.hidden_field(:contact, value: @event.contact) %>
+  <%= f.hidden_field(:image, value: @event.image_id) %>
+  <%= f.hidden_field(:status, value: true) %>
+<% end %>
+<div class="row filter-black text-white d-flex flex-column">
+  <%= render(partial: 'event-detail', locals: {event: @event, title: '確認ページ'}) %>
+
+  <div class="col-12 pb-3 d-flex justify-content-start">
+    <%= submit_tag('この内容で投稿する', form: 'form', class: 'btn btn-sm btn-success d-block') %>
+    <%= link_to('内容を修正する','javascript:history.back()', class: 'btn btn-sm btn-danger d-block ml-auto') %>
   </div>
 </div>
