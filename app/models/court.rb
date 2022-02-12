@@ -44,6 +44,11 @@ class Court < ApplicationRecord
     end
   end
 
+  def get_tags
+    tagging_ids = court_tag_taggings.pluck(:id)
+    return Tag.where(id: tagging_ids)
+  end
+
   def has_tag?(tag_name)
     Tag.where(id: court_tag_taggings.pluck(:tag_id)).each do |tag|
       return true if tag_name == tag.name

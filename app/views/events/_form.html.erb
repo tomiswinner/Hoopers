@@ -26,6 +26,7 @@
           <%= f.text_field(:name, class: 'w-100 form-control') %>
         </div>
       </div>
+
       <div class="pb-3">
         <div>
           <i class="fas fa-image"></i> <%= f.label(:image, '画像') %>
@@ -34,6 +35,7 @@
           <%= f.attachment_field(:image, class: 'btn btn-sm text-white') %>
         </div>
       </div>
+
       <div class="pb-3">
         <div>
           <i class="far fa-calendar-alt"></i> <%= f.label(:date, '開催日') %>
@@ -42,6 +44,7 @@
           <%= f.date_field(:date, {use_month_numbers: true, default: Time.now(), class: 'form-control w-50'}) %>
         </div>
       </div>
+
       <div class="pb-3">
         <div>
           <i class="far fa-clock"></i> <%= f.label(:open_time, '開始時間') %>
@@ -50,14 +53,16 @@
           <%= f.time_select(:open_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
         </div>
       </div>
+
       <div class="pb-3">
         <div>
-        </div>
           <i class="far fa-clock"></i> <%= f.label(:close_time, '終了時間') %>
+        </div>
         <div>
           <%= f.time_select(:close_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
         </div>
       </div>
+
       <div class="pb-3">
         <div>
           <i class="fas fa-envelope"></i> <%= f.label(:contact, '連絡先') %>

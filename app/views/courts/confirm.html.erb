@@ -1,9 +1,12 @@
-<div class="row bg-white justify-content-center">
-  <div class="col-12  justify-content-center">
-  <div class="col-12  justify-content-center">
-    <h2>コート情報確認画面</h2>
+<div class="row filter-black text-white d-flex flex-column">
+  <div class="col-12 justify-content-center mt-3 pt-3 text-white">
+    <h2>確認画面</h2>
+    <p class="small mb-0">
+      コートが掲載されるプレビューです。
+      問題がないか確認をお願いします。
+    </p>
   </div>
-  <%= form_with(model: @court, url: courts_path, method: 'post', local: true) do |f|%>
+  <%= form_with(model: @court, url: courts_path, method: 'post', id: 'form', local: true) do |f|%>
       <%= f.hidden_field(:user_id, value: current_user.id) %>
       <%= f.hidden_field(:area_id, value: @court.area_id) %>
       <%= f.hidden_field(:name, value: @court.name) %>
@@ -20,58 +23,15 @@
       <%= f.hidden_field(:image, value: @court.image_id) %>
       <%= f.hidden_field(:business_status, value: true) %>
       <%= f.hidden_field(:confirmation_status, value: false) %>
-    <%= f.submit('この内容で投稿する') %>
   <% end %>
-  <%= link_to('内容を修正する','javascript:history.back()') %>
-    <div>
-      <%= attachment_image_tag(@court, :image, fallback: "no_img.png", size: "250x250") %>
-    </div>
-  </div>
-  <div class="col-12  justify-content-center">
-    <div>
-      <h2>コート名</h2>
-      <%= @court.name %>
-    </div>
-    <div>
-      <h2>住所</h2>
-      <%= @court.address %>
-    </div>
-    <div>
-      <h2>エリア</h2>
-      <%= @court.address %>
-    </div>
-    <div>
-      <h2>営業時間</h2>
-      <%= @court.return_business_hour %>
-    </div>
-    <div>
-      <h2>ホームページ</h2>
-      <%= @court.url %>
-    </div>
-    <div>
-      <h2>料金</h2>
-      <%= @court.price %>
-    </div>
-    <div>
-      <h2>コートサイズ</h2>
-      <%= @court.size %>
-    </div>
-    <div>
-      <h2>コートタイプ</h2>
-      <%= @court.court_type_i18n %>
-    </div>
-    <div>
-      <h2>タグ</h2>
-      <%= 'タグがまだありません' if @court.fetch_tags.count == 0 %>
-      <% @court.fetch_tags.each do |tag| %>
-        <%= tag.name %>
-      <% end %>
-    </div>
-  </div>
-  <div class="col-12  justify-content-center">
-    マップ情報
-    <div id="map" class="height-adjustment"></div>
+
+  <%= render(partial: 'court-detail', locals: {court: @court}) %>
+
+  <div class="pb-3 d-flex justify-content-start px-3">
+    <%= submit_tag('この内容で投稿する', class: 'btn btn-sm btn-success d-block', form: 'form') %>
+    <%= link_to('内容を修正する','javascript:history.back()', class: 'btn btn-danger btn-sm d-block ml-auto') %>
   </div>
 </div>
 <input type="hidden" id="lng" value="<%= @court.longitude %>">
 <input type="hidden" id="lat" value="<%= @court.latitude %>">
+
