@@ -117,3 +117,18 @@ footer{
 .v-align{
   vertical-align: top;
 }
+
+.plate{
+  height: 25vh;
+  width: 80vw;
+  background-image: image-url("court_plate.jpg");
+  background-size: cover;
+}
+
+.plate-tab{
+  height: 30%;
+}
+
+.plate-content{
+  height: 70%;
+}
