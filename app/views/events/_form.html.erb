@@ -104,7 +104,7 @@
           </div>
         </div>
       <% elsif action_name == 'new'|| action_name == 'create' %>
-        <%= f.hidden_field(:status) %>
+        <%= f.hidden_field(:status, value: Event.statuses.keys.first) %>
       <% end %>
       <div class="pb-3 d-flex justify-content-start">
         <%= f.submit(submit_btn_txt, class: 'btn btn-success d-block') %>

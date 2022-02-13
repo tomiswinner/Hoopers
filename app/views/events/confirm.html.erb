@@ -10,7 +10,7 @@
   <%= f.hidden_field(:description, value: @event.description) %>
   <%= f.hidden_field(:contact, value: @event.contact) %>
   <%= f.hidden_field(:image, value: @event.image_id) %>
-  <%= f.hidden_field(:status, value: true) %>
+  <%= f.hidden_field(:status) %>
 <% end %>
 <div class="row filter-black text-white d-flex flex-column">
   <%= render(partial: 'event-detail', locals: {event: @event, title: '確認ページ'}) %>
