@@ -17,7 +17,7 @@ RSpec.describe 'Court', type: :system do
       end
       context '入力：エリアid 1 存在するデータ：エリアid 1,2,3 のコートで開催されるイベント' do
         it 'エリア　id 1 のコートだけが返ってくる(2,3は返ってこない)' do
-          visit events_path(court: {
+          visit events_path(event: {
             'open_time(1i)': '',
             'open_time(2i)': '',
             'open_time(3i)': '',
@@ -55,7 +55,7 @@ RSpec.describe 'Court', type: :system do
 
       context '入力time 08:00~11:00 存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '8-10,8-11,9-10,9-11のデータが返ってくる' do
-          visit events_path(court: {
+          visit events_path(event: {
             'open_time(1i)': '2022',
             'open_time(2i)': '01',
             'open_time(3i)': '01',
@@ -67,7 +67,6 @@ RSpec.describe 'Court', type: :system do
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )
-          byebug
           expect(page).to have_content('2022/01/01 08:00 ～ 2022/01/01 10:00')&&\
                           have_content('2022/01/01 08:00 ～ 2022/01/01 11:00')&&\
                           have_content('2022/01/01 09:00 ～ 2022/01/01 10:00')&&\
@@ -81,7 +80,7 @@ RSpec.describe 'Court', type: :system do
       end
       context '入力なし、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it 'すべて返ってくる' do
-          visit events_path(court: {
+          visit events_path(event: {
             'open_time(1i)': '',
             'open_time(2i)': '',
             'open_time(3i)': '',
@@ -106,7 +105,7 @@ RSpec.describe 'Court', type: :system do
       end
       context 'opentime 8~ のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
         it '7~ 以外のでーたは返ってくる' do
-          visit events_path(court: {
+          visit events_path(event: {
           'open_time(1i)': '2022',
           'open_time(2i)': '01',
           'open_time(3i)': '01',
@@ -130,8 +129,8 @@ RSpec.describe 'Court', type: :system do
         end
       end
       context 'closetime ~11 のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
-        it '~10 以外のでーたは返ってこない' do
-          visit events_path(court: {
+        it '~10,11 以外のでーたは返ってこない' do
+          visit events_path(event: {
             'open_time(1i)': '',
             'open_time(2i)': '',
             'open_time(3i)': '',
@@ -143,15 +142,15 @@ RSpec.describe 'Court', type: :system do
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )
-          expect(page).not_to     have_content('2022/01/01 07:00 ～ 2022/01/01 11:00')&&\
-                              have_content('2022/01/01 07:00 ～ 2022/01/01 12:00')&&\
-                              have_content('2022/01/01 08:00 ～ 2022/01/01 11:00')&&\
-                              have_content('2022/01/01 08:00 ～ 2022/01/01 12:00')&&\
-                              have_content('2022/01/01 09:00 ～ 2022/01/01 11:00')&&\
-                              have_content('2022/01/01 09:00 ～ 2022/01/01 12:00')
-          expect(page).to     have_content('2022/01/01 07:00 ～ 2022/01/01 10:00')&&\
-                              have_content('2022/01/01 08:00 ～ 2022/01/01 10:00')&&\
-                              have_content('2022/01/01 09:00 ～ 2022/01/01 10:00')
+          expect(page).not_to     have_content('2022/01/01 07:00 ～ 2022/01/01 12:00')&&\
+                                  have_content('2022/01/01 08:00 ～ 2022/01/01 12:00')&&\
+                                  have_content('2022/01/01 09:00 ～ 2022/01/01 12:00')
+          expect(page).to         have_content('2022/01/01 07:00 ～ 2022/01/01 10:00')&&\
+                                  have_content('2022/01/01 07:00 ～ 2022/01/01 11:00')&&\
+                                  have_content('2022/01/01 08:00 ～ 2022/01/01 10:00')&&\
+                                  have_content('2022/01/01 08:00 ～ 2022/01/01 11:00')&&\
+                                  have_content('2022/01/01 09:00 ～ 2022/01/01 11:00')&&\
+                                  have_content('2022/01/01 09:00 ～ 2022/01/01 10:00')
         end
       end
     end

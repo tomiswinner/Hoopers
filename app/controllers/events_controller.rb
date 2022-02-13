@@ -140,18 +140,19 @@ class EventsController < ApplicationController
 
   def extract_formatted_time_from_params(str)
     datetime = Time.new(
-      yaer = params.dig(:court, :"#{str}_time(1i)"),
-      mon =  params.dig(:court, :"#{str}_time(2i)"),
-      day =  params.dig(:court, :"#{str}_time(3i)"),
-      hour = params.dig(:court, :"#{str}_time(4i)"),
-      min =  params.dig(:court, :"#{str}_time(5i)"),
+      yaer = params.dig(:event, :"#{str}_time(1i)"),
+      mon =  params.dig(:event, :"#{str}_time(2i)"),
+      day =  params.dig(:event, :"#{str}_time(3i)"),
+      hour = params.dig(:event, :"#{str}_time(4i)"),
+      min =  params.dig(:event, :"#{str}_time(5i)"),
       )
     return datetime
   end
 
   def time_filled_in?(str)
+
     [*1..5].each do|n|
-      if params.dig(:court, :"#{str}_time(#{n}i)").blank?
+      if params.dig(:event, :"#{str}_time(#{n}i)").blank?
         return false
       end
     end
@@ -166,9 +167,13 @@ class EventsController < ApplicationController
 
   def valid_time_field?(str)
     # 全て空欄か埋まってればOK
-    unless params.dig(:event, :"#{str}_time(4i)").blank? == params.dig(:event, :"#{str}_time(5i)").blank?
-      flash[:alert] = '時間は時間、分両方の入力が必要です。'
-      redirect_back(fallback_location: root_path)
+    bool = params.dig(:event, :"#{str}_time(1i)").blank?
+    [*2..5].each do |n|
+      if bool != params.dig(:event, :"#{str}_time(#{n}i)").blank?
+        flash[:alert] = '時間は時間、分両方の入力が必要です。'
+        redirect_back(fallback_location: root_path)
+        return
+      end
     end
   end
 
