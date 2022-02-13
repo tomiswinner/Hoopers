@@ -6,6 +6,5 @@ class CourtHistoriesController < ApplicationController
     end
 
     @courts =   Kaminari.paginate_array(@courts).page(params[:page]).per(10)
-
   end
 end

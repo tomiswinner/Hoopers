@@ -57,15 +57,16 @@ RSpec.describe 'Event', type: :system do
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )
-          expect(page).to have_content('2022年01月01日 08:00 ～ 2022年01月01日 10:00')&&\
-                          have_content('2022年01月01日 08:00 ～ 2022年01月01日 11:00')&&\
-                          have_content('2022年01月01日 09:00 ～ 2022年01月01日 10:00')&&\
-                          have_content('2022年01月01日 09:00 ～ 2022年01月01日 11:00')
-          expect(page).not_to have_content('2022年01月01日 07:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 07:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 07:00 ～ 2022年01月01日 12:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 12:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 12:00')
+
+          expect(page).to have_content('2022/01/01 08:00 ～ 10:00')&&\
+                          have_content('2022/01/01 08:00 ～ 11:00')&&\
+                          have_content('2022/01/01 09:00 ～ 10:00')&&\
+                          have_content('2022/01/01 09:00 ～ 11:00')
+          expect(page).not_to have_content('2022/01/01 07:00 ～ 10:00')&&\
+                              have_content('2022/01/01 07:00 ～ 11:00')&&\
+                              have_content('2022/01/01 07:00 ～ 12:00')&&\
+                              have_content('2022/01/01 08:00 ～ 12:00')&&\
+                              have_content('2022/01/01 09:00 ～ 12:00')
         end
       end
       context '入力なし、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
@@ -77,15 +78,15 @@ RSpec.describe 'Event', type: :system do
             'close_time(4i)': '',
             'close_time(5i)': ''}
           )
-          expect(page).to     have_content('2022年01月01日 07:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 07:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 07:00 ～ 2022年01月01日 12:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 12:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 12:00')
+          expect(page).to     have_content('2022/01/01 07:00 ～ 10:00')&&\
+                              have_content('2022/01/01 07:00 ～ 11:00')&&\
+                              have_content('2022/01/01 07:00 ～ 12:00')&&\
+                              have_content('2022/01/01 08:00 ～ 10:00')&&\
+                              have_content('2022/01/01 08:00 ～ 11:00')&&\
+                              have_content('2022/01/01 08:00 ～ 12:00')&&\
+                              have_content('2022/01/01 09:00 ～ 10:00')&&\
+                              have_content('2022/01/01 09:00 ～ 11:00')&&\
+                              have_content('2022/01/01 09:00 ～ 12:00')
         end
       end
       context 'opentime 8~ のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
@@ -97,15 +98,15 @@ RSpec.describe 'Event', type: :system do
           'close_time(4i)': '',
           'close_time(5i)': ''}
           )
-          expect(page).to     have_content('2022年01月01日 08:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 12:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 12:00')
-          expect(page).not_to have_content('2022年01月01日 07:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 07:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 07:00 ～ 2022年01月01日 12:00')
+          expect(page).to     have_content('2022/01/01 08:00 ～ 10:00')&&\
+                              have_content('2022/01/01 08:00 ～ 11:00')&&\
+                              have_content('2022/01/01 08:00 ～ 12:00')&&\
+                              have_content('2022/01/01 09:00 ～ 10:00')&&\
+                              have_content('2022/01/01 09:00 ～ 11:00')&&\
+                              have_content('2022/01/01 09:00 ～ 12:00')
+          expect(page).not_to have_content('2022/01/01 07:00 ～ 10:00')&&\
+                              have_content('2022/01/01 07:00 ～ 11:00')&&\
+                              have_content('2022/01/01 07:00 ～ 12:00')
         end
       end
       context 'closetime ~11 のみ入力、存在するデータ 7-10,7-11,7-12,8-10,8-11,8-12,9-10,9-11,9-12' do
@@ -117,17 +118,35 @@ RSpec.describe 'Event', type: :system do
             'close_time(4i)': '11',
             'close_time(5i)': '00'}
           )
-          expect(page).not_to     have_content('2022年01月01日 07:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 07:00 ～ 2022年01月01日 12:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 12:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 11:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 12:00')
-          expect(page).to     have_content('2022年01月01日 07:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 08:00 ～ 2022年01月01日 10:00')&&\
-                              have_content('2022年01月01日 09:00 ～ 2022年01月01日 10:00')
+          expect(page).not_to     have_content('2022/01/01 07:00 ～ 11:00')&&\
+                              have_content('2022/01/01 07:00 ～ 12:00')&&\
+                              have_content('2022/01/01 08:00 ～ 11:00')&&\
+                              have_content('2022/01/01 08:00 ～ 12:00')&&\
+                              have_content('2022/01/01 09:00 ～ 11:00')&&\
+                              have_content('2022/01/01 09:00 ～ 12:00')
+          expect(page).to     have_content('2022/01/01 07:00 ～ 10:00')&&\
+                              have_content('2022/01/01 08:00 ～ 10:00')&&\
+                              have_content('2022/01/01 09:00 ～ 10:00')
         end
       end
     end
+    describe '' do
+    end
+  end
+end
+
+
+def time_search
+  if 
+  if time_filled_in?('open') && time_filled_in?('close')
+      open_time = extract_formatted_time_from_params('open')
+      close_time = extract_formatted_time_from_params('close')
+      @events = @events.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
+    elsif time_filled_in?('open')
+      open_time = extract_formatted_time_from_params('open')
+      @events = @events.where('open_time >= ?', open_time)
+    elsif time_filled_in?('close')
+      close_time = extract_formatted_time_from_params('close')
+      @events = @events.where('close_time <= ?', close_time)
   end
 end

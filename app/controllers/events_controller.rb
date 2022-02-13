@@ -1,4 +1,7 @@
 class EventsController < ApplicationController
+  before_action -> { valid_time_field?('open') }, only: :index
+  before_action -> { valid_time_field?('close') }, only: :index
+
   def new
     @event = Event.new(court_id: params[:court_id])
   end
@@ -26,21 +29,12 @@ class EventsController < ApplicationController
     @courts = Court.where(confirmation_status: true).where(business_status: true)
 
     # リファクタリング、これ切り出せない？他のコントローラーに
-    @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) if params.dig(:prefecture, :id)
+    @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) unless params.dig(:prefecture, :id).nil?
 
-    if params.dig(:Area, :area_ids)
-      @area_search_res = Court.none
-      params.dig(:Area, :area_ids).each do |area_id|
-        @area_search_res = @area_search_res.or(@courts.where(area_id: area_id.to_i))
-      end
-      @courts = @area_search_res
-
-    end
+    @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
 
     if params.dig(:fav_court_id)
       @courts = Court.where(id: params.dig(:fav_court_id))
-      puts 'こうげ'
-      puts @courts
     end
 
     @events = Event.where(court_id: @courts.pluck(:id))
@@ -59,6 +53,8 @@ class EventsController < ApplicationController
       close_time = extract_formatted_time_from_params('close')
       @events = @events.where('close_time <= ?', close_time)
     end
+
+    byebug
 
 
     @events =   Kaminari.paginate_array(@events).page(params[:page]).per(10)
@@ -86,6 +82,12 @@ class EventsController < ApplicationController
   end
 
   def update
+    unless time_filled_in?('open')&&time_filled_in?('close')
+      flash.now[:alert] = "時間の入力がされていません"
+      render :new
+      return
+    end
+
     @event = Event.find(params[:id])
     if @event.update(events_params_for_datetime)
       flash[:notice] = 'イベントが修正されました'
@@ -112,6 +114,12 @@ class EventsController < ApplicationController
   end
 
   def confirm
+    unless time_filled_in?('open')&&time_filled_in?('close')
+      flash.now[:alert] = "時間の入力がされていません"
+      render :new
+      return
+    end
+
     @event = Event.new(events_params_for_datetime)
     return unless @event.invalid?
 
@@ -167,11 +175,23 @@ class EventsController < ApplicationController
     date = params.dig(:event, :"date")
     hour = params.dig(:event, :"#{str}_time(4i)")
     min = params.dig(:event, :"#{str}_time(5i)")
-
     datetime = Time.parse("#{date} #{hour}:#{min}")
     return datetime
   end
 
-  
-  
+  def valid_time_field?(str)
+    # 全て空欄か埋まってればOK
+    unless params.dig(:event, :"#{str}_time(4i)").blank? == params.dig(:event, :"#{str}_time(5i)").blank?
+      flash[:alert] = '時間は時間、分両方の入力が必要です。'
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def time_filled_in?(str)
+    ["date", "#{str}_time(4i)", "#{str}_time(5i)"].each do |elem|
+      return false if params.dig(:event, :"#{elem}").blank?
+    end
+    return true
+  end
+
 end

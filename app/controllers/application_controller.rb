@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
 
-  Lat_range = 0.03
-  Lng_range = 0.06
+  Lat_range = 0.1
+  Lng_range = 0.1
 
   protect_from_forgery
   before_action :authenticate_user!, if: :needs_authentication?
@@ -18,6 +18,15 @@ class ApplicationController < ActionController::Base
     end
     return res
   end
+
+  def area_search(courts, area_ids)
+    results = Court.none
+    area_ids.each do |area_id|
+      results = results.or(courts.where(area_id: area_id))
+    end
+    return results
+  end
+
   # sign in, sign out, log in 後はすべて root へ遷移
   protected
     def configure_permitted_parameters

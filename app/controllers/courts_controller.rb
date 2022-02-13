@@ -1,15 +1,16 @@
 class CourtsController < ApplicationController
-  before_action -> { is_valid_time_field?("open")}, only: :index
-  before_action -> { is_valid_time_field?("close")}, only: :index
-  before_action :is_keyword_valid?, only: :index
-
+  before_action -> { valid_time_field?('open') }, only: [:index, :confirm]
+  before_action -> { valid_time_field?('close') }, only: [:index, :confirm]
+  before_action -> { valid_keyword?(params[:keyword]) }, only: :index
 
   def index
     @courts = Court.where(confirmation_status: true).where(business_status: true)
 
     @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) unless params.dig(:prefecture, :id).nil?
 
-    @courts = @courts.where(area_id: Area.where(prefecture_id: params.dig(:prefecture, :id)).ids) unless params.dig(:prefecture, :id).nil?
+    @courts = @courts.where(area_id: Area.where(prefecture_id: params.dig(:prefecture, :id)).ids) unless params.dig(
+      :prefecture, :id
+    ).nil?
 
     @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].nil?
 
@@ -35,7 +36,7 @@ class CourtsController < ApplicationController
       @courts = @courts.where('open_time >= ?', open_time)
     end
 
-    @courts =   Kaminari.paginate_array(@courts).page(params[:page]).per(10)
+    @courts = Kaminari.paginate_array(@courts).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html
@@ -72,15 +73,15 @@ class CourtsController < ApplicationController
 
   def confirm
     @court = Court.new(courts_params)
-    err_msg = @court.validate_about_name_address_area()
-    unless err_msg.blank?
+    err_msg = @court.validate_about_name_address_area
+    if err_msg.present?
       flash.now[:alert] = err_msg
       @prefecture = Prefecture.find(params[:prefecture_id])
       @areas = Area.where(prefecture_id: params[:prefecture_id])
       render :new
       return
     end
-    @court.set_default_values_to_court()
+    @court.set_default_values_to_court
     # リファクタリング
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
@@ -112,8 +113,8 @@ class CourtsController < ApplicationController
 
   def map_search
     latlng = JSON.parse(params[:latlng])
-    @center_lat = latlng["latitude"]
-    @center_lng = latlng["longitude"]
+    @center_lat = latlng['latitude']
+    @center_lng = latlng['longitude']
     @courts = latlng_search(@center_lat, @center_lng)
   end
 
@@ -124,81 +125,74 @@ class CourtsController < ApplicationController
   end
 
   private
-    def courts_params
-      return params.require(:court).permit(:user_id, :area_id, :name, :image, :open_time, :close_time, :supplement,
-                                           :address, :url, :latitude, :longitude, :size, :price, :court_type, :business_status, :confirmation_status)
-    end
 
-    def time_filled_in?(str)
-      ["#{str}_time(4i)","#{str}_time(5i)"].each do |elem|
-        return false if params.dig(:court, :"#{elem}").blank?
+  def courts_params
+    return params.require(:court).permit(:user_id, :area_id, :name, :image, :open_time, :close_time, :supplement,
+                                         :address, :url, :latitude, :longitude, :size, :price, :court_type, :business_status, :confirmation_status)
+  end
+
+  def time_filled_in?(str)
+    ["#{str}_time(4i)", "#{str}_time(5i)"].each do |elem|
+      return false if params.dig(:court, :"#{elem}").blank?
+    end
+    return true
+  end
+
+  def valid_time_field?(str)
+    # 全て空欄か埋まってればOK
+    unless params.dig(:court, :"#{str}_time(4i)").blank? == params.dig(:court, :"#{str}_time(5i)").blank?
+      flash[:alert] = '時間は時間と分、両方の入力が必要です。'
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def valid_keyword?(keyword)
+    return true if keyword.nil?
+
+    if keyword.length.zero?
+      flash[:alert] = 'キーワードが入力されていません'
+      redirect_back(fallback_location: root_path)
+    elsif keyword.length > 10
+      flash[:alert] = 'キーワードは全角10文字までです'
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def court_type_search(courts, court_types)
+    results = Court.none
+    court_types.each do |court_type|
+      results = results.or(courts.where(court_type: court_type))
+    end
+    return results
+  end
+
+  def tag_search(courts, tag_ids)
+    results = Court.none
+    tag_ids.each do |tag_id|
+      Tag.find(tag_id).court_tag_taggings.each do |tagging|
+        results = results.or(courts.where(id: tagging.court_id))
       end
-      return true
     end
+    return results
+  end
 
-    def is_valid_time_field?(str)
-      # 全て空欄か埋まってればOK
-      unless params.dig(:court, :"#{str}_time(4i)").blank? == params.dig(:court, :"#{str}_time(5i)").blank?
-        flash[:alert] = "時間検索では時間と分、両方の入力が必要です。"
-        redirect_back(fallback_location: root_path)
-      end
-    end
+  def get_prefecture_id(geocoded_data)
+    components_length = geocoded_data['results'][0]['address_components'].length
+    prefecture_name = geocoded_data['results'][0]['address_components'][components_length - 3]['long_name']
+    return Prefecture.find_by(name: prefecture_name).id
+  end
 
-    def is_keyword_valid?
-      return true if params.dig(:keyword).nil?
+  def latlng_search(lat, lng)
+    courts = Court.where('? <= latitude', lat - Lat_range).where('? >= latitude', lat + Lat_range)
+    courts = courts.where('? <= longitude', lng - Lng_range).where('? >= longitude', lng + Lng_range)
+    return courts
+  end
 
-      if params.dig(:keyword).length == 0
-        flash[:alert] = 'キーワードが入力されていません'
-        redirect_back(fallback_location: root_path)
-      elsif params.dig(:keyword).length > 10
-        flash[:alert] = 'キーワードは全角10文字までです'
-        redirect_back(fallback_location: root_path)
-      end
-    end
+  def operate_court_history(court, court_id)
+    CourtHistory.find_by(user_id: current_user.id, court_id: court_id).destroy if current_user.history_exists?(court)
+    CourtHistory.create(user_id: current_user.id, court_id: court_id)
+    return unless current_user.histories_reached_to_limit?(court)
 
-    def area_search(courts, area_ids)
-        results = Court.none
-        area_ids.each do |area_id|
-          results = results.or(courts.where(area_id: area_id))
-        end
-        return results
-    end
-
-    def court_type_search(courts, court_types)
-      results = Court.none
-      court_types.each do |court_type|
-        results = results.or(courts.where(court_type: court_type))
-      end
-      return results
-    end
-
-    def tag_search(courts, tag_ids)
-      results = Court.none
-      tag_ids.each do |tag_id|
-        Tag.find(tag_id).court_tag_taggings.each do |tagging|
-          results = results.or(courts.where(id: tagging.court_id))
-        end
-      end
-      return results
-    end
-
-    def get_prefecture_id(geocoded_data)
-      components_length = geocoded_data['results'][0]['address_components'].length
-      prefecture_name = geocoded_data['results'][0]['address_components'][components_length - 3]['long_name']
-      return Prefecture.find_by(name: prefecture_name).id
-    end
-
-    def latlng_search(lat, lng)
-      courts = Court.where('? <= latitude', lat - Lat_range).where('? >= latitude', lat + Lat_range)
-      courts = courts.where('? <= longitude', lng - Lng_range).where('? >= longitude', lng + Lng_range)
-    end
-
-    def operate_court_history(court, court_id)
-      if current_user.history_exists?(court)
-        CourtHistory.find_by(user_id: current_user.id, court_id: court_id).destroy
-      end
-      CourtHistory.create(user_id: current_user.id, court_id: court_id)
-      return unless current_user.histories_reached_to_limit?(court)
-        CourtHistory.where(user_id: current_user.id).order(:created_at).first.destroy
-    end
+    CourtHistory.where(user_id: current_user.id).order(:created_at).first.destroy
+  end
 end
