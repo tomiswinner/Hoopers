@@ -25,50 +25,50 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarToggler1">
           <ul class="navbar-nav">
-            <li class="nav-item border-bottom py-3">
+            <li class="nav-item pl-3 py-3">
               <%= link_to(root_path, class: 'text-white') do %>
                 <i class="fab fa-dribbble"></i> トップページ
               <% end %>
             </li>
-            <li class="nav-item border-bottom py-3">
+            <li class="nav-item pl-3 py-3">
               <%= link_to(root_path(anchor: 'how_to_use',), class: 'text-white') do %>
                 <i class="far fa-question-circle"></i> できること
               <% end %>
             </li>
             <% if user_signed_in? %>
-              <li class="nav-item border-bottom py-3">
+              <li class="nav-item pl-3 py-3">
                 <%= link_to(address_courts_path, class: 'text-white') do %>
                   <i class="fas fa-edit"></i> コート情報提供
                 <% end %>
               </li>
-              <li class="nav-item border-bottom py-3">
+              <li class="nav-item pl-3 py-3">
                 <%= link_to(address_events_path, class: 'text-white') do %>
                   <i class="fas fa-users"></i> イベント作成
                 <% end %>
               </li>
-              <li class="nav-item border-bottom py-3">
+              <li class="nav-item pl-3 py-3">
                 <%= link_to(mypage_users_path, class: 'text-white') do %>
                   <i class="fas fa-user"></i> マイページ
                 <% end %>
               </li>
-              <li class="nav-item border-bottom py-3">
+              <li class="nav-item pl-3 py-3">
                 <%= link_to(destroy_user_session_path, method: :delete, class: 'text-white') do %>
                   <i class="fas fa-sign-out-alt"></i> ログアウト
                 <% end %>
               </li>
             <% else %>
-              <li class="nav-item border-bottom py-3">
+              <li class="nav-item pl-3 py-3">
                 <%= link_to(new_user_session_path, class: 'text-white') do %>
                   <i class="fas fa-sign-in-alt"></i> ログイン
                 <% end %>
               </li>
-              <li class="nav-item border-bottom py-3">
+              <li class="nav-item pl-3 py-3">
                 <%= link_to(new_user_registration_path, class: 'text-white') do %>
                   <i class="fas fa-user-plus"></i> ユーザー登録
                 <% end %>
               </li>
             <% end %>
-              <li class="nav-item py-3">
+              <li class="nav-item pl-3 py-3">
                 <%= link_to(inqury_path, class: 'text-white') do %>
                   <i class="fas fa-info-circle"></i> 問い合わせ
                 <% end %>
@@ -78,7 +78,7 @@
       </nav>
     </header>
     <main class="fixed-padding">
-        <%= render(partial: "/layouts/err-msg") %>
+      <%= render(partial: "/layouts/err-msg") %>
       <div class="container">
         <%= yield %>
         <div class="footer-height-adjustment"></div>

@@ -264,7 +264,7 @@ function card_switching(){
       document.getElementById('event_card').classList.remove('is_active')
       document.getElementById('court_card').classList.add('is_active')
     })
-    
+
     document.getElementById('event-tab').addEventListener('click', ()=>{
       if($('#event_card').hasClass('is_active')){
         return

@@ -78,10 +78,6 @@ footer{
   background: #ff9933 !important;
 }
 
-.bg-lightblue{
-  background:#dbf3ff !important;
-}
-
 .bg-transparent{
   background-color: transparent;
   border: transparent;
@@ -123,7 +119,7 @@ footer{
 
 .plate{
   height: 25vh;
-  width: 80vw;
+  width: 100%;
   background-image: image-url("court_plate.jpg");
   background-size: cover;
 }
@@ -134,4 +130,10 @@ footer{
 
 .plate-content{
   height: 75%;
+}
+
+@media screen and (min-width:768px) {
+  .plate{
+    width: 30%;
+  }
 }
