@@ -16,7 +16,8 @@
           <i class="fas fa-map-marked-alt"></i>：<%= event.court.fetch_pref_name %>
         </p>
         <p class="mb-3">
-          <i class="far fa-clock"></i>：<%= event.return_event_time %>
+          <i class="far fa-clock"></i>：<%= event.formatted_open_time %> ～<br>
+          <%= event.formatted_close_time %>
         </p>
       </div>
     </div>

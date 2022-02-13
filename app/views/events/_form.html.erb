@@ -42,23 +42,12 @@
 
       <div class="pb-3">
         <div>
-          <%= f.label(:date) do %>
-            <i class="far fa-calendar-alt"></i> 開催日
-          <% end %>
-        </div>
-        <div>
-          <%= f.date_field(:date, {use_month_numbers: true, default: Time.now(), class: 'form-control w-50'}) %>
-        </div>
-      </div>
-
-      <div class="pb-3">
-        <div>
           <%= f.label(:open_time) do %>
           <i class="far fa-clock"></i> 開始時間
           <% end %>
         </div>
         <div>
-          <%= f.time_select(:open_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
+          <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
         </div>
       </div>
 
@@ -69,7 +58,7 @@
           <% end %>
         </div>
         <div>
-          <%= f.time_select(:close_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
+          <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
         </div>
       </div>
 

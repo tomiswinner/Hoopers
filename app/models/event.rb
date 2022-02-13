@@ -25,10 +25,16 @@ class Event < ApplicationRecord
   end
 
   def return_event_time
-    return "#{open_time.strftime('%Y/%m/%d %H:%M')} ～ #{close_time.strftime('%H:%M')}"
+    return "#{open_time.strftime('%Y/%m/%d %H:%M')} ～ #{close_time.strftime('%Y/%m/%d %H:%M')}"
   end
 
   def formatted_created_at
     return created_at.strftime('%Y/%m/%d')
+  end
+  def formatted_open_time
+    return open_time.strftime('%Y/%m/%d %H:%M')
+  end
+  def formatted_close_time
+    return close_time.strftime('%Y/%m/%d %H:%M')
   end
 end

@@ -60,12 +60,17 @@
 
         <%= form_with(model: Event, url: events_path, method: 'get', local: true, class: 'form-group d-flex flex-column pb-3', id: 'time_form') do |f| %>
           <p class="mb-1 align-self-center"><i class="far fa-clock"></i> 時間で探す</p>
-          <div class="d-flex flex-column">
-            <%= f.date_field(:date, {class: 'form-control w-50 align-self-center mb-1'}) %>
-            <div class="align-self-center">
-              <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select border'}) %> ～
-              <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select border'}) %>
-              <%= button_tag(form: 'time_form', class: 'btn btn-sm btn-success') do %>
+          <div class="align-self-center">
+            <div>
+              <%= f.label(:open_time, '開始') %>
+              <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now.midnight,minute_step: 15}, {class: 'form-select border'}) %>
+            </div>
+            <div>
+              <%= f.label(:close_time, '終了') %>
+              <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now.end_of_day - (60 * 14), minute_step: 15}, {class: 'form-select border'}) %>
+            </div>
+            <div class="d-flex justify-content-center">
+              <%= button_tag(form: 'time_form', class: 'btn btn-sm btn-success d-block') do %>
                 <i class="far fa-clock"></i> 検索
               <% end %>
             </div>

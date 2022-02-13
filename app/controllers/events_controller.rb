@@ -54,8 +54,6 @@ class EventsController < ApplicationController
       @events = @events.where('close_time <= ?', close_time)
     end
 
-    byebug
-
 
     @events =   Kaminari.paginate_array(@events).page(params[:page]).per(10)
 
@@ -82,14 +80,8 @@ class EventsController < ApplicationController
   end
 
   def update
-    unless time_filled_in?('open')&&time_filled_in?('close')
-      flash.now[:alert] = "時間の入力がされていません"
-      render :new
-      return
-    end
-
     @event = Event.find(params[:id])
-    if @event.update(events_params_for_datetime)
+    if @event.update(events_params)
       flash[:notice] = 'イベントが修正されました'
       redirect_to(event_path(@event.id))
     else
@@ -114,13 +106,7 @@ class EventsController < ApplicationController
   end
 
   def confirm
-    unless time_filled_in?('open')&&time_filled_in?('close')
-      flash.now[:alert] = "時間の入力がされていません"
-      render :new
-      return
-    end
-
-    @event = Event.new(events_params_for_datetime)
+    @event = Event.new(events_params)
     return unless @event.invalid?
 
     err_msg = "イベント投稿に必要な内容が不足しています。\n"
@@ -152,13 +138,24 @@ class EventsController < ApplicationController
 
   private
 
-  def events_params_for_datetime
-    params[:event][:open_time] = extract_formatted_time_from_params('open')
-    params[:event][:close_time] = extract_formatted_time_from_params('close')
-    delete_unnecessary_time_params('open')
-    delete_unnecessary_time_params('close')
-    return params.require(:event).permit(:user_id, :court_id, :name, :image, :description, :condition, :contact,
-                                         :open_time, :close_time, :status)
+  def extract_formatted_time_from_params(str)
+    datetime = Time.new(
+      yaer = params.dig(:court, :"#{str}_time(1i)"),
+      mon =  params.dig(:court, :"#{str}_time(2i)"),
+      day =  params.dig(:court, :"#{str}_time(3i)"),
+      hour = params.dig(:court, :"#{str}_time(4i)"),
+      min =  params.dig(:court, :"#{str}_time(5i)"),
+      )
+    return datetime
+  end
+
+  def time_filled_in?(str)
+    [*1..5].each do|n|
+      if params.dig(:court, :"#{str}_time(#{n}i)").blank?
+        return false
+      end
+    end
+    return true
   end
 
   def events_params
@@ -166,18 +163,6 @@ class EventsController < ApplicationController
                                          :open_time, :close_time, :status)
   end
 
-  def delete_unnecessary_time_params(str)
-    params[:event].delete(:"#{str}_time(4i)")
-    params[:event].delete(:"#{str}_time(5i)")
-  end
-
-  def extract_formatted_time_from_params(str)
-    date = params.dig(:event, :"date")
-    hour = params.dig(:event, :"#{str}_time(4i)")
-    min = params.dig(:event, :"#{str}_time(5i)")
-    datetime = Time.parse("#{date} #{hour}:#{min}")
-    return datetime
-  end
 
   def valid_time_field?(str)
     # 全て空欄か埋まってればOK
@@ -185,13 +170,6 @@ class EventsController < ApplicationController
       flash[:alert] = '時間は時間、分両方の入力が必要です。'
       redirect_back(fallback_location: root_path)
     end
-  end
-
-  def time_filled_in?(str)
-    ["date", "#{str}_time(4i)", "#{str}_time(5i)"].each do |elem|
-      return false if params.dig(:event, :"#{elem}").blank?
-    end
-    return true
   end
 
 end
