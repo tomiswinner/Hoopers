@@ -172,10 +172,6 @@ class EventsController < ApplicationController
     return datetime
   end
 
-  def time_filled_in?(str)
-    ["date","#{str}_time(4i)","#{str}_time(5i)"].each do |elem|
-      return false if params.dig(:event, :"#{elem}").blank?
-    end
-    return true
-  end
+  
+  
 end

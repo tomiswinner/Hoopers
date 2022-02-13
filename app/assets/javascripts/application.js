@@ -256,7 +256,7 @@ function disabled_check_btn(){
 }
 
 function card_switching(){
-  if(controller_name='homes'){
+  if($("body")[0].dataset.controller =='homes'){
     document.getElementById('court-tab').addEventListener('click', ()=>{
       if($('#court_card').hasClass('is_active')){
         return

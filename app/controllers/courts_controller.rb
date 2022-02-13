@@ -1,4 +1,8 @@
 class CourtsController < ApplicationController
+  before_action -> { is_valid_time_field?("open")}, only: :index
+  before_action -> { is_valid_time_field?("close")}, only: :index
+
+
   def index
     @courts = Court.where(confirmation_status: true).where(business_status: true)
 
@@ -36,27 +40,19 @@ class CourtsController < ApplicationController
       end
       @courts = @tag_search_res
     end
+
     # open_time,close time はそれぞれ 分まで一緒に入れるようvalidation 入れる
-    # open, close 両方入力あれば=
-    if params.dig(:court, :'ogipen_time(4i)').present? && params.dig(:court, :'close_time(4i)').present?
+    if time_filled_in?('open') && time_filled_in?('close')
       open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
                                                  params.dig(:court, :'open_time(5i)'))
       close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
                                                   params.dig(:court, :'close_time(5i)'))
       @courts = @courts.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
-    end
-
-    # close 空白 open 入力あれば
-    if params.dig(:court, :'close_time(4i)').present? && params.dig(:court, :'open_time(4i)').blank?
-      # リファクタリング余地あり
+    elsif time_filled_in?('close')
       close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
                                                   params.dig(:court, :'close_time(5i)'))
       @courts = @courts.where('close_time <= ?', close_time)
-    end
-
-    # opne 空白 close 入力あれば
-    if params.dig(:court, :'open_time(4i)').present? && params.dig(:court, :'close_time(4i)').blank?
-      # リファクタリング余地あり
+    elsif time_filled_in?('open')
       open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
                                                  params.dig(:court, :'open_time(5i)'))
       @courts = @courts.where('open_time >= ?', open_time)
@@ -169,4 +165,20 @@ class CourtsController < ApplicationController
     return params.require(:court).permit(:user_id, :area_id, :name, :image, :open_time, :close_time, :supplement,
                                          :address, :url, :latitude, :longitude, :size, :price, :court_type, :business_status, :confirmation_status)
   end
+
+  def time_filled_in?(str)
+    ["#{str}_time(4i)","#{str}_time(5i)"].each do |elem|
+      return false if params.dig(:court, :"#{elem}").blank?
+    end
+    return true
+  end
+
+  def is_valid_time_field?(str)
+    # 全て空欄か埋まってればOK
+    unless params.dig(:court, :"#{str}_time(4i)").blank? == params.dig(:court, :"#{str}_time(5i)").blank?
+      flash[:alert] = "時間検索では時間と分、両方の入力が必要です。"
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
 end

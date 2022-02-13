@@ -8,7 +8,7 @@
         <h4 class="align-self-center mb-0"><i class="fas fa-map-marked-alt"></i>　地区</h4>
       </div>
         <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id),prompt: "県を選択"}, \
-                    {id: 'prefs_select',class: 'mb-2',  onchange: 'Rails.fire(this.form,"submit")'}) %>
+                    {id: 'prefs_select',class: 'mb-2 border',  onchange: 'Rails.fire(this.form,"submit")'}) %>
         <div id='areas_select'>
           <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
         </div>
@@ -21,11 +21,11 @@
           </div>
           <div>
             <%= f.label(:open_time,'開始時間', class: 'form-label') %>
-            <%= f.time_select(:open_time, {include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select', form: 'narrow_search'}) %>
+            <%= f.time_select(:open_time, {include_blank: true, ignore_date: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
           </div>
           <div>
             <%= f.label(:close_time,'終了時間', class: 'form-label') %>
-            <%= f.time_select(:close_time, {include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select', form: 'narrow_search'}) %>
+            <%= f.time_select(:close_time, {include_blank: true, ignore_date: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
           </div>
           <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
             <h4 class="align-self-center mb-0"><i class="fas fa-warehouse"></i>　コートタイプ</h4>
@@ -43,14 +43,14 @@
             <h4 class="align-self-center mb-0"><i class="far fa-clock"></i> 時間</h4>
           </div>
           <div>
-            <%= f.date_field(:date, class: 'form-select mb-3') %>
+            <%= f.date_field(:date, class: 'border mb-3') %>
             <div>
               <%= f.label(:open_time, '開始時間') %>
-              <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select', form: 'narrow_search'}) %>
+              <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
             </div>
             <div>
               <%= f.label(:close_time,'終了時間') %>
-              <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'form-select', form: 'narrow_search'}) %>
+              <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
             </div>
           </div>
         <% end %>
