@@ -12,8 +12,8 @@
       <div id="court-tab" class="w-50 bg-orange text-center rounded py-2">
         コートを探す
       </div>
-      <div id="event-tab" class="w-50 bg-lightblue text-center rounded py-2">
-        <div class="bg-lightblue">イベントを探す</div>
+      <div id="event-tab" class="w-50 bg-light text-center rounded py-2">
+        <div>イベントを探す</div>
       </div>
     </div>
 
@@ -50,7 +50,7 @@
           <% end %>
       </div>
 
-      <div class="tab-contents is_active bg-lightblue rounded " id="event_card">
+      <div class="tab-contents is_active bg-light rounded " id="event_card">
         <div class="d-flex justify-content-center py-4">
           <%= button_tag(events_path, class: 'btn btn-success d-block') do %>
             最新のイベントを表示
@@ -83,7 +83,7 @@
       <div class="plate">
         <div class="bg-orange plate-tab text-white d-flex flex-column">
           <p class="mt-1 mb-0 align-self-center">コート情報募集中！！</p>
-          <p class="small align-self-center">あなたの周りのコート情報まってます！</p>
+          <p class="small align-self-center mb-1">あなたの周りのコート情報まってます！</p>
         </div>
         <div class="d-flex plate-content align-items-end">
           <div class="font-weight-bold text-white bg-orange w-100">
@@ -97,9 +97,75 @@
   </div>
 
 
-  <div class="col-12 my-5 d-flex justify-content-center">
-    <div class="bg-danger" id="how_to_use" style="height: 1000px; width: 200px;">
+  <div class="col-11 bg-light my-5 align-self-center" id="how_to_use">
+    <div>
       つかいかた
+    </div>
+    <div class="mt-3">
+      <h5 class="mb-0 font-weight-bold text-center">コート検索</h5>
+      <div class="d-flex justify-content-center">
+        <%= render(partial: 'layouts/svgs/court') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        いろいろな条件からコートを検索
+      </p>
+      <p class="mb-1 text-center">
+        エリアや時間、コートの種類、などからバスケットコートを探すことができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">マップ検索</h5>
+      <div class="d-flex justify-content-center">
+        <%= render(partial: 'layouts/svgs/map') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        現在地からコートを検索
+      </p>
+      <p class="mb-1 text-center">
+        現在の位置情報をもとに、周辺のコートを地図から探すことができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">イベント検索</h5>
+      <div class="d-flex justify-content-center my-4">
+        <%= render(partial: 'layouts/svgs/event') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        いろいろな条件からイベントを検索
+      </p>
+      <p class="mb-1 text-center">
+        バスケットのイベントをエリアや時間からの検索や、コートを選んで確認ができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">イベント作成</h5>
+      <div class="d-flex justify-content-center my-4">
+        <%= render(partial: 'layouts/svgs/calendar') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        イベントを企画して参加者を募集
+      </p>
+      <p class="mb-1 text-center">
+        自分で<%= link_to('イベントを企画', address_events_path) %>して載せることができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">お気に入り/閲覧履歴</h5>
+      <div class="d-flex justify-content-center my-4">
+        <div class="mr-5">
+          <%= render(partial: 'layouts/svgs/history') %>
+        </div>
+        <div>
+          <%= render(partial: 'layouts/svgs/favorite') %>
+        </div>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        ユーザー登録でお気に入り/履歴機能
+      </p>
+      <p class="mb-1 text-center">
+        <%= link_to('ユーザー登録', new_user_registration_path) %>してログインすると、
+        イベントやコートはお気に入りや履歴の確認ができます
+      </p>
     </div>
   </div>
 </div>
