@@ -17,67 +17,60 @@
   <body class="background-img" data-controller="<%= controller_name %>" data-action="<%= action_name %>">
     <header>
       <nav class="navbar bg-orange navbar-dark navbar-expand-sm fixed-top">
-        <a class="navbar-brand" href="/">
-
-
-
-
-
-
-
-
+        <a class="navbar-brand font-weight-bold" href="/">
+          <i class="fab fa-dribbble"></i> Hoopers!
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarToggler1">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item border-bottom py-3">
               <%= link_to(root_path, class: 'text-white') do %>
                 <i class="fab fa-dribbble"></i> トップページ
               <% end %>
             </li>
-            <li class="nav-item">
+            <li class="nav-item border-bottom py-3">
               <%= link_to(root_path(anchor: 'how_to_use',), class: 'text-white') do %>
-                <i class="far fa-question-circle"></i>　つかいかた
+                <i class="far fa-question-circle"></i> できること
               <% end %>
             </li>
             <% if user_signed_in? %>
-              <li class="nav-item">
-                <%= link_to(address_courts_path) do %>
-                  <i class="fas fa-edit"></i>　コート情報提供
+              <li class="nav-item border-bottom py-3">
+                <%= link_to(address_courts_path, class: 'text-white') do %>
+                  <i class="fas fa-edit"></i> コート情報提供
                 <% end %>
               </li>
-              <li class="nav-item">
-                <%= link_to(address_events_path) do %>
-                  <i class="fas fa-users"></i>　イベント作成
+              <li class="nav-item border-bottom py-3">
+                <%= link_to(address_events_path, class: 'text-white') do %>
+                  <i class="fas fa-users"></i> イベント作成
                 <% end %>
               </li>
-              <li class="nav-item">
-                <%= link_to(mypage_users_path) do %>
-                  <i class="fas fa-user"></i>　マイページ
+              <li class="nav-item border-bottom py-3">
+                <%= link_to(mypage_users_path, class: 'text-white') do %>
+                  <i class="fas fa-user"></i> マイページ
                 <% end %>
               </li>
-              <li class="nav-item">
-                <%= link_to(destroy_user_session_path, method: :delete) do %>
-                  <i class="fas fa-sign-out-alt"></i>　ログアウト
+              <li class="nav-item border-bottom py-3">
+                <%= link_to(destroy_user_session_path, method: :delete, class: 'text-white') do %>
+                  <i class="fas fa-sign-out-alt"></i> ログアウト
                 <% end %>
               </li>
             <% else %>
-              <li class="nav-item">
-                <%= link_to(new_user_session_path) do %>
+              <li class="nav-item border-bottom py-3">
+                <%= link_to(new_user_session_path, class: 'text-white') do %>
                   <i class="fas fa-sign-in-alt"></i> ログイン
                 <% end %>
               </li>
-              <li class="nav-item">
-                <%= link_to(new_user_registration_path) do %>
+              <li class="nav-item border-bottom py-3">
+                <%= link_to(new_user_registration_path, class: 'text-white') do %>
                   <i class="fas fa-user-plus"></i> ユーザー登録
                 <% end %>
               </li>
             <% end %>
-              <li class="nav-item">
-                <%= link_to(inqury_path) do %>
-                  <i class="fas fa-info-circle"></i>　問い合わせ
+              <li class="nav-item py-3">
+                <%= link_to(inqury_path, class: 'text-white') do %>
+                  <i class="fas fa-info-circle"></i> 問い合わせ
                 <% end %>
               </li>
           </ul>

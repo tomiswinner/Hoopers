@@ -15,8 +15,9 @@ class Event < ApplicationRecord
   validates :contact        ,presence: true
   validates :open_time      ,presence: true
   validates :close_time     ,presence: true
-  validates :status         ,inclusion: [true, false]
+  validates :status         ,presence: true
 
+  enum status: {wanted: true, closed: false}
 
   def is_event_in_favorite?
     # ログインしてない場合エラーあるな

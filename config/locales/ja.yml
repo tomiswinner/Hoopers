@@ -11,3 +11,7 @@ ja:
     asphalt: 'アスファルト'
     sand: '砂'
     rubber: 'ゴム'
+  event:
+   status:
+    wanted: '募集中'
+    closed: '募集終了'

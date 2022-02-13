@@ -1,24 +1,24 @@
   <% if (controller_name == 'events')&&(action_name == 'show') %>
     <% if user_signed_in? && current_user.id == event.user_id %>
-      <footer class='fixed-bottom'>
-        <div class="d-inline-block">
-          <%= link_to('イベントを編集', edit_event_path(event.id), class:'btn bg-orange') %>
+      <footer class='fixed-bottom d-flex'>
+        <div class="ml-3">
+          <%= link_to('イベントを編集', edit_event_path(event.id), class:'btn btn-sm text-white bg-orange') %>
           <!--テストユーザーが消えたとき、dependent だと全部消えるんやばくない-->
         </div>
       <% elsif event.status %>
-        <div class="d-inline-block">
-          <%= link_to('主催者連絡先',event_path(id: event.id, anchor: 'contact'), class:'btn bg-orange') %>
+        <div class="ml-3">
+          <%= link_to('主催者連絡先',event_path(id: event.id, anchor: 'contact'), class:'btn btn-sm text-white bg-orange') %>
         </div>
-        <div id='favorite' class='d-inline-block'>
+        <div id='favorite' class='ml-3'>
           <% if user_signed_in? && current_user.favorites_this_event?(event.id) %>
-            <%= link_to('検討リストから削除', event_favorite_path(id: event.id), method: 'delete', remote: true, class:'btn bg-orange') %>
+            <%= link_to('検討リストから削除', event_favorite_path(id: event.id), method: 'delete', remote: true, class:'btn btn-sm text-white bg-orange') %>
           <% elsif user_signed_in? %>
-            <%= link_to('検討リストへ追加', event_favorites_path(id: event.id), method: 'post', remote: true, class:'btn bg-orange') %>
+            <%= link_to('検討リストへ追加', event_favorites_path(id: event.id), method: 'post', remote: true, class:'btn btn-sm text-white bg-orange') %>
           <% end %>
           </div>
       <% else %>
-        <div class="d-inline-block">
-          <p class='bg-orange'>！募集が終了しているイベントです！</p>
+        <div class="ml-3">
+          <p class='bg-muted'>！募集が終了しているイベントです！</p>
         </div>
         <!--日付が過ぎた場合どうする-->
       </footer>
@@ -26,22 +26,22 @@
   <% end %>
 
   <% if (controller_name == 'courts')&&(action_name == 'show') %>
-    <footer class='fixed-bottom'>
-      <div class="d-inline-block">
-        <%= link_to('イベント確認', event_path(court.id), class:'btn bg-orange') %>
+    <footer class='fixed-bottom d-flex'>
+      <div class="ml-3">
+        <%= link_to('イベント確認', event_path(court.id), class:'btn btn-sm text-white bg-orange') %>
       </div>
-      <div class="d-inline-block">
+      <div class="ml-3">
         <% if user_signed_in? && current_user.reviewed_this_court?(court.id) %>
-            <%= link_to('レビューを編集', edit_court_court_review_path(court.id), class: 'btn bg-orange') %>
+            <%= link_to('レビュー編集', edit_court_court_review_path(court.id), class: 'btn btn-sm text-white bg-orange') %>
         <% elsif user_signed_in? %>
-            <%= link_to('レビューを投稿', new_court_court_review_path(court.id), class: 'btn bg-orange') %>
+            <%= link_to('レビュー投稿', new_court_court_review_path(court.id), class: 'btn btn-sm text-white bg-orange') %>
         <% end %>
       </div>
         <% if user_signed_in? && current_user.favorites_this_court?(court.id) %>
-          <div id='favorite' class='d-inline-block'>
-            <%= link_to('お気に入りから削除', court_favorite_path(id: court.id), method: 'delete', remote: true, class:'btn bg-orange') %>
+          <div id='favorite' class="ml-3">
+            <%= link_to('お気に入り削除', court_favorite_path(id: court.id), method: 'delete', remote: true, class:'btn btn-sm text-white bg-orange small') %>
         <% elsif user_signed_in? %>
-            <%= link_to('お気に入りへ追加', court_favorites_path(id: court.id), method: 'post', remote: true, class:'btn bg-orange') %>
+            <%= link_to('お気に入り追加', court_favorites_path(id: court.id), method: 'post', remote: true, class:'btn btn-sm text-white bg-orange') %>
           </div>
         <% end %>
     </footer>

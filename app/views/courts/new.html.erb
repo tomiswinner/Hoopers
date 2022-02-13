@@ -16,7 +16,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fab fa-dribbble"></i> <%= f.label(:name, 'コート名') %>
+              <%= f.label(:name) do %>
+                <i class="fab fa-dribbble"></i> コート名
+              <% end %>
             </div>
             <div>
               <%= f.text_field(:name, class: 'form-control') %>
@@ -25,7 +27,9 @@
 
           <div class="pb-3">
             <div>
-              <%= f.label(:area_id, 'コート地区') %>
+              <%= f.label(:area_id) do %>
+                <i class="fas fa-map-marked-alt"></i> コート地区
+              <% end %>
             </div>
             <div>
               <%= @prefecture.name %>
@@ -35,7 +39,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fas fa-image"></i> <%= f.label(:image, '画像') %>
+              <%= f.label(:image) do %>
+                <i class="fas fa-image"></i> 画像
+              <% end %>
             </div>
             <div>
               <%= f.attachment_field(:image, class: 'btn btn-sm text-white') %>
@@ -44,7 +50,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="far fa-clock"></i> <%= f.label(:open_time, '営業開始時間') %>
+              <%= f.label(:open_time) do %>
+                <i class="far fa-clock"></i> 営業開始時間
+              <% end %>
             </div>
             <div>
               <%= f.time_select(:open_time, {include_blank: true, minute_step: 15}, class: 'form-select') %>
@@ -53,7 +61,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="far fa-clock"></i> <%= f.label(:close_time, '営業終了時間') %>
+              <%= f.label(:close_time) do %>
+                <i class="far fa-clock"></i> 営業終了時間
+              <% end %>
             </div>
             <div>
               <%= f.time_select(:close_time, {include_blank: true, minute_step: 15}, class: 'form-select') %>
@@ -62,7 +72,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fas fa-comment-dots"></i> <%= f.label(:supplement, '営業時間補足') %>
+              <%= f.label(:supplement) do %>
+                <i class="fas fa-comment-dots"></i> 営業時間補足
+              <% end %>
             </div>
             <div>
               <%= f.text_area(:supplement, row: 5, class: 'form-control') %>
@@ -71,7 +83,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fas fa-map-marker-alt"></i> <%= f.label(:address, '住所') %>
+              <%= f.label(:address) do %>
+                <i class="fas fa-map-marker-alt"></i> 住所
+              <% end %>
             </div>
             <div>
               <%= f.text_field(:address, class: 'form-control') %>
@@ -80,7 +94,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fas fa-link"></i> <%= f.label(:url, 'HPリンク') %>
+              <%= f.label(:url) do %>
+                <i class="fas fa-link"></i> HPリンク
+              <% end %>
             </div>
             <div>
               <%= f.text_field(:url, class: 'form-control') %>
@@ -89,7 +105,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fas fa-ruler-combined"></i> <%= f.label(:size, 'リング数、コートサイズなど') %>
+              <%= f.label(:size) do %>
+                <i class="fas fa-ruler-combined"></i> リング数、コートサイズなど
+              <% end %>
             </div>
             <div>
               <%= f.text_field(:size, class: 'form-control') %>
@@ -98,7 +116,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fas fa-yen-sign"></i> <%= f.label(:price, '利用料金') %>
+              <%= f.label(:price) do %>
+                <i class="fas fa-yen-sign"></i> 利用料金
+              <% end %>
             </div>
             <div>
               <%= f.text_field(:price, class: 'form-control') %>
@@ -107,7 +127,9 @@
 
           <div class="pb-3">
             <div>
-              <i class="fas fa-warehouse"></i> <%= f.label(:court_type, 'コートタイプ') %>
+              <%= f.label(:court_type) do %>
+                <i class="fas fa-warehouse"></i> コートタイプ
+              <% end %>
             </div>
             <div>
               <%= f.select(:court_type, Court.court_types_i18n.except(:checking).collect {|elem| [elem.last, elem.first]}, {prompt: "コートタイプを選択"}, {class: 'form-select'}) %>
@@ -124,7 +146,7 @@
           </div>
 
           <div>
-            <%= f.submit('入力内容を確認する', class: 'btn btn-sm btn-success') %>
+            <%= f.submit('入力内容を確認する', class: 'btn btn-success') %>
           </div>
         <% end %>
   </div>

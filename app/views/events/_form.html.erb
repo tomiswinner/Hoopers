@@ -20,7 +20,9 @@
       <%= f.hidden_field(:status, value: true) %>
       <div class="pb-3">
         <div>
-          <i class="fas fa-users"></i> <%= f.label(:name, 'イベント名') %>
+          <%= f.label(:name) do %>
+            <i class="fas fa-users"></i> イベント名
+          <% end %>
         </div>
         <div>
           <%= f.text_field(:name, class: 'w-100 form-control') %>
@@ -29,7 +31,9 @@
 
       <div class="pb-3">
         <div>
-          <i class="fas fa-image"></i> <%= f.label(:image, '画像') %>
+          <%= f.label(:image) do %>
+            <i class="fas fa-image"></i> 画像
+          <% end %>
         </div>
         <div>
           <%= f.attachment_field(:image, class: 'btn btn-sm text-white') %>
@@ -38,7 +42,9 @@
 
       <div class="pb-3">
         <div>
-          <i class="far fa-calendar-alt"></i> <%= f.label(:date, '開催日') %>
+          <%= f.label(:date) do %>
+            <i class="far fa-calendar-alt"></i> 開催日
+          <% end %>
         </div>
         <div>
           <%= f.date_field(:date, {use_month_numbers: true, default: Time.now(), class: 'form-control w-50'}) %>
@@ -47,7 +53,9 @@
 
       <div class="pb-3">
         <div>
-          <i class="far fa-clock"></i> <%= f.label(:open_time, '開始時間') %>
+          <%= f.label(:open_time) do %>
+          <i class="far fa-clock"></i> 開始時間
+          <% end %>
         </div>
         <div>
           <%= f.time_select(:open_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
@@ -56,7 +64,9 @@
 
       <div class="pb-3">
         <div>
-          <i class="far fa-clock"></i> <%= f.label(:close_time, '終了時間') %>
+          <%= f.label(:close_time) do %>
+            <i class="far fa-clock"></i> 終了時間
+          <% end %>
         </div>
         <div>
           <%= f.time_select(:close_time, {use_month_numbers: true, ignore_date: true, default: Time.now(), minute_step: 15, class: 'form-control'}) %>
@@ -65,7 +75,9 @@
 
       <div class="pb-3">
         <div>
-          <i class="fas fa-envelope"></i> <%= f.label(:contact, '連絡先') %>
+          <%= f.label(:contact) do %>
+            <i class="fas fa-envelope"></i> 連絡先
+          <% end %>
         </div>
         <div>
           <%= f.text_area(:contact, rows: 3, class: 'form-control') %>
@@ -73,7 +85,9 @@
       </div>
       <div class="pb-3">
         <div>
-          <i class="fas fa-exclamation-circle"></i> <%= f.label(:condition, '参加条件') %>
+          <%= f.label(:condition) do %>
+            <i class="fas fa-exclamation-circle"></i> 参加条件
+          <% end %>
         </div>
         <div>
           <%= f.text_area(:condition, rows: 5, class: 'form-control') %>
@@ -81,16 +95,32 @@
       </div>
       <div class="pb-3">
         <div>
-          <i class="fas fa-comment-dots"></i> <%= f.label(:description, 'イベント説明') %>
+          <%= f.label(:description) do %>
+            <i class="fas fa-comment-dots"></i> イベント説明
+          <% end %>
         </div>
         <div>
           <%= f.text_area(:description, rows: 10, class: 'form-control') %>
         </div>
       </div>
+      <% if action_name == 'edit'|| action_name == 'update' %>
+        <div class="pb-3 mb-3">
+          <div>
+             <%= f.label(:status) do %>
+             <i class="fas fa-door-open"></i> 募集ステータス
+             <% end %>
+          </div>
+          <div>
+            <%= f.select(:status, Event.statuses_i18n.collect {|elem| [elem.last, elem.first]}, {class: 'form-control'}) %>
+          </div>
+        </div>
+      <% elsif action_name == 'new'|| action_name == 'create' %>
+        <%= f.hidden_field(:status) %>
+      <% end %>
       <div class="pb-3 d-flex justify-content-start">
-        <%= f.submit(submit_btn_txt, class: 'btn btn-sm btn-success d-block') %>
-        <% if action_name == 'edit' %>
-          <%= link_to('イベントを削除', event_path(event.id), method: 'delete', data: {confirm: '削除しますか？'}, class: 'btn btn-sm btn-danger d-block ml-auto' ) %>
+        <%= f.submit(submit_btn_txt, class: 'btn btn-success d-block') %>
+        <% if action_name == 'edit'|| action_name == 'update' %>
+          <%= link_to('イベントを削除', event_path(event.id), method: 'delete', data: {confirm: '削除しますか？'}, class: 'btn btn-danger d-block ml-auto' ) %>
         <% end %>
       </div>
     <% end %>
