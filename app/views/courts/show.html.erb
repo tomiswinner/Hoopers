@@ -6,24 +6,30 @@
     <p class="font-weight-bold">
       <i class="far fa-star"></i> レビュー
     </p>
-    <p class="samll mb-0">
-      総合レビュー点数 <span class="font-weight-bold"><%= @court.ave_total_points_reviews %></span>
-    </p>
-    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_total_points_reviews %>></div>
-    <p class="samll mb-0">
-      アクセス <span class="font-weight-bold"><%= @court.ave_accessibility_reviews %></span>
-    </p>
-    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_accessibility_reviews %>></div>
-    <p class="samll mb-0">
-      マナー <span class="font-weight-bold"><%= @court.ave_security_reviews %></span>
-    </p>
-    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_security_reviews %>></div>
-    <p class="samll mb-0">
-      設備 <span class="font-weight-bold"><%= @court.ave_quality_reviews %></span>
-    </p>
-    <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_quality_reviews %>></div>
+    <% if @court.court_reviews.count == 0 %>
+      <p class="samll mb-5">
+        まだレビューがありません
+      </p>
+    <% else %>
+      <p class="samll mb-0">
+        総合レビュー点数 <span class="font-weight-bold"><%= @court.ave_total_points_reviews %></span>
+      </p>
+      <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_total_points_reviews %>></div>
+      <p class="samll mb-0">
+        アクセス <span class="font-weight-bold"><%= @court.ave_accessibility_reviews %></span>
+      </p>
+      <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_accessibility_reviews %>></div>
+      <p class="samll mb-0">
+        マナー <span class="font-weight-bold"><%= @court.ave_security_reviews %></span>
+      </p>
+      <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_security_reviews %>></div>
+      <p class="samll mb-0">
+        設備 <span class="font-weight-bold"><%= @court.ave_quality_reviews %></span>
+      </p>
+      <div class="evaluation mb-2 pl-3" id="eval_total_in_detail" data-score=<%= @court.ave_quality_reviews %>></div>
 
-    <%= link_to('レビューの一覧を見る', court_court_reviews_path(@court.id), class: 'btn btn-sm btn-success d-block mb-3 text-center') %>
+      <%= link_to('レビューの一覧を見る', court_court_reviews_path(@court.id), class: 'btn btn-sm btn-success d-block mb-3 text-center') %>
+    <% end %>
   </div>
 
 </div>

@@ -26,7 +26,7 @@
   <% end %>
 
   <% if (controller_name == 'courts')&&(action_name == 'show') %>
-    <footer class='fixed-bottom d-flex'>
+    <footer class='fixed-bottom d-flex justify-content-center'>
       <div class="ml-3">
         <%= link_to('イベント確認', event_path(court.id), class:'btn btn-sm text-white bg-orange') %>
       </div>
@@ -41,7 +41,8 @@
           <div id='favorite' class="ml-3">
             <%= link_to('お気に入り削除', court_favorite_path(id: court.id), method: 'delete', remote: true, class:'btn btn-sm text-white bg-orange small') %>
         <% elsif user_signed_in? %>
-            <%= link_to('お気に入り追加', court_favorites_path(id: court.id), method: 'post', remote: true, class:'btn btn-sm text-white bg-orange') %>
+          <div id='favorite' class="ml-3">
+            <%= link_to('お気に入り追加', court_favorites_path(id: court.id), method: 'post', remote: true, class:'btn btn-sm text-white bg-orange small') %>
           </div>
         <% end %>
     </footer>
