@@ -43,14 +43,13 @@
             <h4 class="align-self-center mb-0"><i class="far fa-clock"></i> 時間</h4>
           </div>
           <div>
-            <%= f.date_field(:date, class: 'border mb-3') %>
             <div>
-              <%= f.label(:open_time, '開始時間') %>
-              <%= f.time_select(:open_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
+              <%= f.label(:open_time, '開始') %>
+              <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
             </div>
             <div>
-              <%= f.label(:close_time,'終了時間') %>
-              <%= f.time_select(:close_time, {use_month_numbers: true, include_blank: true, ignore_date: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
+              <%= f.label(:close_time,'終了') %>
+              <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
             </div>
           </div>
         <% end %>

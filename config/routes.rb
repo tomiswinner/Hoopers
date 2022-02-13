@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     collection do
       get :mypage
       get :confirm
+      get :events
     end
   end
 

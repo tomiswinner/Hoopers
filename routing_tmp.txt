@@ -16,6 +16,7 @@
                           POST   /users(.:format)                                                                         devise/registrations#create
              mypage_users GET    /users/mypage(.:format)                                                                  users#mypage
             confirm_users GET    /users/confirm(.:format)                                                                 users#confirm
+             events_users GET    /users/events(.:format)                                                                  users#events
                 edit_user GET    /users/:id/edit(.:format)                                                                users#edit
                      user PATCH  /users/:id(.:format)                                                                     users#update
                           PUT    /users/:id(.:format)                                                                     users#update

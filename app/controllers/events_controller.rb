@@ -170,7 +170,7 @@ class EventsController < ApplicationController
     bool = params.dig(:event, :"#{str}_time(1i)").blank?
     [*2..5].each do |n|
       if bool != params.dig(:event, :"#{str}_time(#{n}i)").blank?
-        flash[:alert] = '時間は時間、分両方の入力が必要です。'
+        flash[:alert] = '時間検索には開始時刻・終了時刻どちらかはすべての入力が必要です。'
         redirect_back(fallback_location: root_path)
         return
       end

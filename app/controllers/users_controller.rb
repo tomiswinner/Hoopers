@@ -7,6 +7,11 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  def events
+    @events = Event.where(user_id: current_user.id)
+    @events = Kaminari.paginate_array(@events).page(params[:page]).per(10)
+  end
+
   def update
      @user = current_user
 
