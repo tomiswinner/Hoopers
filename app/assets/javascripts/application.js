@@ -64,61 +64,9 @@ function initMap(){
     })
   }
 
-  if(($("body")[0].dataset.controller == 'events')&&($("body")[0].dataset.action == 'court_select')){
-    var lat = Number(document.getElementById('center_latitude').value)
-    var lng = Number(document.getElementById('center_longitude').value)
-    map = new google.maps.Map(document.getElementById('map'),{
-      center:{
-        lat: lat,
-        lng: lng
-      },
-      zoom: 13
-    })
-    lats_htmls = document.getElementsByClassName('latitudes')
-    lngs_htmls = document.getElementsByClassName('longitudes')
-    links_htmls = document.getElementsByClassName('links')
-    names_htmls = document.getElementsByClassName('names')
-
-    var opened_window = ""
-
-    for(n=0; n < lats_htmls.length; n++){
-      (function(){
-          latlng = new google.maps.LatLng(
-            lats_htmls.item(n).value,
-            lngs_htmls.item(n).value
-          )
-
-          infowindow = new google.maps.InfoWindow({
-            content: "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
-          })
-
-          marker = new google.maps.Marker({
-            position: latlng,
-            map: map,
-          })
-          console.log(links_htmls.item(n).value)
-
-          // クロージャ
-          function set_infowindow(marker, infowindow){
-            marker.addListener("click", ()=>{
-              infowindow.open({
-                anchor: marker,
-                map,
-                shouldFocus: false
-              })
-              if(opened_window){
-                opened_window.close()
-              }
-              opened_window = infowindow
-            })
-          }
-          return set_infowindow(marker, infowindow)
-      })();
-    }
-  }
-
   if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_check'))||
-  (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_search'))){
+  (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_search'))||
+  ($("body")[0].dataset.controller == 'events')&&($("body")[0].dataset.action == 'court_select')){
     var lat = Number(document.getElementById('center_latitude').value)
     var lng = Number(document.getElementById('center_longitude').value)
     map = new google.maps.Map(document.getElementById('map'),{
