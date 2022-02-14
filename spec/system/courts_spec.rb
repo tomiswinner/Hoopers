@@ -29,7 +29,9 @@ RSpec.describe 'Court', type: :system do
       end
       context 'area_id = [ 1, 2 ] 存在するデータのidが[ 1, 2, 3 ]なら' do
         it 'area_id = 1 と 2 のコートが返ってくる' do
-          visit courts_path(Area: {area_ids: [ @factory_courts[0].area_id, @factory_courts[1].area_id ]}, court: { 'open_time(4i)': '', 'open_time(5i)': '', 'close_time(4i)': '', 'close_time(5i)': ''})
+          visit courts_path(
+            Area: {area_ids: [ @factory_courts[0].area_id, @factory_courts[1].area_id ]},
+            court: { 'open_time(4i)': '', 'open_time(5i)': '', 'close_time(4i)': '', 'close_time(5i)': ''})
           expect(page).to have_content(@factory_courts[0].name)&&have_content(@factory_courts[1].name)
         end
         it 'area_id = 3 のコートは返ってこない' do
@@ -119,7 +121,7 @@ RSpec.describe 'Court', type: :system do
           expect(page).to have_content(@courts[0].name)&&have_content(@courts[1].name)
         end
       end
-      # 返ってこないver のテストも追加して
+
     end
 
     describe 'タグ検索機能' do
@@ -146,8 +148,6 @@ RSpec.describe 'Court', type: :system do
     end
     describe 'マップ検索' do
       before do
-      end
-      before do
         Center_lat = 35.4762362
         Center_lng = 139.6369951
         # 小数点の計算で微妙に誤差あり？
@@ -166,13 +166,50 @@ RSpec.describe 'Court', type: :system do
         visit address_courts_path
         page.find(:id, 'court_address').set('神奈川県横浜市神奈川区東神奈川2-49-7')
         click_button('検索')
-        puts page.html
         expect(find(:id, "#{@court_ok1.name}_name", visible: false).value).to eq("#{@court_ok1.name}")
         expect(find(:id, "#{@court_ok2.name}_name", visible: false).value).to eq("#{@court_ok2.name}")
         expect(find(:id, "#{@court_ok3.name}_name", visible: false).value).to eq("#{@court_ok3.name}")
         expect(find(:id, "#{@court_ok4.name}_name", visible: false).value).to eq("#{@court_ok4.name}")
       end
     end
+    describe 'マップ検索' do
+    before do
+      @area1 = FactoryBot.create(:area)
+      @area2 = FactoryBot.create(:area)
+      @court_type1 = Court.court_types.keys[1]
+      @court_type2 = Court.court_types.keys[2]
+      @tag1 = FactoryBot.create(:tag)
+      @tag2 = FactoryBot.create(:tag)
 
+      @court_ok = FactoryBot.create(:court,
+      area_id: @area1.id,
+      open_time: Court.convert_time_to_past_sec('11','00'),
+      close_time: Court.convert_time_to_past_sec('22','00'),
+      court_type: @court_type1,
+      business_status: true,
+      confirmation_status: true)
+      @court_ng = FactoryBot.create(:court,
+      area_id: @area2.id,
+      open_time: Court.convert_time_to_past_sec('11','00'),
+      close_time: Court.convert_time_to_past_sec('22','00'),
+      court_type: @court_type1,
+      business_status: true,
+      confirmation_status: true)
+
+      FactoryBot.create(:court_tag_tagging, court_id: @court_ok.id, tag_id: @tag1.id)
+    end
+    describe '複合検索' do
+      context '存在するコートと全く一緒の条件をいれれば' do
+        it '同条件のコートだけが返ってくる' do
+            visit courts_path(
+              Area: {area_ids: [ @area1.id ]},
+              Tag: {tag_ids: [ @tag1.id ]},
+              court: {court_types: [ @court_type1 ],
+              'open_time(4i)': '11', 'open_time(5i)': '00', 'close_time(4i)': '22', 'close_time(5i)': '00'})
+            expect(page).to have_content(@court_ok.name)
+            expect(page).not_to have_content(@court_ng.name)
+        end
+      end
+    end
   end
 end
