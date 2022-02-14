@@ -89,12 +89,15 @@ RSpec.describe 'Court', type: :system do
         end
       end
       before do
-        @court = FactoryBot.create(:court, open_time: nil, close_time: nil)
+        @court = FactoryBot.create(:court, open_time: nil, close_time: nil, business_status: true, confirmation_status: true)
       end
-      context '入力なし 存在データ null~null' do
-        it '何も返ってこない' do
-          visit courts_path(court: {'open_time(4i)': '', 'open_time(5i)': '', 'close_time(4i)': '', 'close_time(5i)': ''})
-          pending('nullのデータを対象とするか、後ほど修正するので保留（現状 null をはじくコードはない')
+      context '入力 12~23存在データ null~null' do
+        it 'nullコートは返ってこない' do
+          visit courts_path(court: {
+            'open_time(4i)': '12',
+            'open_time(5i)': '00',
+            'close_time(4i)': '23',
+            'close_time(5i)': '00'})
           expect(page).not_to have_content("#{@court.name}")
         end
       end
@@ -141,26 +144,35 @@ RSpec.describe 'Court', type: :system do
         end
       end
     end
-    describe do
+    describe 'マップ検索' do
+      before do
+      end
       before do
         Center_lat = 35.4762362
         Center_lng = 139.6369951
         # 小数点の計算で微妙に誤差あり？
-        Lat_range = 0.02
+        Lat_range = 0.05
         Lng_range = 0.05
-        FactoryBot.create(:user, id:0)
-        @court_ok1 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat + Lat_range, longitude: Center_lng + Lng_range)
-        @court_ok2 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat + Lat_range, longitude: Center_lng - Lng_range)
-        @court_ok3 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat - Lat_range, longitude: Center_lng + Lng_range)
-        @court_ok4 = FactoryBot.create(:court, user_id: 0, latitude: Center_lat - Lat_range, longitude: Center_lng - Lng_range)
+        @user = FactoryBot.create(:user, id:0)
+        prefecture = FactoryBot.create(:prefecture, name: '神奈川県')
+        area = FactoryBot.create(:area, prefecture_id: prefecture.id)
+        @court_ok1 = FactoryBot.create(:court, user_id: @user.id, latitude: Center_lat + Lat_range, longitude: Center_lng + Lng_range, area_id: area.id)
+        @court_ok2 = FactoryBot.create(:court, user_id: @user.id, latitude: Center_lat + Lat_range, longitude: Center_lng - Lng_range, area_id: area.id)
+        @court_ok3 = FactoryBot.create(:court, user_id: @user.id, latitude: Center_lat - Lat_range, longitude: Center_lng + Lng_range, area_id: area.id)
+        @court_ok4 = FactoryBot.create(:court, user_id: @user.id, latitude: Center_lat - Lat_range, longitude: Center_lng - Lng_range, area_id: area.id)
       end
       it 'court_okはすべて返ってくる' do
+        login_as(@user)
         visit address_courts_path
-        page.find(:id, "court_address").set('神奈川県横浜市神奈川区東神奈川2-49-7')
+        page.find(:id, 'court_address').set('神奈川県横浜市神奈川区東神奈川2-49-7')
         click_button('検索')
-        pending('少数の比較ができないためpending')
-        expect(page).to  find("##{@court_ok1.name}_lat", visible: false)
+        puts page.html
+        expect(find(:id, "#{@court_ok1.name}_name", visible: false).value).to eq("#{@court_ok1.name}")
+        expect(find(:id, "#{@court_ok2.name}_name", visible: false).value).to eq("#{@court_ok2.name}")
+        expect(find(:id, "#{@court_ok3.name}_name", visible: false).value).to eq("#{@court_ok3.name}")
+        expect(find(:id, "#{@court_ok4.name}_name", visible: false).value).to eq("#{@court_ok4.name}")
       end
     end
+
   end
 end

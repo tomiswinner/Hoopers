@@ -9,7 +9,7 @@
     <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true, class: 'form-group') do |f| %>
       <div class="pb-3">
         <%= f.label(:address, '住所を入力') %>
-        <%= f.text_field(:address, value: @address, placeholder: '住所を入力', class: 'w-100') %>
+        <%= f.text_field(:address, value: @address, id: 'court_address', placeholder: '住所を入力', class: 'w-100') %>
       </div>
       <div class="d-flex justify-content-end">
         <%= f.submit('検索する', class: 'btn btn-sm btn-success d-block') %>
