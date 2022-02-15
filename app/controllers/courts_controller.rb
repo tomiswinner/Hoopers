@@ -56,7 +56,8 @@ class CourtsController < ApplicationController
       @address = params.dig(:court, :address)
       @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
       @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
-      @courts = latlng_search(@center_lat, @center_lng)
+      @courts = Court.where(confirmation_status: true)
+      @courts = latlng_search(@courts, @center_lat, @center_lng)
 
     else
       # リファクタリング
@@ -73,6 +74,7 @@ class CourtsController < ApplicationController
 
   def confirm
     @court = Court.new(courts_params)
+    @tag_ids = params.dig(:Tag, :tag_ids)
     err_msg = @court.validate_about_name_address_area
     if err_msg.present?
       flash.now[:alert] = err_msg
@@ -96,17 +98,21 @@ class CourtsController < ApplicationController
 
   def create
     @court = Court.new(courts_params)
-    if @court.save
-      flash[:notice] = 'コートが投稿されました'
-      redirect_to(thanks_courts_path)
-    else
-      err_msg = "コートの投稿に失敗しました。\n"
-      @court.errors.full_messages.each do |msg|
-        err_msg += "#{msg}\n"
+    @tag_ids = params[:tag_ids].split
+    Court.transaction do
+      @court.save!
+      @tag_ids.each do |id|
+        tagging = CourtTagTagging.new(court_id: @court.id, tag_id: id)
+        tagging.save!
       end
-      flash.now[:alert] = err_msg
-      render :confirm
     end
+    flash[:notice] = 'コートが投稿されました'
+    redirect_to(thanks_courts_path)
+  rescue StandardError => e
+    err_msg = "コートの投稿に失敗しました。\n"
+    err_msg += "#{e}\n"
+    flash.now[:alert] = err_msg
+    render :confirm
   end
 
   def thanks; end
@@ -115,7 +121,8 @@ class CourtsController < ApplicationController
     latlng = JSON.parse(params[:latlng])
     @center_lat = latlng['latitude']
     @center_lng = latlng['longitude']
-    @courts = latlng_search(@center_lat, @center_lng)
+    @courts = Court.where(confirmation_status: true)
+    @courts = latlng_search(@courts, @center_lat, @center_lng)
   end
 
   def show
@@ -182,8 +189,8 @@ class CourtsController < ApplicationController
     return Prefecture.find_by(name: prefecture_name).id
   end
 
-  def latlng_search(lat, lng)
-    courts = Court.where('? <= latitude', lat - Lat_range).where('? >= latitude', lat + Lat_range)
+  def latlng_search(courts, lat, lng)
+    courts = courts.where('? <= latitude', lat - Lat_range).where('? >= latitude', lat + Lat_range)
     courts = courts.where('? <= longitude', lng - Lng_range).where('? >= longitude', lng + Lng_range)
     return courts
   end

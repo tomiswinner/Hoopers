@@ -141,7 +141,7 @@
               <i class="fas fa-tags"></i> タグ
             </div>
             <div>
-              <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {form: 'form'}) %>
+              <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {include_hidden: false}, {form: 'form'}) %>
             </div>
           </div>
 

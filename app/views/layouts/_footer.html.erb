@@ -28,7 +28,7 @@
   <% if (controller_name == 'courts')&&(action_name == 'show') %>
     <footer class='fixed-bottom d-flex justify-content-center'>
       <div class="ml-3">
-        <%= link_to('イベント確認', event_path(court.id), class:'btn btn-sm text-white bg-orange') %>
+        <%= link_to('イベント確認', events_path(fav_court_id: court.id), class:'btn btn-sm text-white bg-orange') %>
       </div>
       <div class="ml-3">
         <% if user_signed_in? && current_user.reviewed_this_court?(court.id) %>

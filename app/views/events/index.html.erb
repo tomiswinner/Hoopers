@@ -9,7 +9,7 @@
 
     <%= render(partial: 'layouts/narrow_search_bar', locals: {model: Event, path: events_path}) %>
 
-    <%= render(partial: 'layouts/event-index', locals: {no_result_text: '検索条件に一致するイベントがありません', events: @events}) %>
+    <%= render(partial: 'layouts/event-index', locals: {no_result_text: 'イベントが見つかりませんでした', events: @events}) %>
   </div>
   <div class="mt-3">
     <%= paginate(@events) %>

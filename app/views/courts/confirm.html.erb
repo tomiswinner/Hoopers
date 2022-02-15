@@ -23,9 +23,10 @@
       <%= f.hidden_field(:image, value: @court.image_id) %>
       <%= f.hidden_field(:business_status, value: true) %>
       <%= f.hidden_field(:confirmation_status, value: false) %>
+      <%= hidden_field_tag(:tag_ids, @tag_ids, form: 'form') %>
   <% end %>
 
-  <%= render(partial: 'court-detail', locals: {court: @court}) %>
+  <%= render(partial: 'court-detail', locals: {court: @court, tag_ids: @tag_ids}) %>
 
   <div class="pb-3 d-flex justify-content-start px-3">
     <%= submit_tag('この内容で投稿する', class: 'btn btn-sm btn-success d-block', form: 'form') %>
