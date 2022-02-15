@@ -109,7 +109,8 @@
           <% elsif action_name == 'confirm' || action_name == 'create' %>
             <% Tag.pluck(:id, :name).each do |tag_id, tag_name| %>
               <div class="d-inline-block mb-2 no_change_color_disabled">
-                <%= check_box_tag(tag_id, value= tag_id, checked= tag_ids.any? {|id| id == tag_id.to_s}, {readonly: true}) %>
+                <% is_tag_checked = !(tag_ids.nil?) && tag_ids.any? {|id| id == tag_id.to_s} %>
+                <%= check_box_tag(tag_id, value= tag_id, checked= is_tag_checked, {readonly: true}) %>
                 <%= label_tag(tag_name) %>
               </div>
             <% end %>
