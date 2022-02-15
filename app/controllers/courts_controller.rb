@@ -4,7 +4,7 @@ class CourtsController < ApplicationController
   before_action -> { valid_keyword?(params[:keyword]) }, only: :index
 
   def index
-    @courts = Court.where(confirmation_status: true).where(business_status: true)
+    @courts = Court.where(confirmation_status: true)
 
     @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) unless params.dig(:prefecture, :id).nil?
 
