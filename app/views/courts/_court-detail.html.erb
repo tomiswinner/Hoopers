@@ -2,6 +2,9 @@
 
 <div class="col-12 justify-content-center my-3 py-3 text-white">
     <h2><%= court.name %></h2>
+    <% if court.business_status == false %>
+      <h5 class="mb-0">※閉鎖中のコートです<h5>
+    <% end %>
   </div>
   <div class="col-12 d-flex justify-content-center my-3 pb-3">
     <%= attachment_image_tag(court, :image, fallback: "no_img.png", size: "250x250", class: 'mx-auto d-block') %>
@@ -15,6 +18,20 @@
         <p class="small text-right text-primary"><u>情報が違うと思ったら？</u></p>
       <% end %>
     </caption>
+    <tr>
+      <td>
+        <p class="small mb-1 font-weight-bold ">
+            <i class="fas fa-door-open"></i> 営業ステータス
+        </p>
+        <span class="pl-3">
+          <% if court.business_status %>
+            営業中
+          <% else %>
+            閉鎖中
+          <% end %>
+        </span>
+      </td>
+    </tr>
     <tr>
       <td>
         <p class="small mb-1 font-weight-bold ">
