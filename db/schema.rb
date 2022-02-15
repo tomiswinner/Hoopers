@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id"], name: "index_court_favorites_on_court_id_and_user_id", unique: true
     t.index ["court_id"], name: "index_court_favorites_on_court_id"
     t.index ["user_id"], name: "index_court_favorites_on_user_id"
   end
@@ -91,6 +92,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id", "user_id"], name: "index_event_favorites_on_event_id_and_user_id", unique: true
     t.index ["event_id"], name: "index_event_favorites_on_event_id"
     t.index ["user_id"], name: "index_event_favorites_on_user_id"
   end

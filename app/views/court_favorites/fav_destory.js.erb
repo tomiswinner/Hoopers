@@ -1,2 +1,4 @@
-document.getElementById('favorite').innerHTML = "<%= escape_javascript(link_to('お気に入りから削除', court_favorite_path(id: court_id), method: 'delete', remote: true, class:'btn bg-orange')) %>";
+document.getElementById('favorite').innerHTML = "<%= escape_javascript(
+  link_to('お気に入り削除', court_favorite_path(id: court_id), method: 'delete', remote: true, class:'btn btn-sm text-white bg-orange small'
+)) %>";
 alert('お気に入りに追加しました')
