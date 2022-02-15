@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "tag_id"], name: "index_court_tag_taggings_on_court_id_and_tag_id", unique: true
     t.index ["court_id"], name: "index_court_tag_taggings_on_court_id"
     t.index ["tag_id"], name: "index_court_tag_taggings_on_tag_id"
   end
@@ -111,7 +112,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.string "contact", null: false
     t.datetime "open_time", null: false
     t.datetime "close_time", null: false
-    t.boolean "status", default: true, null: false
+    t.integer "status", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["court_id"], name: "index_events_on_court_id"

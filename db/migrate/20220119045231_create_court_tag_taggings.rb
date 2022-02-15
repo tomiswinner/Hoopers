@@ -4,6 +4,8 @@ class CreateCourtTagTaggings < ActiveRecord::Migration[5.2]
       t.references :court,    null: false, foreign_key: true
       t.references :tag,      null: false, foreign_key: true
 
+      t.index [:court_id, :tag_id], unique: true
+
       t.timestamps
     end
   end

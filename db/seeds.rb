@@ -10,9 +10,9 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-Resas_endpoint = 'https://opendata.resas-portal.go.jp'
-Pref_path = '/api/v1/prefectures'
-City_path = '/api/v1/cities'
+RESAS_ENDPOINT = 'https://opendata.resas-portal.go.jp'
+PREF_PATH = '/api/v1/prefectures'
+CITY_PATH = '/api/v1/cities'
 
 
 def get_json(url)
@@ -36,7 +36,7 @@ end
 
 
 def register_prefecutres
-  data = get_json(Resas_endpoint + Pref_path)
+  data = get_json(RESAS_ENDPOINT + PREF_PATH)
 
   data['result'].each do |val|
     Prefecture.create!(
@@ -46,7 +46,7 @@ def register_prefecutres
 end
 
 def register_areas
-  data = get_json(Resas_endpoint + City_path)
+  data = get_json(RESAS_ENDPOINT + CITY_PATH)
 
   data['result'].each do |val|
     Area.create!(
@@ -120,9 +120,9 @@ def register_reviews
 end
 
 def register_dummy_taggings
-  10.times do
+  10.times do |n|
     CourtTagTagging.create!({
-      court_id: rand(Court.first.id..Court.last.id),
+      court_id: Court.find(n + 1).id,
       tag_id: rand(Tag.first.id..Tag.last.id)
     })
   end
@@ -141,7 +141,7 @@ def register_events
       contact: '123-456-7189',
       open_time: open_time,
       close_time: open_time + rand(1..10) * 30000,
-      status: [true,true,true,false].sample
+      status: [1, 1, 1, 0].sample
       )
     end
 end

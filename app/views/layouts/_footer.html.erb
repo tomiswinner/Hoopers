@@ -5,7 +5,7 @@
           <%= link_to('イベントを編集', edit_event_path(event.id), class:'btn btn-sm text-white bg-orange') %>
           <!--テストユーザーが消えたとき、dependent だと全部消えるんやばくない-->
         </div>
-      <% elsif event.status %>
+      <% elsif event.status == 1 %>
         <div class="ml-3">
           <%= link_to('主催者連絡先',event_path(id: event.id, anchor: 'contact'), class:'btn btn-sm text-white bg-orange') %>
         </div>

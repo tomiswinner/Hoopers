@@ -17,7 +17,6 @@
     <%= form_with(model: event, url: path, method: method, local: true, class: 'form-group') do |f| %>
       <%= f.hidden_field(:court_id, value: event.court_id) %>
       <%= f.hidden_field(:user_id, value: current_user.id) %>
-      <%= f.hidden_field(:status, value: true) %>
       <div class="pb-3">
         <div>
           <%= f.label(:name) do %>
@@ -104,7 +103,7 @@
           </div>
         </div>
       <% elsif action_name == 'new'|| action_name == 'create' %>
-        <%= f.hidden_field(:status, value: Event.statuses.keys.first) %>
+        <%= f.hidden_field(:status, value: Event.statuses.keys.last) %>
       <% end %>
       <div class="pb-3 d-flex justify-content-start">
         <%= f.submit(submit_btn_txt, class: 'btn btn-success d-block') %>

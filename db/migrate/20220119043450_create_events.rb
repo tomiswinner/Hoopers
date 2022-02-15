@@ -10,7 +10,7 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.string :contact,      null: false
       t.datetime :open_time,  null: false
       t.datetime :close_time, null: false
-      t.boolean :status,      null: false,                   default: true
+      t.integer :status,      null: false,                   default: true
 
       t.timestamps
     end
