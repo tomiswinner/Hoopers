@@ -37,7 +37,11 @@
         <i class="fas fa-user"></i> 主催者ユーザー
       </p>
       <div class="pl-3">
-        <%= event.user.name %>
+        <% if event.user.is_active %>
+          <%= event.user.name %>
+        <% else %>
+          退会済みユーザー
+        <% end %>
       </div>
     </td>
   </tr>

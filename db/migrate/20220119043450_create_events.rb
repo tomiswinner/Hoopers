@@ -12,6 +12,8 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.datetime :close_time, null: false
       t.integer :status,      null: false,                   default: true
 
+      t.index [:court_id, :user_id, :open_time],    unique: true
+
       t.timestamps
     end
   end

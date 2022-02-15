@@ -11,7 +11,7 @@ class CourtReviewsController < ApplicationController
       flash[:notice] = 'レビューが投稿されました！'
       redirect_to court_path(@court_review.court_id)
     else
-      flash.now[:alert] = 'レビュー投稿に失敗しました'
+      flash.now[:alert] = "レビュー投稿に失敗しました\n入力のない値があるか、既にレビューが投稿されています。"
       render :new
     end
   end

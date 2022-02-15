@@ -17,7 +17,7 @@ class Court < ApplicationRecord
   validates :latitude             ,presence: true
   validates :longitude            ,presence: true
   validates :url                  ,presence: true
-  validates :address              ,presence: true
+  validates :address              ,presence: true, uniqueness: true
   validates :supplement           ,presence: true
   validates :size                 ,presence: true
   validates :court_type           ,presence: true

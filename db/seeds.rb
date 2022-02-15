@@ -88,7 +88,7 @@ def register_dummy_courts
     Court.create!(
       user_id: 0,
       area_id: area_id,
-      name: "#{address}",
+      name: "#{address}バスケコート",
       image_id: "aa",
       address: address,
       latitude: rand(-90.0000..90.0000),

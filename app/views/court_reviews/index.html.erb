@@ -40,7 +40,13 @@
   </div>
   <% @court_reviews.each do |review| %>
     <div class="col-10 mb-3 py-3 align-self-center text-white">
-      <p class="mb-1"><i class="fas fa-user"></i>　<%= review.user.name %></p>
+      <p class="mb-1">
+        <% if review.user.is_active %>
+          <i class="fas fa-user"></i>　<%= review.user.name %>
+        <% else %>
+          <i class="fas fa-user"></i>　退会済みユーザー
+        <% end %>
+      </p>
       <div class="pl-3">
         <div class="pb-1">
           総合点：<div class="evaluation small-stars d-inline" data-score=<%= review.total_points %>></div>

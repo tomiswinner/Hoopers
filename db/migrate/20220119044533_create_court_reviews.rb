@@ -8,6 +8,8 @@ class CreateCourtReviews < ActiveRecord::Migration[5.2]
       t.float :security,      null: false
       t.float :quality,       null: false
 
+      t.index [:court_id, :user_id], unique: true
+
       t.timestamps
     end
   end

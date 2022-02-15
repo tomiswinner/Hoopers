@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.float "quality", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id"], name: "index_court_reviews_on_court_id_and_user_id", unique: true
     t.index ["court_id"], name: "index_court_reviews_on_court_id"
     t.index ["user_id"], name: "index_court_reviews_on_user_id"
   end
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.boolean "confirmation_status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["address"], name: "index_courts_on_address", unique: true
     t.index ["area_id"], name: "index_courts_on_area_id"
     t.index ["user_id"], name: "index_courts_on_user_id"
   end
@@ -115,6 +117,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "status", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id", "open_time"], name: "index_events_on_court_id_and_user_id_and_open_time", unique: true
     t.index ["court_id"], name: "index_events_on_court_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end

@@ -18,6 +18,8 @@ class CreateCourts < ActiveRecord::Migration[5.2]
       t.boolean :business_status,                   null: false,                    defalut: true
       t.boolean :confirmation_status,               null: false,                    defalut: false
 
+      t.index :address,                    unique: true
+
       t.timestamps
     end
   end

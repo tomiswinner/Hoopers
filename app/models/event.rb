@@ -13,7 +13,7 @@ class Event < ApplicationRecord
   validates :description    ,presence: true
   validates :condition      ,presence: true
   validates :contact        ,presence: true
-  validates :open_time      ,presence: true
+  validates :open_time      ,presence: true,  uniqueness: { scope: [:court_id, :user_id], message: '既に同じイベントを投稿しています。'}
   validates :close_time     ,presence: true
   validates :status         ,presence: true
 
