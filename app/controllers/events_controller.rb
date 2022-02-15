@@ -55,7 +55,7 @@ class EventsController < ApplicationController
     end
 
 
-    @events =   Kaminari.paginate_array(@events).page(params[:page]).per(10)
+    @events =   Kaminari.paginate_array(@events.order(created_at: 'DESC')).page(params[:page]).per(10)
 
     respond_to do |f|
       f.html
