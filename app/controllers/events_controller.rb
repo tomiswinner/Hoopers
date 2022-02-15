@@ -126,7 +126,8 @@ class EventsController < ApplicationController
       @entered_address = params.dig(:court, :address)
       @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
       @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
-      @courts = Court.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
+      @courts = Court.where(confirmation_status: true)
+      @courts = @courts.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
       @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude',
                                                                                @center_lng + Lng_range)
     else
