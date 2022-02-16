@@ -1,9 +1,17 @@
-<div class="row justify-content-center">
-  <div class="col-12 filter-black justify-content-center">
+<div class="row filter-black justify-content-center">
+  <div class="col-12 justify-content-center text-white">
     <div>
-      <h2>問い合わせは以下のメールアドレスまでお願いします。</h2>
-
+      <h4 class="py-3 text-center">問い合わせページ</h4>
+      <p class="text-center py-3">
+        コート情報が間違っている<br>
+        コート情報を追加いただける<br>
+        その他問い合わせなどについては以下のメールアドレスまでお願いします。<br>
+        ※コートの情報反映にはお時間をいただきます。
+      </p>
     </div>
-    <%= link_to('トップページへ戻る', root_path) %>
+    <div class="col-12 mb-5 text-center">
+      <img class="inqury-img" src=<%= asset_path("cake.jpg") %>>
+    </div>
+    <%= link_to('トップページへ戻る', root_path, class: 'btn btn-sm btn-success d-block mb-3') %>
   </div>
 </div>
