@@ -1,4 +1,5 @@
 <% if !(areas.blank?) %>
+  <p class="text-success">チェックをしない場合、県全体検索</p>
   <%= collection_check_boxes(Area, :area_ids, areas, :id, :name, {}, {form: 'narrow_search'}) %>
 <% else %>
   <p>県を選択すると地域が表示されます</p>

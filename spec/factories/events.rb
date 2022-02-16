@@ -7,7 +7,7 @@ FactoryBot.define do
     description { 'address' }
     condition { 'url' }
     contact { '000-1111-1111' }
-    open_time { Time.now()}
+    open_time { Time.now() + rand(10..1000)}
     close_time { Time.now() + rand(100000..1000000) }
     status { 1 }
   end

@@ -2,15 +2,18 @@ require 'rails_helper'
 
 # 全てのテストは、test 環境のDBを空っぽの状態で行うこと。
 # リファクタリング、渡す空の変数をクラス化して継承するようにしてしまえ
-RSpec.describe 'Court', type: :system do
+RSpec.describe 'Event', type: :system do
   describe 'GET /index' do
     describe '場所検索機能' do
       before do
         FactoryBot.create(:user, id: 0)
+        @areas = []
+        @courts = []
+        @events = []
         [*1..3].each do |n|
-          FactoryBot.create(:area, id: n)
-          FactoryBot.create(:court, user_id: 0, id: n, area_id: n)
-          FactoryBot.create(:event, court_id: n, user_id: 0, id: n)
+          @areas[n-1] = FactoryBot.create(:area, id: n)
+          @courts[n-1] = FactoryBot.create(:court, user_id: 0, id: n, area_id: n)
+          @events[n-1] = FactoryBot.create(:event, court_id: n, user_id: 0, id: n)
         end
       end
 
@@ -28,8 +31,11 @@ RSpec.describe 'Court', type: :system do
                               'close_time(4i)': '',
                               'close_time(5i)': ''
                             },
+                            prefectrue: {
+                              id: @areas[0].prefecture_id
+                            },
                             Area: {
-                              area_ids: ['1']
+                              area_ids: [@areas[0].id]
                             })
           expect(page).to have_content(Event.find(1).name)
           expect(page).not_to have_content(Event.find(2).name) && have_content(Event.find(3).name)
@@ -40,14 +46,13 @@ RSpec.describe 'Court', type: :system do
     describe '時間検索機能' do
       before do
         FactoryBot.create(:user, id: 0)
-        FactoryBot.create(:court, user_id: 0, id: 0)
-        [Time.zone.local(2022, 0o1, 0o1, 7, 0),
-         Time.zone.local(2022, 0o1, 0o1, 8, 0),
-         Time.zone.local(2022, 0o1, 0o1, 9, 0)].each do |open_time|
-          [Time.zone.local(2022, 0o1, 0o1, 10, 0),
-           Time.zone.local(2022, 0o1, 0o1, 11, 0),
-           Time.zone.local(2022, 0o1, 0o1, 12, 0)].each do |close_time|
-            FactoryBot.create(:event, open_time: open_time, close_time: close_time, court_id: 0, user_id: 0)
+        [Time.zone.local(2022, 01, 01, 7, 0),
+         Time.zone.local(2022, 01, 01, 8, 0),
+         Time.zone.local(2022, 01, 01, 9, 0)].each do |open_time|
+          [Time.zone.local(2022, 01, 01, 10, 0),
+           Time.zone.local(2022, 01, 01, 11, 0),
+           Time.zone.local(2022, 01, 01, 12, 0)].each do |close_time|
+            FactoryBot.create(:event, open_time: open_time, close_time: close_time, user_id: 0)
           end
         end
       end
@@ -169,13 +174,13 @@ RSpec.describe 'Court', type: :system do
                                       court_id: @court1.id,
                                       open_time: '2022/01/01 12:00',
                                       close_time: '2022/01/01 18:00',
-                                      status: true)
+                                      status: "wanted")
 
         @event_ng = FactoryBot.create(:event,
                                       court_id: @court2.id,
                                       open_time: '2022/01/01 11:00',
                                       close_time: '2022/01/01 19:00',
-                                      status: true)
+                                      status: "wanted")
       end
 
       context '存在するイベント全く同じ条件をいれれば' do

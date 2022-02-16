@@ -28,8 +28,11 @@ class EventsController < ApplicationController
 
     @courts = Court.where(confirmation_status: true).where(business_status: true)
 
-    # リファクタリング、これ切り出せない？他のコントローラーに
-    @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) unless params.dig(:prefecture, :id).nil?
+    @prefecture_id = params.dig(:prefecture, :id)
+
+    @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.nil?
+
+    @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.nil?
 
     @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
 

@@ -1,1 +1,5 @@
-document.getElementById('areas_select').innerHTML = "<%= escape_javascript(render(partial: 'layouts/areas', locals: {areas: @areas})) %>";
+document.getElementById('areas_select').innerHTML = "<%= escape_javascript(
+render(partial: 'layouts/areas', locals: {areas: @areas}
+)) %>";
+
+document.getElementById('hidden_pref_id').value = "<%= escape_javascript(@prefecture_id) %>"

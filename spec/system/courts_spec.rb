@@ -173,10 +173,10 @@ RSpec.describe 'Court', type: :system do
     end
 
     describe 'マップ検索' do
-      stub_const(CENTER_LAT, 35.4762362)
-      stub_const(CENTER_LNG, 139.6369951)
-      stub_const(LAT_RANGE, 0.05)
-      stub_const(LNG_RANGE, 0.05)
+      CENTER_LAT = 35.4762362
+      CENTER_LNG = 139.6369951
+      LAT_RANGE = 0.05
+      LNG_RANGE = 0.05
       before do
         @user = FactoryBot.create(:user, id: 0)
         prefecture = FactoryBot.create(:prefecture, name: '神奈川県')

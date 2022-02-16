@@ -7,8 +7,9 @@
       <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
         <h4 class="align-self-center mb-0"><i class="fas fa-map-marked-alt"></i>　地区</h4>
       </div>
-        <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id),prompt: "県を選択"}, \
+        <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id), prompt: "県を選択", include_blank: true}, \
                     {id: 'prefs_select',class: 'mb-2 border',  onchange: 'Rails.fire(this.form,"submit")'}) %>
+        <%= f.hidden_field(:id, value: @prefectrue_id, form: 'narrow_search', id: 'hidden_pref_id') %>
         <div id='areas_select'>
           <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
         </div>

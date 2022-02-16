@@ -2,17 +2,16 @@ class CourtsController < ApplicationController
   before_action -> { valid_time_field?('open') }, only: [:index, :confirm]
   before_action -> { valid_time_field?('close') }, only: [:index, :confirm]
   before_action -> { valid_keyword?(params[:keyword]) }, only: :index
+  before_action -> { valid_pref_key?(params.dig(:prefecture, :id)) }, only: :index, if: proc { URI(request.referer.to_s).path == "/" }
 
   def index
     @courts = Court.where(confirmation_status: true)
 
-    @areas = Area.where(prefecture_id: params.dig(:prefecture, :id)) unless params.dig(:prefecture, :id).nil?
+    @prefecture_id = params.dig(:prefecture, :id)
 
-    @courts = @courts.where(area_id: Area.where(prefecture_id: params.dig(:prefecture, :id)).ids) unless params.dig(
-      :prefecture, :id
-    ).nil?
+    @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.nil?
 
-    @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].nil?
+    @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.nil?
 
     @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
 
@@ -20,6 +19,9 @@ class CourtsController < ApplicationController
 
     @courts = tag_search(@courts, params.dig(:Tag, :tag_ids)) unless params.dig(:Tag, :tag_ids).nil?
 
+    @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].nil?
+
+    # time search
     if time_filled_in?('open') && time_filled_in?('close')
       open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
                                                  params.dig(:court, :'open_time(5i)'))
@@ -149,6 +151,15 @@ class CourtsController < ApplicationController
     # 全て空欄か埋まってればOK
     unless params.dig(:court, :"#{str}_time(4i)").blank? == params.dig(:court, :"#{str}_time(5i)").blank?
       flash[:alert] = '時間は時間と分、両方の入力が必要です。'
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def valid_pref_key?(pref_id)
+    return true if pref_id.nil?
+
+    if pref_id.empty?
+      flash[:alert] = '県が選択されていません'
       redirect_back(fallback_location: root_path)
     end
   end
