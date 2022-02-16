@@ -37,6 +37,14 @@
                           POST   /courts(.:format)                                                                        courts#create
                 new_court GET    /courts/new(.:format)                                                                    courts#new
                     court GET    /courts/:id(.:format)                                                                    courts#show
+              court_infos GET    /court_infos(.:format)                                                                   court_infos#index
+                          POST   /court_infos(.:format)                                                                   court_infos#create
+           new_court_info GET    /court_infos/new(.:format)                                                               court_infos#new
+          edit_court_info GET    /court_infos/:id/edit(.:format)                                                          court_infos#edit
+               court_info GET    /court_infos/:id(.:format)                                                               court_infos#show
+                          PATCH  /court_infos/:id(.:format)                                                               court_infos#update
+                          PUT    /court_infos/:id(.:format)                                                               court_infos#update
+                          DELETE /court_infos/:id(.:format)                                                               court_infos#destroy
            confirm_events GET    /events/confirm(.:format)                                                                events#confirm
            address_events GET    /events/address(.:format)                                                                events#address
       court_select_events GET    /events/court_select(.:format)                                                           events#court_select

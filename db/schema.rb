@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_19_045231) do
+ActiveRecord::Schema.define(version: 2022_02_16_155706) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "prefecture_id", null: false
@@ -38,6 +38,18 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.index ["court_id", "user_id"], name: "index_court_histories_on_court_id_and_user_id", unique: true
     t.index ["court_id"], name: "index_court_histories_on_court_id"
     t.index ["user_id"], name: "index_court_histories_on_user_id"
+  end
+
+  create_table "court_infos", force: :cascade do |t|
+    t.integer "court_id", null: false
+    t.integer "user_id", null: false
+    t.string "information", null: false
+    t.boolean "status", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id"], name: "index_court_infos_on_court_id_and_user_id", unique: true
+    t.index ["court_id"], name: "index_court_infos_on_court_id"
+    t.index ["user_id"], name: "index_court_infos_on_user_id"
   end
 
   create_table "court_reviews", force: :cascade do |t|

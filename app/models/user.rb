@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :events,           dependent: :destroy
   has_many :event_histories,  dependent: :destroy
   has_many :event_favorites,  dependent: :destroy
+  has_many :court_infos,      dependent: :destroy
 
   def active_for_authentication?
     super && is_active

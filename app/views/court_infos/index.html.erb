@@ -1,0 +1,22 @@
+
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center pt-3">
+    <% if @court_infos.blank? %>
+      <div class="bg-white text-center mb-5">提供した情報がないか、全て対応済みとなっています。</div>
+    <% else %>
+      <% @court_infos.each do |court_info| %>
+        <div class="row bg-light mb-3 pl-3">
+          <div class="pl-3 mt-3">
+            <p class="font-weight-bold align-middle mb-3">
+                <%= link_to("#{court_info.court_name}の情報", court_info_path(court_info.id), class: 'd-block') %>
+            </p>
+            <p class="mb-3 d-flex justify-content-start">
+              <%= link_to('提供情報内容確認', court_info_path(court_info.id), class: 'btn btn-sm btn-success d-inline-block') %>
+              <%= link_to('コート確認', court_path(court_info.court_id), class: 'btn btn-sm btn-primary ml-5 d-inline-block') %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -12,6 +12,13 @@
     </div>
     <div class="h-50px mb-3 d-flex pl-4 btn d-block btn-light">
       <h4 class="align-self-center mb-0">
+        <%= link_to(court_infos_path) do %>
+          <i class="fas fa-comment-dots"></i> コート情報・追加依頼
+        <% end %>
+      </h4>
+    </div>
+    <div class="h-50px mb-3 d-flex pl-4 btn d-block btn-light">
+      <h4 class="align-self-center mb-0">
         <%= link_to(event_favorites_path) do %>
           <i class="fas fa-check-square"></i> イベント検討リスト
         <% end %>

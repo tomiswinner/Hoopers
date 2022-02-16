@@ -43,5 +43,6 @@ class ApplicationController < ActionController::Base
       return true if controller_name == "court_histories"
       return true if controller_name == "event_favorites"
       return true if controller_name == "event_histories"
+      return true if controller_name == "court_infos"
     end
 end

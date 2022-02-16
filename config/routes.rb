@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :court_infos
+
   resources :events do
     collection do
       get :confirm

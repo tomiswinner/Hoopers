@@ -1,0 +1,42 @@
+<!--method get or patch-->
+<!--path confirm_events_path or event_path(@event.id)-->
+<!--court: @court-->
+<!--submit_btn_txt 入力内容を確認する　修正する-->
+<!--title-->
+<!--court_info @court_info-->
+
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center text-white pt-3">
+    <h4 class="pb-3"><%= title %></h4>
+      <div class="pb-3">
+        <div>
+          <i class="fab fa-dribbble"></i> コート名
+        </div>
+        <div class="pl-3 font-weight-bold">
+          <%= court.name %>
+        </div>
+      </div>
+    <%= form_with(model: court_info, url: path, method: method, local: true, class: 'form-group') do |f| %>
+      <%= f.hidden_field(:court_id, value: court.id) %>
+      <%= f.hidden_field(:user_id, value: current_user.id) %>
+
+      <div class="pb-3">
+        <div>
+          <%= f.label(:information) do %>
+            <i class="fas fa-comment-dots"></i> コート情報修正・追加説明
+          <% end %>
+        </div>
+        <div>
+          <%= f.text_area(:information, rows: 10, class: 'form-control') %>
+        </div>
+      </div>
+      <%= f.hidden_field(:status, value: false) %>
+      <div class="pb-3 d-flex justify-content-start">
+        <%= f.submit(submit_btn_txt, class: 'btn btn-success d-block') %>
+        <% if action_name == 'edit'|| action_name == 'update' %>
+          <%= link_to('情報を削除', court_info_path(court_info.id), method: 'delete', data: {confirm: '削除しますか？'}, class: 'btn btn-danger d-block ml-auto' ) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

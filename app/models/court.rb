@@ -10,6 +10,7 @@ class Court < ApplicationRecord
   has_many :court_favorites,    dependent: :destroy
   has_many :court_histories,    dependent: :destroy
   has_many :court_tag_taggings, dependent: :destroy
+  has_many :court_infos,        dependent: :destroy
 
   validates :name                 ,presence: true
   validates :user_id              ,presence: true
