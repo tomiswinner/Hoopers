@@ -9,17 +9,17 @@ class CourtsController < ApplicationController
 
     @prefecture_id = params.dig(:prefecture, :id)
 
-    @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.nil?
+    @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.blank?
 
-    @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.nil?
+    @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.blank?
 
-    @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
+    @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).blank?
 
-    @courts = court_type_search(@courts, params.dig(:court, :court_types)) unless params.dig(:court, :court_types).nil?
+    @courts = court_type_search(@courts, params.dig(:court, :court_types)) unless params.dig(:court, :court_types).blank?
 
-    @courts = tag_search(@courts, params.dig(:Tag, :tag_ids)) unless params.dig(:Tag, :tag_ids).nil?
+    @courts = tag_search(@courts, params.dig(:Tag, :tag_ids)) unless params.dig(:Tag, :tag_ids).blank?
 
-    @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].nil?
+    @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].blank?
 
     # time search
     if time_filled_in?('open') && time_filled_in?('close')

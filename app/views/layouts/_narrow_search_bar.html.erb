@@ -9,7 +9,7 @@
       </div>
         <%= f.select(:id, Prefecture.all.collect { |pref| [pref.name, pref.id]}, {selected: params.dig(:prefecture, :id), prompt: "県を選択", include_blank: true}, \
                     {id: 'prefs_select',class: 'mb-2 border',  onchange: 'Rails.fire(this.form,"submit")'}) %>
-        <%= f.hidden_field(:id, value: @prefectrue_id, form: 'narrow_search', id: 'hidden_pref_id') %>
+        <%= f.hidden_field(:id, value: @prefecture_id, form: 'narrow_search', id: 'hidden_pref_id') %>
         <div id='areas_select'>
           <%= render(partial: 'layouts/areas', locals: {areas: @areas}) %>
         </div>
@@ -45,12 +45,16 @@
           </div>
           <div>
             <div>
-              <%= f.label(:open_time, '開始') %>
               <%= f.datetime_select(:open_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
             </div>
+            <div class="text-center my-2">
+              以降の時間のイベント
+            </div>
             <div>
-              <%= f.label(:close_time,'終了') %>
               <%= f.datetime_select(:close_time, {use_month_numbers: true, include_blank: true, minute_step: 15}, {class: 'border', form: 'narrow_search'}) %>
+            </div>
+            <div class="text-center my-2">
+              までの時間のイベント
             </div>
           </div>
         <% end %>
