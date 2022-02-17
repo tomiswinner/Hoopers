@@ -21,22 +21,7 @@ class CourtsController < ApplicationController
 
     @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].blank?
 
-    # time search
-    if time_filled_in?('open') && time_filled_in?('close')
-      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
-                                                 params.dig(:court, :'open_time(5i)'))
-      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
-                                                  params.dig(:court, :'close_time(5i)'))
-      @courts = @courts.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
-    elsif time_filled_in?('close')
-      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
-                                                  params.dig(:court, :'close_time(5i)'))
-      @courts = @courts.where('close_time <= ?', close_time)
-    elsif time_filled_in?('open')
-      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
-                                                 params.dig(:court, :'open_time(5i)'))
-      @courts = @courts.where('open_time >= ?', open_time)
-    end
+    @courts = time_search(@courts)
 
     @courts = Kaminari.paginate_array(@courts).page(params[:page]).per(10)
 
@@ -201,6 +186,25 @@ class CourtsController < ApplicationController
   def latlng_search(courts, lat, lng)
     courts = courts.where('? <= latitude', lat - Lat_range).where('? >= latitude', lat + Lat_range)
     courts = courts.where('? <= longitude', lng - Lng_range).where('? >= longitude', lng + Lng_range)
+    return courts
+  end
+
+  def time_search(courts)
+    if time_filled_in?('open') && time_filled_in?('close')
+      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
+                                                 params.dig(:court, :'open_time(5i)'))
+      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
+                                                  params.dig(:court, :'close_time(5i)'))
+      courts = courts.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
+    elsif time_filled_in?('close')
+      close_time = Court.convert_time_to_past_sec(params.dig(:court, :'close_time(4i)'),
+                                                  params.dig(:court, :'close_time(5i)'))
+      courts = courts.where('close_time <= ?', close_time)
+    elsif time_filled_in?('open')
+      open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
+                                                 params.dig(:court, :'open_time(5i)'))
+      courts = courts.where('open_time >= ?', open_time)
+    end
     return courts
   end
 

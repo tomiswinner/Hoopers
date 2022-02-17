@@ -42,21 +42,7 @@ class EventsController < ApplicationController
 
     @events = Event.where(court_id: @courts.pluck(:id))
 
-    # リファクタリング予知あり
-    # validationは後ほど
-
-    if time_filled_in?('open') && time_filled_in?('close')
-      open_time = extract_formatted_time_from_params('open')
-      close_time = extract_formatted_time_from_params('close')
-      @events = @events.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
-    elsif time_filled_in?('open')
-      open_time = extract_formatted_time_from_params('open')
-      @events = @events.where('open_time >= ?', open_time)
-    elsif time_filled_in?('close')
-      close_time = extract_formatted_time_from_params('close')
-      @events = @events.where('close_time <= ?', close_time)
-    end
-
+    @events = time_search(@events)
 
     @events =   Kaminari.paginate_array(@events.order(created_at: 'DESC')).page(params[:page]).per(10)
 
@@ -161,6 +147,21 @@ class EventsController < ApplicationController
       end
     end
     return true
+  end
+
+  def time_search(events)
+    if time_filled_in?('open') && time_filled_in?('close')
+      open_time = extract_formatted_time_from_params('open')
+      close_time = extract_formatted_time_from_params('close')
+      events = events.where('open_time >= ?', open_time).where('close_time <= ?', close_time)
+    elsif time_filled_in?('open')
+      open_time = extract_formatted_time_from_params('open')
+      events = events.where('open_time >= ?', open_time)
+    elsif time_filled_in?('close')
+      close_time = extract_formatted_time_from_params('close')
+      events = events.where('close_time <= ?', close_time)
+    end
+    return events
   end
 
   def events_params
