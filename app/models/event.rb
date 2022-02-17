@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   has_many :event_favorites, dependent: :destroy
   has_many :event_histories, dependent: :destroy
 
-  validates :name           ,presence: true
+  validates :name           ,presence: true, length: { maximum: 20}
   validates :court_id       ,presence: true
   validates :user_id        ,presence: true
   validates :description    ,presence: true

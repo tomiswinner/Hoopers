@@ -98,6 +98,7 @@ class EventsController < ApplicationController
 
   def confirm
     @event = Event.new(events_params)
+    
     return unless @event.invalid?
 
     err_msg = "イベント投稿に必要な内容が不足しています。\n"

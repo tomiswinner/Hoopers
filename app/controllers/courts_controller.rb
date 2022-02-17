@@ -139,8 +139,8 @@ class CourtsController < ApplicationController
     if keyword.length.zero?
       flash[:alert] = 'キーワードが入力されていません'
       redirect_back(fallback_location: root_path)
-    elsif keyword.length > 10
-      flash[:alert] = 'キーワードは全角10文字までです'
+    elsif keyword.length > 20
+      flash[:alert] = 'キーワードは20文字までです'
       redirect_back(fallback_location: root_path)
     end
   end

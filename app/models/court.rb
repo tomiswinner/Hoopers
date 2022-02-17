@@ -12,7 +12,7 @@ class Court < ApplicationRecord
   has_many :court_tag_taggings, dependent: :destroy
   has_many :court_infos,        dependent: :destroy
 
-  validates :name                 ,presence: true
+  validates :name                 ,presence: true, length: { maximum: 20}
   validates :user_id              ,presence: true
   validates :area_id              ,presence: true
   validates :latitude             ,presence: true
@@ -75,6 +75,9 @@ class Court < ApplicationRecord
     err_msg = ''
     if name.blank?
       err_msg += "コート名が入力されていません\n"
+    end
+    if name.length > 20
+      err_msg += "コート名は20文字までです\n"
     end
     if address.blank?
       err_msg += "住所が入力されていません\n"
