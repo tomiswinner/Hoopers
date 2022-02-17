@@ -145,31 +145,43 @@ RSpec.describe 'Court', type: :system do
 
     describe 'タグ検索機能' do
       before do
-        @taggings = []
-        5.times do |i|
-          @taggings[i] = FactoryBot.create(:court_tag_tagging)
+        @courts =
+        3.times do |n|
+          FactoryBot.create(:court)
+          FactoryBot.create(:tag)
         end
+          FactoryBot.create(:court_tag_tagging, court_id: Court.first.id, tag_id: Tag.first.id)
+          FactoryBot.create(:court_tag_tagging, court_id: Court.first.id, tag_id: Tag.second.id)
+          FactoryBot.create(:court_tag_tagging, court_id: Court.second.id, tag_id: Tag.first.id)
+          FactoryBot.create(:court_tag_tagging, court_id: Court.second.id, tag_id: Tag.third.id)
+          FactoryBot.create(:court_tag_tagging, court_id: Court.third.id, tag_id: Tag.second.id)
+          FactoryBot.create(:court_tag_tagging, court_id: Court.third.id, tag_id: Tag.third.id)
       end
-
-      context '入力tag 0,1,2 データ 0~4 （コートとタグと中間テーブルはそれぞれ５つある場合）' do
-        it 'データ0,1,2 が返ってくる' do
-          visit courts_path(Tag: { tag_ids: [Tag.first.id, Tag.second.id, Tag.third.id] },
+      context ' 0,1 のタグをもつデータ、0,2のタグをもつデータ, 1,2のタグをもつデータ'
+        it '入力tag 0,1　でデータ(0,1)は返ってくる' do
+          visit courts_path(Tag: { tag_ids: [Tag.first.id, Tag.second.id] },
                             court: { 'open_time(4i)': '', 'open_time(5i)': '',
                                      'close_time(4i)': '', 'close_time(5i)': '' })
-          expect(page).to have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.first.id).first.court_id).first.name)\
-                        &&have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.second.id).first.court_id).first.name)\
-                        &&have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.third.id).first.court_id).first.name)
+          expect(page).to have_content(Court.first.name)
         end
-
-        it 'データ3,4 は返ってこない' do
-          visit courts_path(Tag: { tag_ids: [Tag.first.id, Tag.second.id, Tag.third.id] },
+        it '入力tag 0,1　でデータ(0,2)(1,2)は返ってこない' do
+          visit courts_path(Tag: { tag_ids: [Tag.first.id, Tag.second.id] },
                             court: { 'open_time(4i)': '', 'open_time(5i)': '',
                                      'close_time(4i)': '', 'close_time(5i)': '' })
-          # byebug
-          expect(page).not_to have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.fourth.id).first.court_id).first.name)\
-                        &&have_content(Court.where(id: CourtTagTagging.where(tag_id: Tag.fifth.id).first.court_id).first.name)\
+          expect(page).not_to have_content(Court.second.name)&&have_content(Court.third.name)
         end
-      end
+        it '入力tag 0 でデータ(0,1),(0,2)ｇ返ってくる' do
+          visit courts_path(Tag: { tag_ids: [Tag.first.id] },
+                            court: { 'open_time(4i)': '', 'open_time(5i)': '',
+                                     'close_time(4i)': '', 'close_time(5i)': '' })
+          expect(page).to have_content(Court.first.name)&&have_content(Court.second.name)
+        end
+        it '入力tag 0 でデータ(1,2)は返ってこない' do
+          visit courts_path(Tag: { tag_ids: [Tag.first.id] },
+                            court: { 'open_time(4i)': '', 'open_time(5i)': '',
+                                     'close_time(4i)': '', 'close_time(5i)': '' })
+          expect(page).not_to have_content(Court.third.name)
+        end
     end
 
     describe 'マップ検索' do

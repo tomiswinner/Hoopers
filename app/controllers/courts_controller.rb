@@ -185,13 +185,11 @@ class CourtsController < ApplicationController
   end
 
   def tag_search(courts, tag_ids)
-    results = Court.none
     tag_ids.each do |tag_id|
-      Tag.find(tag_id).court_tag_taggings.each do |tagging|
-        results = results.or(courts.where(id: tagging.court_id))
-      end
+      court_ids = Tag.find(tag_id).court_tag_taggings.pluck(:court_id)
+      courts = courts.where(id: court_ids)
     end
-    return results
+    return courts
   end
 
   def get_prefecture_id(geocoded_data)

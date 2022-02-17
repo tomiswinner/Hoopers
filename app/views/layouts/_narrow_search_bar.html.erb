@@ -31,12 +31,26 @@
           <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
             <h4 class="align-self-center mb-0"><i class="fas fa-warehouse"></i>　コートタイプ</h4>
           </div>
-          <%= f.collection_check_boxes(:court_types, model.court_types_i18n.except(:checking), :first, :last, {include_hidden: false, checked: false}, {class: 'ml-3', form: 'narrow_search'}) %>
+          <% model.court_types_i18n.each do |key, val| %>
+            <div class="d-inline-block">
+              <%= f.check_box(:court_types, {name: "court[court_types][]", include_hidden: false, checked: false}, key) %>
+              <% if key == 'checking' %>
+                <%= f.label(:court_types, "#{val}も含める") %>
+              <% else %>
+                <%= f.label(:court_types, val) %>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
           <div class="h-50px mb-3 border-top border-bottom d-flex justify-content-center">
             <h4 class="align-self-center mb-0"><i class="fas fa-tags"></i>　タグ</h4>
           </div>
-          <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {}, {class: 'ml-3', form: 'narrow_search'}) %>
+          <% Tag.all.each do |tag| %>
+            <div class="d-inline-block">
+              <%= check_box(Tag, :tag_ids, {class: 'ml-3', form: 'narrow_search', name: 'Tag[tag_ids][]', include_hidden: false}, tag.id) %>
+              <%= label_tag(:tag_ids, tag.name) %>
+            </div>
+          <% end %>
 
       <% elsif model.name == 'Event' %>
         <%= form_with(model: model, url: path, method: 'get', local: true, id: 'narrow_search') do |f| %>
