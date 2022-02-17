@@ -16,6 +16,7 @@
    <%= hidden_field_tag(:center_longitude, @center_lng) %>
    <% @courts.each do |court| %>
     <%= hidden_field_tag(:name, court.name, {class: 'names', id: "#{court.name}_name"}) %>
+    <%= hidden_field_tag(:confirmation_status, court.confirmation_status, {class: 'confirmation_statuses', id: "#{court.name}_status"}) %>
     <%= hidden_field_tag(:latitude, court.latitude, {class: 'latitudes', id: "#{court.name}_lat"}) %>
     <%= hidden_field_tag(:longitude, court.longitude, {class: 'longitudes', id: "#{court.name}_lng"}) %>
     <%= hidden_field_tag(:path, new_event_path(court_id: court.id), {class: 'links', id: "#{court.name}_links"}) %>

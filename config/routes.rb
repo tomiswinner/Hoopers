@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     collection do
       get :address
       get :map_check
-      get :confirm
+      post :confirm
       get :thanks
       get :map_search
     end

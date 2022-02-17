@@ -45,7 +45,7 @@ class CourtsController < ApplicationController
       @address = params.dig(:court, :address)
       @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
       @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
-      @courts = Court.where(confirmation_status: true)
+      @courts = Court.all
       @courts = latlng_search(@courts, @center_lat, @center_lng)
 
     else
@@ -87,6 +87,7 @@ class CourtsController < ApplicationController
     @court = Court.new(courts_params)
     @tag_ids = params[:tag_ids].split
     Court.transaction do
+      @court = register_refile_from_confirmation(@court, params.dig(:court, :image))
       @court.save!
       @tag_ids.each do |id|
         tagging = CourtTagTagging.new(court_id: @court.id, tag_id: id)
@@ -96,10 +97,8 @@ class CourtsController < ApplicationController
     flash[:notice] = 'コートが投稿されました'
     redirect_to(thanks_courts_path)
   rescue StandardError => e
-    err_msg = "コートの投稿に失敗しました。\n"
-    err_msg += "#{e}\n"
-    flash.now[:alert] = err_msg
-    render :confirm
+    flash[:alert] = "予期せぬエラーが発生しました。\nお手数をおかけしますが、再度ご登録をお願いします。\n#{e}"
+    redirect_to address_courts_path
   end
 
   def thanks; end

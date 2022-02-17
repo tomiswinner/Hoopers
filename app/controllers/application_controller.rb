@@ -27,6 +27,12 @@ class ApplicationController < ActionController::Base
     return results
   end
 
+  def register_refile_from_confirmation(instance, refile_id)
+    refile_obj = Refile.backends['cache'].get(refile_id)
+    instance.image = Refile.backends['store'].upload(refile_obj)
+    return instance
+  end
+
   # sign in, sign out, log in 後はすべて root へ遷移
   protected
     def configure_permitted_parameters
@@ -46,7 +52,7 @@ class ApplicationController < ActionController::Base
       return true if controller_name == "court_infos"
     end
 
-    def valid_pref_key?(pref_id)
+  def valid_pref_key?(pref_id)
     return true if pref_id.nil?
 
     if pref_id.empty?

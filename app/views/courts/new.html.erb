@@ -6,7 +6,7 @@
           コート名と地域、住所の入力は必須です。<br>
           その他わからない場所は空欄とすると、確認中と表示されます。
         </p>
-          <%= form_with(model: @court, url: confirm_courts_path, method: 'get', local: true, id: 'form') do |f| %>
+          <%= form_with(model: @court, url: confirm_courts_path, method: 'post', local: true, id: 'form') do |f| %>
             <%= f.hidden_field(:user_id, value: current_user.id) %>
             <%= f.hidden_field(:latitude, value: true) %>
             <%= f.hidden_field(:longitude, value: true) %>

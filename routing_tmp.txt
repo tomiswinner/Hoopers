@@ -30,7 +30,7 @@
                           PUT    /courts/:court_id/court_reviews/:id(.:format)                                            court_reviews#update
            address_courts GET    /courts/address(.:format)                                                                courts#address
          map_check_courts GET    /courts/map_check(.:format)                                                              courts#map_check
-           confirm_courts GET    /courts/confirm(.:format)                                                                courts#confirm
+           confirm_courts POST   /courts/confirm(.:format)                                                                courts#confirm
             thanks_courts GET    /courts/thanks(.:format)                                                                 courts#thanks
         map_search_courts GET    /courts/map_search(.:format)                                                             courts#map_search
                    courts GET    /courts(.:format)                                                                        courts#index

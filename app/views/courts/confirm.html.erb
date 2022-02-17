@@ -20,7 +20,7 @@
       <%= f.hidden_field(:size, value: @court.size) %>
       <%= f.hidden_field(:price, value: @court.price) %>
       <%= f.hidden_field(:court_type, value: @court.court_type) %>
-      <%= f.hidden_field(:image, value: @court.image_id) %>
+      <%= f.hidden_field(:image, value: @court.image.id) %>
       <%= f.hidden_field(:business_status, value: true) %>
       <%= f.hidden_field(:confirmation_status, value: false) %>
       <%= hidden_field_tag(:tag_ids, @tag_ids, form: 'form') %>

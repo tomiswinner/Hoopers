@@ -71,7 +71,6 @@ class Court < ApplicationRecord
   end
 
   def validate_about_name_address_area()
-    # 可能ならエラーメッセジを引っ張ってきたい
     err_msg = ''
     if name.blank?
       err_msg += "コート名が入力されていません\n"
@@ -81,6 +80,9 @@ class Court < ApplicationRecord
     end
     if address.blank?
       err_msg += "住所が入力されていません\n"
+    end
+    if Court.where(address: address).count > 0
+      err_msg += "既に現在の住所のコートは登録されています。情報反映までお待ちください。\n"
     end
     if area_id.blank?
       err_msg += "地域が入力されていません\n"

@@ -11,16 +11,14 @@ class EventsController < ApplicationController
     @event = Event.new(events_params)
 
     Event.transaction do
-      refile_obj = Refile.backends['cache'].get(params.dig(:event, :image))
-      @event.image = Refile.backends['store'].upload(refile_obj)
+      @event = register_refile_from_confirmation(@event,params.dig(:event, :image))
       @event.save!
     end
     flash[:notice] = 'イベントが投稿されました'
     redirect_to(event_path(@event.id))
   rescue => e
-      err_msg = "イベント投稿に失敗しました。\n#{e}"
-      flash.now[:alert] = err_msg
-      render :confirm
+    flash[:alert] = "予期せぬエラーが発生しました。\nお手数をおかけしますが、再度ご登録をお願いします。\n#{e}"
+    redirect_to root_path
   end
 
   def index
@@ -118,7 +116,7 @@ class EventsController < ApplicationController
       @entered_address = params.dig(:court, :address)
       @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
       @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
-      @courts = Court.where(confirmation_status: true)
+      @courts = Court.all
       @courts = @courts.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
       @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude',
                                                                                @center_lng + Lng_range)

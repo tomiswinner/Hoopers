@@ -80,6 +80,7 @@ function initMap(){
     lngs_htmls = document.getElementsByClassName('longitudes')
     links_htmls = document.getElementsByClassName('links')
     names_htmls = document.getElementsByClassName('names')
+    confirmation_statuses_htmls = document.getElementsByClassName('confirmation_statuses')
 
     var opened_window = ""
 
@@ -89,9 +90,15 @@ function initMap(){
             lats_htmls.item(n).value,
             lngs_htmls.item(n).value
           )
-
+          content = ""
+          if(confirmation_statuses_htmls.item(n).value == 'false'){
+            content = "<div class='text-dark'>現在情報確認中のコートです</div>"
+          }else{
+            content = "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
+          }
+            console.log(content)
           infowindow = new google.maps.InfoWindow({
-            content: "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
+            content: content
           })
 
           marker = new google.maps.Marker({
