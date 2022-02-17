@@ -45,7 +45,7 @@
                           PATCH  /court_infos/:id(.:format)                                                               court_infos#update
                           PUT    /court_infos/:id(.:format)                                                               court_infos#update
                           DELETE /court_infos/:id(.:format)                                                               court_infos#destroy
-           confirm_events GET    /events/confirm(.:format)                                                                events#confirm
+           confirm_events POST   /events/confirm(.:format)                                                                events#confirm
            address_events GET    /events/address(.:format)                                                                events#address
       court_select_events GET    /events/court_select(.:format)                                                           events#court_select
                    events GET    /events(.:format)                                                                        events#index

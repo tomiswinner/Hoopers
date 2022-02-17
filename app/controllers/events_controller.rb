@@ -9,17 +9,18 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(events_params)
-    if @event.save
-      flash[:notice] = 'イベントが投稿されました'
-      redirect_to(event_path(@event.id))
-    else
-      err_msg = "イベント投稿に失敗しました。\n"
-      @event.errors.full_messages.each do |msg|
-        err_msg += "#{msg}\n"
-      end
+
+    Event.transaction do
+      refile_obj = Refile.backends['cache'].get(params.dig(:event, :image))
+      @event.image = Refile.backends['store'].upload(refile_obj)
+      @event.save!
+    end
+    flash[:notice] = 'イベントが投稿されました'
+    redirect_to(event_path(@event.id))
+  rescue => e
+      err_msg = "イベント投稿に失敗しました。\n#{e}"
       flash.now[:alert] = err_msg
       render :confirm
-    end
   end
 
   def index
@@ -98,7 +99,6 @@ class EventsController < ApplicationController
 
   def confirm
     @event = Event.new(events_params)
-    
     return unless @event.invalid?
 
     err_msg = "イベント投稿に必要な内容が不足しています。\n"

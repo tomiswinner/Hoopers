@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :events do
     collection do
-      get :confirm
+      post :confirm
       get :address
       get :court_select
     end
