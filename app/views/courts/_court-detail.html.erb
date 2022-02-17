@@ -103,7 +103,7 @@
           <% if action_name == 'show' %>
             <% Tag.pluck(:id, :name).each do |tag_id, tag_name| %>
               <div class="d-inline-block mb-2 no_change_color_disabled">
-                <%= check_box_tag(tag_name, value= 1, checked= court.has_tag?(tag_id), {readonly: true}) %>
+                <%= check_box_tag(tag_name, value= 1, checked= court.exists_tag?(tag_id), {readonly: true}) %>
                 <%= label_tag(tag_name) %>
               </div>
             <% end %>

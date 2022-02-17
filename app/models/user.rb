@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :courts
+  has_many :courts,           dependent: :restrict_with_exception
   has_many :court_reviews,    dependent: :destroy
   has_many :court_histories,  dependent: :destroy
   has_many :court_favorites,  dependent: :destroy
@@ -18,27 +18,21 @@ class User < ApplicationRecord
   end
 
   def favorites_this_court?(court_id)
-    if  court_favorites.find_by(court_id: court_id)
-      return true
-    else
-      return false
-    end
+    return true if court_favorites.find_by(court_id: court_id)
+
+    return false
   end
 
   def favorites_this_event?(event_id)
-    if  event_favorites.find_by(event_id: event_id)
-      return true
-    else
-      return false
-    end
+    return true if event_favorites.find_by(event_id: event_id)
+
+    return false
   end
 
   def reviewed_this_court?(court_id)
-    if  court_reviews.find_by(court_id: court_id)
-      return true
-    else
-      return false
-    end
+    return true if court_reviews.find_by(court_id: court_id)
+
+    return false
   end
 
   def history_exists?(model)
