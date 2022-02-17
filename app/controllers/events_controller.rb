@@ -1,7 +1,9 @@
+# rubocop:disable Metrics/ClassLength
 class EventsController < ApplicationController
   before_action -> { valid_time_field?('open') }, only: :index
   before_action -> { valid_time_field?('close') }, only: :index
-  before_action -> { valid_pref_key?(params.dig(:prefecture, :id)) }, only: :index, if: proc { URI(request.referer.to_s).path == "/" }
+  before_action -> { valid_pref_key?(params.dig(:prefecture, :id)) }, only: :index,\
+                                                                      if: proc { URI(request.referer.to_s).path == '/' }
 
   def new
     @event = Event.new(court_id: params[:court_id])
@@ -11,16 +13,17 @@ class EventsController < ApplicationController
     @event = Event.new(events_params)
 
     Event.transaction do
-      @event = register_refile_from_confirmation(@event,params.dig(:event, :image))
+      @event = register_refile_from_confirmation(@event, params.dig(:event, :image))
       @event.save!
     end
     flash[:notice] = 'イベントが投稿されました'
     redirect_to(event_path(@event.id))
-  rescue => e
+  rescue StandardError => e
     flash[:alert] = "予期せぬエラーが発生しました。\nお手数をおかけしますが、再度ご登録をお願いします。\n#{e}"
     redirect_to root_path
   end
 
+  # rubocop:disable Metrics/AbcSize
   def index
     @events = Event.all
 
@@ -32,37 +35,31 @@ class EventsController < ApplicationController
 
     @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.nil?
 
-    #pref 検索
+    # pref 検索
     @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.nil?
 
     @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
 
-    if params.dig(:from_court_id)
-      @courts = Court.where(id: params.dig(:from_court_id))
-    end
+    @courts = Court.where(id: params[:from_court_id]) if params[:from_court_id]
 
     @events = Event.where(court_id: @courts.pluck(:id))
 
     @events = time_search(@events)
 
-    @events =   Kaminari.paginate_array(@events.order(created_at: 'DESC')).page(params[:page]).per(10)
+    @events = Kaminari.paginate_array(@events.order(created_at: 'DESC')).page(params[:page]).per(10)
 
     respond_to do |f|
       f.html
       f.js
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def show
     @event = Event.find(params[:id])
     return unless user_signed_in?
-      if current_user.history_exists?(@event)
-        EventHistory.find_by(user_id: current_user.id, event_id: params[:id]).destroy
-      end
-      EventHistory.create(user_id: current_user.id, event_id: params[:id])
-      return unless current_user.histories_reached_to_limit?(@event)
-        EventHistory.where(user_id: current_user.id).order(:created_at).first.destroy
 
+    operate_event_history(@event, params[:id]) if user_signed_in?
   end
 
   def edit
@@ -113,15 +110,10 @@ class EventsController < ApplicationController
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
       geocoded_data = JSON.parse(res.body)
+      @center_lat, @center_lng = return_latlng(geocoded_data)
       @entered_address = params.dig(:court, :address)
-      @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
-      @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
-      @courts = Court.all
-      @courts = @courts.where('? <= latitude', @center_lat - Lat_range).where('? >= latitude', @center_lat + Lat_range)
-      @courts = @courts.where('? <= longitude', @center_lng - Lng_range).where('? >= longitude',
-                                                                               @center_lng + Lng_range)
+      @courts = latlng_search(Court.all, @center_lat, @center_lng)
     else
-      # リファクタリング
       flash.now[:alert] = 'エラーが発生しました。'
       render :address
     end
@@ -130,22 +122,20 @@ class EventsController < ApplicationController
   private
 
   def extract_formatted_time_from_params(str)
-    datetime = Time.new(
-      yaer = params.dig(:event, :"#{str}_time(1i)"),
-      mon =  params.dig(:event, :"#{str}_time(2i)"),
-      day =  params.dig(:event, :"#{str}_time(3i)"),
-      hour = params.dig(:event, :"#{str}_time(4i)"),
-      min =  params.dig(:event, :"#{str}_time(5i)"),
-      )
+    # year,mon,day,hour,min
+    datetime = Time.zone.local(
+      params.dig(:event, :"#{str}_time(1i)"),
+      params.dig(:event, :"#{str}_time(2i)"),
+      params.dig(:event, :"#{str}_time(3i)"),
+      params.dig(:event, :"#{str}_time(4i)"),
+      params.dig(:event, :"#{str}_time(5i)")
+    )
     return datetime
   end
 
   def time_filled_in?(str)
-
-    [*1..5].each do|n|
-      if params.dig(:event, :"#{str}_time(#{n}i)").blank?
-        return false
-      end
+    [*1..5].each do |n|
+      return false if params.dig(:event, :"#{str}_time(#{n}i)").blank?
     end
     return true
   end
@@ -170,17 +160,25 @@ class EventsController < ApplicationController
                                          :open_time, :close_time, :status)
   end
 
+  def operate_event_history(event, _event_id)
+    EventHistory.find_by(user_id: current_user.id, event_id: params[:id]).destroy if current_user.history_exists?(event)
+    EventHistory.create(user_id: current_user.id, event_id: params[:id])
+    return unless current_user.histories_reached_to_limit?(event)
+
+    EventHistory.where(user_id: current_user.id).order(:created_at).first.destroy
+  end
 
   def valid_time_field?(str)
     # 全て空欄か埋まってればOK
     bool = params.dig(:event, :"#{str}_time(1i)").blank?
     [*2..5].each do |n|
-      if bool != params.dig(:event, :"#{str}_time(#{n}i)").blank?
-        flash[:alert] = '時間検索には開始時刻・終了時刻どちらかはすべての入力が必要です。'
-        redirect_back(fallback_location: root_path)
-        return
-      end
+      next unless bool != params.dig(:event, :"#{str}_time(#{n}i)").blank?
+
+      flash[:alert] = '時間検索には開始時刻・終了時刻どちらかはすべての入力が必要です。'
+      redirect_back(fallback_location: root_path)
+      break
     end
   end
-
 end
+
+# rubocop:enable Metrics/ClassLength

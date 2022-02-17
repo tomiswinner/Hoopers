@@ -1,7 +1,7 @@
 class CourtInfosController < ApplicationController
   def new
     @court = Court.find(params[:court_id])
-    @court_info = CourtInfo.new()
+    @court_info = CourtInfo.new
   end
 
   def create
@@ -54,8 +54,8 @@ class CourtInfosController < ApplicationController
   end
 
   private
-    def court_info_params
-      params.require(:court_info).permit(:information,:user_id, :court_id, :status)
-    end
-end
 
+  def court_info_params
+    params.require(:court_info).permit(:information, :user_id, :court_id, :status)
+  end
+end

@@ -1,9 +1,12 @@
+# rubocop:disable Metrics/ClassLength
 class CourtsController < ApplicationController
   before_action -> { valid_time_field?('open') }, only: [:index, :confirm]
   before_action -> { valid_time_field?('close') }, only: [:index, :confirm]
   before_action -> { valid_keyword?(params[:keyword]) }, only: :index
-  before_action -> { valid_pref_key?(params.dig(:prefecture, :id)) }, only: :index, if: proc { URI(request.referer.to_s).path == "/" }
+  before_action -> { valid_pref_key?(params.dig(:prefecture, :id)) },\
+                only: :index, if: proc { URI(request.referer.to_s).path == '/' }
 
+  # rubocop:disable Metrics/AbcSize
   def index
     @courts = Court.where(confirmation_status: true)
 
@@ -32,6 +35,7 @@ class CourtsController < ApplicationController
       format.js
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def address
     @address = params[:address]
@@ -43,11 +47,8 @@ class CourtsController < ApplicationController
       geocoded_data = JSON.parse(res.body)
       @prefecture_id = get_prefecture_id(geocoded_data)
       @address = params.dig(:court, :address)
-      @center_lat = geocoded_data['results'][0]['geometry']['location']['lat']
-      @center_lng = geocoded_data['results'][0]['geometry']['location']['lng']
-      @courts = Court.all
-      @courts = latlng_search(@courts, @center_lat, @center_lng)
-
+      @center_lat, @center_lng = return_latlng(geocoded_data)
+      @courts = latlng_search(Court.all, @center_lat, @center_lng)
     else
       flash.now[:alert] = 'エラーが発生しました。住所が誤っている可能性があります。'
       render :address
@@ -60,6 +61,7 @@ class CourtsController < ApplicationController
     @areas = Area.where(prefecture_id: params[:prefecture_id])
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def confirm
     @court = Court.new(courts_params)
     @tag_ids = params.dig(:Tag, :tag_ids)
@@ -74,14 +76,13 @@ class CourtsController < ApplicationController
     @court.set_default_values_to_court
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
-      geocoded_data = JSON.parse(res.body)
-      @court.latitude = geocoded_data['results'][0]['geometry']['location']['lat']
-      @court.longitude = geocoded_data['results'][0]['geometry']['location']['lng']
+      @court.latitude, @court.longitude = return_latlng(JSON.parse(res.body))
     else
       flash.now[:alert] = 'エラーが発生しました。住所が誤っている可能性があります。'
       render :new
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def create
     @court = Court.new(courts_params)
@@ -90,15 +91,14 @@ class CourtsController < ApplicationController
       @court = register_refile_from_confirmation(@court, params.dig(:court, :image))
       @court.save!
       @tag_ids.each do |id|
-        tagging = CourtTagTagging.new(court_id: @court.id, tag_id: id)
-        tagging.save!
+        CourtTagTagging.create!(court_id: @court.id, tag_id: id)
       end
     end
     flash[:notice] = 'コートが投稿されました'
     redirect_to(thanks_courts_path)
   rescue StandardError => e
     flash[:alert] = "予期せぬエラーが発生しました。\nお手数をおかけしますが、再度ご登録をお願いします。\n#{e}"
-    redirect_to address_courts_path
+    redirect_to(address_courts_path)
   end
 
   def thanks; end
@@ -121,15 +121,16 @@ class CourtsController < ApplicationController
 
   def courts_params
     return params.require(:court).permit(:user_id, :area_id, :name, :image, :open_time, :close_time, :supplement,
-                                         :address, :url, :latitude, :longitude, :size, :price, :court_type, :business_status, :confirmation_status)
+                                         :address, :url, :latitude, :longitude, :size, :price, :court_type,
+                                         :business_status, :confirmation_status)
   end
 
   def valid_time_field?(str)
     # 全て空欄か埋まってればOK
-    unless params.dig(:court, :"#{str}_time(4i)").blank? == params.dig(:court, :"#{str}_time(5i)").blank?
-      flash[:alert] = '時間は時間と分、両方の入力が必要です。'
-      redirect_back(fallback_location: root_path)
-    end
+    return if params.dig(:court, :"#{str}_time(4i)").blank? == params.dig(:court, :"#{str}_time(5i)").blank?
+
+    flash[:alert] = '時間は時間と分、両方の入力が必要です。'
+    redirect_back(fallback_location: root_path)
   end
 
   def valid_keyword?(keyword)
@@ -166,12 +167,6 @@ class CourtsController < ApplicationController
     return Prefecture.find_by(name: prefecture_name).id
   end
 
-  def latlng_search(courts, lat, lng)
-    courts = courts.where('? <= latitude', lat - Lat_range).where('? >= latitude', lat + Lat_range)
-    courts = courts.where('? <= longitude', lng - Lng_range).where('? >= longitude', lng + Lng_range)
-    return courts
-  end
-
   def time_filled_in?(str)
     ["#{str}_time(4i)", "#{str}_time(5i)"].each do |elem|
       return false if params.dig(:court, :"#{elem}").blank?
@@ -179,6 +174,7 @@ class CourtsController < ApplicationController
     return true
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def time_search(courts)
     if time_filled_in?('open') && time_filled_in?('close')
       open_time = Court.convert_time_to_past_sec(params.dig(:court, :'open_time(4i)'),
@@ -197,6 +193,7 @@ class CourtsController < ApplicationController
     end
     return courts
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def operate_court_history(court, court_id)
     CourtHistory.find_by(user_id: current_user.id, court_id: court_id).destroy if current_user.history_exists?(court)
@@ -206,3 +203,4 @@ class CourtsController < ApplicationController
     CourtHistory.where(user_id: current_user.id).order(:created_at).first.destroy
   end
 end
+# rubocop:enable Metrics/ClassLength

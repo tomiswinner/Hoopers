@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
-
-  Lat_range = 0.1
-  Lng_range = 0.1
+  LAT_RANGE = 0.1
+  LNG_RANGE = 0.1
 
   protect_from_forgery
   before_action :authenticate_user!, if: :needs_authentication?
@@ -14,9 +13,20 @@ class ApplicationController < ActionController::Base
     req = Net::HTTP::Get.new(uri)
     res = nil
     Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |https|
-       res = https.request(req)
+      res = https.request(req)
     end
     return res
+  end
+
+  def latlng_search(courts, lat, lng)
+    courts = courts.where('? <= latitude', lat - LAT_RANGE).where('? >= latitude', lat + LAT_RANGE)
+    courts = courts.where('? <= longitude', lng - LNG_RANGE).where('? >= longitude', lng + LNG_RANGE)
+    return courts
+  end
+
+  def return_latlng(geocoded_data)
+    location = geocoded_data['results'][0]['geometry']['location']
+    return location['lat'], location['lng']
   end
 
   def area_search(courts, area_ids)
@@ -35,30 +45,29 @@ class ApplicationController < ActionController::Base
 
   # sign in, sign out, log in 後はすべて root へ遷移
   protected
-    def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-    end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+  end
 
   private
-    def needs_authentication?
-      return true if controller_name == "courts" && ["index","show","map_search"].all? {|elem| elem != action_name}
-      return true if controller_name == "events" && (action_name != "index" && action_name != "show")
-      return true if controller_name == "users"
-      return true if controller_name == "court_reviews" && action_name != "index"
-      return true if controller_name == "court_favorites"
-      return true if controller_name == "court_histories"
-      return true if controller_name == "event_favorites"
-      return true if controller_name == "event_histories"
-      return true if controller_name == "court_infos"
-    end
+
+  # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  def needs_authentication?
+    return true if controller_name == 'courts' && %w[index show map_search].all? { |elem| elem != action_name }
+    return true if controller_name == 'events' && (action_name != 'index' && action_name != 'show')
+    return true if controller_name == 'court_reviews' && action_name != 'index'
+    return true if %w[users court_favorites court_histories event_favorites event_histories
+                      court_infos].include?(controller_name)
+  end
+  # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
   def valid_pref_key?(pref_id)
     return true if pref_id.nil?
 
-    if pref_id.empty?
-      flash[:alert] = '県が選択されていません'
-      redirect_back(fallback_location: root_path)
-    end
-  end
+    return unless pref_id.empty?
 
+    flash[:alert] = '県が選択されていません'
+    redirect_back(fallback_location: root_path)
+  end
 end
