@@ -40,7 +40,7 @@ RSpec.describe 'User', type: :system do
       find('#user_email').set('hogeo@example.com')
       find('#user_password').set('112233445566')
       click_button('ログイン')
-      expect(page).to have_content('Your account is not activated yet.')
+      expect(page).to have_content('アカウントが有効化されていません')
     end
   end
 end

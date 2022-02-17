@@ -43,6 +43,52 @@ RSpec.describe 'Event', type: :system do
       end
     end
 
+    describe '県検索' do
+      before do
+        @event1 = FactoryBot.create(:event)
+        @event2 = FactoryBot.create(:event)
+      end
+      it '県を選択すると、選択した県のイベントが表示される、それ以外は表示されない' do
+          visit events_path(event: {
+                              'open_time(1i)': '',
+                              'open_time(2i)': '',
+                              'open_time(3i)': '',
+                              'open_time(4i)': '',
+                              'open_time(5i)': '',
+                              'close_time(1i)': '',
+                              'close_time(2i)': '',
+                              'close_time(3i)': '',
+                              'close_time(4i)': '',
+                              'close_time(5i)': ''
+                            },
+                            prefecture: {
+                              id: @event1.court.area.prefecture.id
+                            },
+          )
+          expect(page).to have_content(@event1.name)
+          expect(page).not_to have_content(@event2.name)
+      end
+      it '県を選択しない状態だと、何も表示されない' do
+          visit events_path(event: {
+                              'open_time(1i)': '',
+                              'open_time(2i)': '',
+                              'open_time(3i)': '',
+                              'open_time(4i)': '',
+                              'open_time(5i)': '',
+                              'close_time(1i)': '',
+                              'close_time(2i)': '',
+                              'close_time(3i)': '',
+                              'close_time(4i)': '',
+                              'close_time(5i)': ''
+                            },
+                            prefecture: {
+                              id: ""
+                            },
+          )
+          expect(page).not_to have_content(@event2.name)&&have_content(@event1.name)
+      end
+    end
+
     describe '時間検索機能' do
       before do
         FactoryBot.create(:user, id: 0)

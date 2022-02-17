@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action -> { valid_time_field?('open') }, only: :index
   before_action -> { valid_time_field?('close') }, only: :index
+  before_action -> { valid_pref_key?(params.dig(:prefecture, :id)) }, only: :index, if: proc { URI(request.referer.to_s).path == "/" }
 
   def new
     @event = Event.new(court_id: params[:court_id])
@@ -37,8 +38,8 @@ class EventsController < ApplicationController
 
     @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
 
-    if params.dig(:fav_court_id)
-      @courts = Court.where(id: params.dig(:fav_court_id))
+    if params.dig(:from_court_id)
+      @courts = Court.where(id: params.dig(:from_court_id))
     end
 
     @events = Event.where(court_id: @courts.pluck(:id))

@@ -3,7 +3,7 @@
 
     <div class="card-body">
       <div class="d-flex justify-content-start">
-        <p class="text-success small">条件を設定しない場合、全ての結果を表示</p>
+        <%= link_to('全て表示', path, class: 'mb-3 btn btn-sm btn-success d-block') %>
         <%= submit_tag('絞り込む', {class:'btn btn-sm  btn-success d-block ml-auto mb-3', form: 'narrow_search'}) %>
       </div>
       <%= form_with(model: Prefecture, url: path, method: 'get', class: 'form-group') do |f| %>

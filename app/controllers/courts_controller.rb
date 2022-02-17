@@ -9,19 +9,19 @@ class CourtsController < ApplicationController
 
     @prefecture_id = params.dig(:prefecture, :id)
 
-    @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.blank?
+    @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.nil?
 
     # pref 検索
-    @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.blank?
+    @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.nil?
 
-    @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).blank?
+    @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
 
-    @courts = court_type_search(@courts, params.dig(:court, :court_types)) unless params.dig(:court, :court_types).blank?
+    @courts = court_type_search(@courts, params.dig(:court, :court_types)) unless params.dig(:court, :court_types).nil?
 
-    @courts = tag_search(@courts, params.dig(:Tag, :tag_ids)) unless params.dig(:Tag, :tag_ids).blank?
+    @courts = tag_search(@courts, params.dig(:Tag, :tag_ids)) unless params.dig(:Tag, :tag_ids).nil?
 
     # keyword 検索
-    @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].blank?
+    @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].nil?
 
     @courts = time_search(@courts)
 
@@ -129,15 +129,6 @@ class CourtsController < ApplicationController
     # 全て空欄か埋まってればOK
     unless params.dig(:court, :"#{str}_time(4i)").blank? == params.dig(:court, :"#{str}_time(5i)").blank?
       flash[:alert] = '時間は時間と分、両方の入力が必要です。'
-      redirect_back(fallback_location: root_path)
-    end
-  end
-
-  def valid_pref_key?(pref_id)
-    return true if pref_id.nil?
-
-    if pref_id.empty?
-      flash[:alert] = '県が選択されていません'
       redirect_back(fallback_location: root_path)
     end
   end

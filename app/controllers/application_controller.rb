@@ -45,4 +45,14 @@ class ApplicationController < ActionController::Base
       return true if controller_name == "event_histories"
       return true if controller_name == "court_infos"
     end
+
+    def valid_pref_key?(pref_id)
+    return true if pref_id.nil?
+
+    if pref_id.empty?
+      flash[:alert] = '県が選択されていません'
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
 end
