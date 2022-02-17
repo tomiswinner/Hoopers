@@ -11,6 +11,7 @@ class CourtsController < ApplicationController
 
     @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.blank?
 
+    # pref 検索
     @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.blank?
 
     @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).blank?
@@ -19,6 +20,7 @@ class CourtsController < ApplicationController
 
     @courts = tag_search(@courts, params.dig(:Tag, :tag_ids)) unless params.dig(:Tag, :tag_ids).blank?
 
+    # keyword 検索
     @courts = @courts.where('name LIKE ?', "%#{params[:keyword]}%") unless params[:keyword].blank?
 
     @courts = time_search(@courts)
@@ -47,7 +49,6 @@ class CourtsController < ApplicationController
       @courts = latlng_search(@courts, @center_lat, @center_lng)
 
     else
-      # リファクタリング
       flash.now[:alert] = 'エラーが発生しました。住所が誤っている可能性があります。'
       render :address
     end
@@ -71,7 +72,6 @@ class CourtsController < ApplicationController
       return
     end
     @court.set_default_values_to_court
-    # リファクタリング
     res = fetch_geocoding_response(params.dig(:court, :address))
     if !res.nil? && res.message == 'OK'
       geocoded_data = JSON.parse(res.body)
@@ -123,13 +123,6 @@ class CourtsController < ApplicationController
   def courts_params
     return params.require(:court).permit(:user_id, :area_id, :name, :image, :open_time, :close_time, :supplement,
                                          :address, :url, :latitude, :longitude, :size, :price, :court_type, :business_status, :confirmation_status)
-  end
-
-  def time_filled_in?(str)
-    ["#{str}_time(4i)", "#{str}_time(5i)"].each do |elem|
-      return false if params.dig(:court, :"#{elem}").blank?
-    end
-    return true
   end
 
   def valid_time_field?(str)
@@ -187,6 +180,13 @@ class CourtsController < ApplicationController
     courts = courts.where('? <= latitude', lat - Lat_range).where('? >= latitude', lat + Lat_range)
     courts = courts.where('? <= longitude', lng - Lng_range).where('? >= longitude', lng + Lng_range)
     return courts
+  end
+
+  def time_filled_in?(str)
+    ["#{str}_time(4i)", "#{str}_time(5i)"].each do |elem|
+      return false if params.dig(:court, :"#{elem}").blank?
+    end
+    return true
   end
 
   def time_search(courts)

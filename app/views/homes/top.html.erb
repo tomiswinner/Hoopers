@@ -40,11 +40,11 @@
             </div>
           <% end %>
 
-          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, id: 'area_form', class: 'form-group d-flex flex-column pb-4') do |f| %>
+          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, id: 'area_form_court', class: 'form-group d-flex flex-column pb-4') do |f| %>
             <p class="mb-1 align-self-center"><i class="fas fa-map-marked-alt"></i> 地域から探す</p>
             <div class="d-flex justify-content-center">
               <%= f.select(:id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'}, class: 'form-control w-50 v-align') %>
-              <%= button_tag(type: 'submit', form: 'area_form', class: 'btn btn-success v-align') do %>
+              <%= button_tag(type: 'submit', form: 'area_form_court', class: 'btn btn-success v-align') do %>
                 <i class="fas fa-search"></i>
               <% end %>
             </div>
@@ -52,11 +52,15 @@
       </div>
 
       <div class="tab-contents bg-light rounded " id="event_card">
-        <div class="d-flex justify-content-center py-4">
-          <%= link_to(events_path, class: 'btn btn-success d-block') do %>
-            最新のイベントを表示
+        <%= form_with(model: Prefecture, url: events_path, method: 'get', local: true, id: 'area_form_event', class: 'form-group d-flex flex-column py-4') do |f| %>
+          <p class="mb-1 align-self-center"><i class="fas fa-map-marked-alt"></i> 地域から探す</p>
+          <div class="d-flex justify-content-center">
+            <%= f.select(:id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'}, class: 'form-control w-50 v-align') %>
+            <%= button_tag(type: 'submit', form: 'area_form_event', class: 'btn btn-success v-align') do %>
+              <i class="fas fa-search"></i>
+            <% end %>
+          </div>
           <% end %>
-        </div>
 
         <%= form_with(model: Event, url: events_path, method: 'get', local: true, class: 'form-group d-flex flex-column pb-3', id: 'time_form') do |f| %>
           <p class="mb-1 align-self-center"><i class="far fa-clock"></i> 時間で探す</p>
@@ -78,7 +82,9 @@
         <% end %>
 
         <div class="d-flex justify-content-center pb-4">
-          <%= link_to( 'お気に入りコートから探す', court_favorites_path, class: 'btn btn-success') %>
+          <%= link_to(events_path, class: 'btn btn-success d-block') do %>
+            最新のイベントを表示
+          <% end %>
         </div>
       </div>
     </div>

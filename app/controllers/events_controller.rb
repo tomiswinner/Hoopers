@@ -26,12 +26,13 @@ class EventsController < ApplicationController
 
     @events = Event.where(court_id: params[:court_id]) if params[:court_id]
 
-    @courts = Court.where(confirmation_status: true).where(business_status: true)
+    @courts = Court.where(confirmation_status: true)
 
     @prefecture_id = params.dig(:prefecture, :id)
 
     @areas = Area.where(prefecture_id: @prefecture_id) unless @prefecture_id.nil?
 
+    #pref 検索
     @courts = @courts.where(area_id: @areas.pluck(:id)) unless @prefecture_id.nil?
 
     @courts = area_search(@courts, params.dig(:Area, :area_ids)) unless params.dig(:Area, :area_ids).nil?
