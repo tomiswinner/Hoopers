@@ -1,13 +1,13 @@
 <div class="row filter-black justify-content-center">
   <div class="col-12 justify-content-center text-white">
    <h4 class="py-3">イベントコート選択</h4>
-   <p class="pb-3 small">下のマップからコートを選択してください</p>
+   <p class="pb-3">下のマップからコートを選択してください</p>
    <div id='map' class="big-map mb-5"></div>
    <div class="pb-3">
     <%= link_to('住所入力へ戻る', address_events_path, class: 'btn btn-sm btn-primary') %>
    </div>
    <div class="pb-3">
-    <span class="small">イベントをしたいコートが見つからない場合？</span>
+    <span>イベントをしたいコートが見つからない場合？</span>
     <div class="pt-1">
      <%= link_to('新しくコートを提供する', address_courts_path(address: @entered_address), class: 'btn btn-sm btn-success') %>
     </div>
