@@ -4,19 +4,15 @@
         <div class="ml-3">
           <%= link_to('イベントを編集', edit_event_path(event.id), class:'btn btn-sm text-white bg-orange') %>
         </div>
-      <% elsif event.status == "wanted" %>
+      <% end %>
+      <% if user_signed_in? && current_user.favorites_this_event?(event.id) %>
         <div class="ml-3" id='event-list'>
-          <% if user_signed_in? && current_user.favorites_this_event?(event.id) %>
-            <%= link_to('検討リストから削除', event_favorite_path(id: event.id), method: 'delete', remote: true, class:'btn btn-sm text-white bg-orange') %>
-          <% elsif user_signed_in? %>
-            <%= link_to('検討リストへ追加', event_favorites_path(id: event.id), method: 'post', remote: true, class:'btn btn-sm text-white bg-orange') %>
-          <% end %>
+          <%= link_to('検討リストから削除', event_favorite_path(id: event.id), method: 'delete', remote: true, class:'btn btn-sm text-white bg-orange') %>
         </div>
-      <% else %>
-        <div class="ml-3">
-          <p class='bg-muted'>！募集が終了しているイベントです！</p>
+      <% elsif user_signed_in? %>
+        <div class="ml-3" id='event-list'>
+          <%= link_to('検討リストへ追加', event_favorites_path(id: event.id), method: 'post', remote: true, class:'btn btn-sm text-white bg-orange') %>
         </div>
-        <!--日付が過ぎた場合どうする-->
       <% end %>
     </footer>
   <% end %>

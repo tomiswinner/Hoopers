@@ -10,6 +10,13 @@
     <%= attachment_image_tag(event, :image, fallback: "no_img.png", size: "250x250", class: 'mx-auto d-block') %>
 </div>
 <div class="col-12  justify-content-center mb-3">
+  <% if event.status == "closed" || event.past_event? %>
+    <div class="bg-danger py-4">
+      <p class='mb-0 text-white text-center'>
+        ！募集が終了しているか、過去のイベントです！
+      </p>
+    </div>
+  <% end %>
 </div>
 <table class="col-10 mx-auto mb-3 table text-white">
   <caption class="text-white">
@@ -61,7 +68,11 @@
         <i class="fas fa-envelope"></i> 連絡先
       </p>
       <span id="contact" class="pl-3">
-        <%= event.contact %>
+        <% if event.user.is_active %>
+          <%= event.contact %>
+        <% else %>
+          退会済みユーザー
+        <% end %>
       </span>
     </td>
   </tr>

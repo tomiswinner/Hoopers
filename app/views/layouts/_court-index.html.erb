@@ -4,7 +4,9 @@
   <% courts.each do |court| %>
     <div class="row bg-light mb-3">
       <div class="pl-3 py-3 d-flex flex-column">
-        <%= attachment_image_tag(court, :image, fallback: "no_img.png", size: "75x75") %>
+        <%= link_to(court_path(court.id)) do %>
+          <%= attachment_image_tag(court, :image, fallback: "no_img.png", size: "75x75") %>
+        <% end %>
         <% if court.business_status %>
           <div class="mt-2 text-center text-success"><i class="fas fa-door-open"></i> 営業中</div>
         <% else %>

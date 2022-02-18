@@ -34,4 +34,8 @@ class Event < ApplicationRecord
   def formatted_close_time
     return close_time.strftime('%Y/%m/%d %H:%M')
   end
+
+  def past_event?
+    return close_time < Time.zone.now
+  end
 end
