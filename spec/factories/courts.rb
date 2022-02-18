@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :court do
     association :user
     association :area
-    sequence(:name) { |n| "#{n}コート"}
+    sequence(:name) { |n| "#{n}コート" }
     image_id { 'aiueo' }
     sequence(:address) { |n| "#{n}-address" }
     latitude { 12.000 }

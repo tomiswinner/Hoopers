@@ -11,9 +11,9 @@ RSpec.describe 'Event', type: :system do
         @courts = []
         @events = []
         [*1..3].each do |n|
-          @areas[n-1] = FactoryBot.create(:area, id: n)
-          @courts[n-1] = FactoryBot.create(:court, user_id: 0, id: n, area_id: n)
-          @events[n-1] = FactoryBot.create(:event, court_id: n, user_id: 0, id: n)
+          @areas[n - 1] = FactoryBot.create(:area, id: n)
+          @courts[n - 1] = FactoryBot.create(:court, user_id: 0, id: n, area_id: n)
+          @events[n - 1] = FactoryBot.create(:event, court_id: n, user_id: 0, id: n)
         end
       end
 
@@ -48,56 +48,56 @@ RSpec.describe 'Event', type: :system do
         @event1 = FactoryBot.create(:event)
         @event2 = FactoryBot.create(:event)
       end
+
       it '県を選択すると、選択した県のイベントが表示される、それ以外は表示されない' do
-          visit events_path(event: {
-                              'open_time(1i)': '',
-                              'open_time(2i)': '',
-                              'open_time(3i)': '',
-                              'open_time(4i)': '',
-                              'open_time(5i)': '',
-                              'close_time(1i)': '',
-                              'close_time(2i)': '',
-                              'close_time(3i)': '',
-                              'close_time(4i)': '',
-                              'close_time(5i)': ''
-                            },
-                            prefecture: {
-                              id: @event1.court.area.prefecture.id
-                            },
-          )
-          expect(page).to have_content(@event1.name)
-          expect(page).not_to have_content(@event2.name)
+        visit events_path(event: {
+                            'open_time(1i)': '',
+                            'open_time(2i)': '',
+                            'open_time(3i)': '',
+                            'open_time(4i)': '',
+                            'open_time(5i)': '',
+                            'close_time(1i)': '',
+                            'close_time(2i)': '',
+                            'close_time(3i)': '',
+                            'close_time(4i)': '',
+                            'close_time(5i)': ''
+                          },
+                          prefecture: {
+                            id: @event1.court.area.prefecture.id
+                          })
+        expect(page).to have_content(@event1.name)
+        expect(page).not_to have_content(@event2.name)
       end
+
       it '県を選択しない状態だと、何も表示されない' do
-          visit events_path(event: {
-                              'open_time(1i)': '',
-                              'open_time(2i)': '',
-                              'open_time(3i)': '',
-                              'open_time(4i)': '',
-                              'open_time(5i)': '',
-                              'close_time(1i)': '',
-                              'close_time(2i)': '',
-                              'close_time(3i)': '',
-                              'close_time(4i)': '',
-                              'close_time(5i)': ''
-                            },
-                            prefecture: {
-                              id: ""
-                            },
-          )
-          expect(page).not_to have_content(@event2.name)&&have_content(@event1.name)
+        visit events_path(event: {
+                            'open_time(1i)': '',
+                            'open_time(2i)': '',
+                            'open_time(3i)': '',
+                            'open_time(4i)': '',
+                            'open_time(5i)': '',
+                            'close_time(1i)': '',
+                            'close_time(2i)': '',
+                            'close_time(3i)': '',
+                            'close_time(4i)': '',
+                            'close_time(5i)': ''
+                          },
+                          prefecture: {
+                            id: ''
+                          })
+        expect(page).not_to have_content(@event2.name) && have_content(@event1.name)
       end
     end
 
     describe '時間検索機能' do
       before do
         FactoryBot.create(:user, id: 0)
-        [Time.zone.local(2022, 01, 01, 7, 0),
-         Time.zone.local(2022, 01, 01, 8, 0),
-         Time.zone.local(2022, 01, 01, 9, 0)].each do |open_time|
-          [Time.zone.local(2022, 01, 01, 10, 0),
-           Time.zone.local(2022, 01, 01, 11, 0),
-           Time.zone.local(2022, 01, 01, 12, 0)].each do |close_time|
+        [Time.zone.local(2022, 0o1, 0o1, 7, 0),
+         Time.zone.local(2022, 0o1, 0o1, 8, 0),
+         Time.zone.local(2022, 0o1, 0o1, 9, 0)].each do |open_time|
+          [Time.zone.local(2022, 0o1, 0o1, 10, 0),
+           Time.zone.local(2022, 0o1, 0o1, 11, 0),
+           Time.zone.local(2022, 0o1, 0o1, 12, 0)].each do |close_time|
             FactoryBot.create(:event, open_time: open_time, close_time: close_time, user_id: 0)
           end
         end
@@ -220,13 +220,13 @@ RSpec.describe 'Event', type: :system do
                                       court_id: @court1.id,
                                       open_time: '2022/01/01 12:00',
                                       close_time: '2022/01/01 18:00',
-                                      status: "wanted")
+                                      status: 'wanted')
 
         @event_ng = FactoryBot.create(:event,
                                       court_id: @court2.id,
                                       open_time: '2022/01/01 11:00',
                                       close_time: '2022/01/01 19:00',
-                                      status: "wanted")
+                                      status: 'wanted')
       end
 
       context '存在するイベント全く同じ条件をいれれば' do
