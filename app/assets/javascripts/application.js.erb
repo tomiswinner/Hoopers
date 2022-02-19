@@ -20,7 +20,7 @@
 //= require turbolinks
 //= require_tree .
 
-let isScriptLoaded = false;
+var isScriptLoaded = false;
 
 // google map src のロードが完了してなければ、callback にて initMap
 function noticeLoadCompletion(){
@@ -45,7 +45,7 @@ window.addEventListener('turbolinks:load',()=>{
 
 
 function initMap(){
-  let map;
+  var map;
   if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'show'))||
      (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'confirm'))){
     var lat = Number(document.getElementById('lat').value)
@@ -140,7 +140,7 @@ function initMap(){
         }
       })
       const target = document.getElementById('latlng')
-      let m_observer = new MutationObserver((m)=>{
+      var m_observer = new MutationObserver((m)=>{
         document.getElementById('location_form').submit()
       })
       const config = {
