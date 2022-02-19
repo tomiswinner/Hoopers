@@ -34,13 +34,11 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-
   config.include Rails.application.routes.url_helpers
   config.include Warden::Test::Helpers
 
-
   # capybara test driver
-  config.before(:each) do |example|
+  config.before do |example|
     if example.metadata[:type] == :system
       if example.metadata[:js]
         driven_by :selenium_chrome_headless, screen_size: [1400, 1400]
@@ -58,9 +56,6 @@ RSpec.configure do |config|
   config.after(:all) do
     DatabaseCleaner.clean_with(:transaction)
   end
-
-
-
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

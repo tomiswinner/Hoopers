@@ -1,2 +1,4 @@
-document.getElementById('favorite').innerHTML = "<%= escape_javascript(link_to('検討リストへ追加', event_favorites_path(id: event_id), method: 'post', remote: true,class:'btn bg-orange')) %>";
+document.getElementById('event-list').innerHTML = "<%= escape_javascript(
+  link_to('検討リストへ追加', event_favorites_path(id: event_id), method: 'post', remote: true, class:'btn btn-sm text-white bg-orange'
+)) %>";
 alert('検討リストから削除しました')

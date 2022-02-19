@@ -1,0 +1,35 @@
+<% if events.blank? %>
+  <div class="bg-white text-center mb-5"><%= no_result_text %></div>
+<% else %>
+  <% events.each do |event| %>
+    <div class="row bg-light mb-3">
+      <div class="pl-3 py-3">
+        <%= link_to(event_path(event.id)) do %>
+          <%= attachment_image_tag(event, :image, fallback: "no_img.png", size: "75x75") %>
+        <% end %>
+        <% if event.status == "closed" || event.past_event? %>
+          <div class="mt-2 text-center text-danger"><i class="fas fa-door-closed"></i> 締切</div>
+        <% else %>
+          <div class="mt-2 text-center text-success"><i class="fas fa-door-open"></i> 募集中</div>
+        <% end %>
+      </div>
+      <div class="pl-3 mt-3">
+        <p class="text-center font-weight-bold align-middle mb-1">
+          <%= link_to(event.name, event_path(event.id)) %><br>
+        </p>
+        <div class="d-flex justify-content-start">
+          <p class="mb-0 d-inline-block">
+            <i class="fas fa-map-marked-alt"></i>：<%= event.court.fetch_pref_name %>
+          </p>
+          <p class="mb-0 ml-auto">
+            <i class="fas fa-edit"></i> <%= event.formatted_created_at %>
+          </p>
+        </div>
+        <p class="mb-3">
+          <i class="far fa-clock"></i>：<%= event.formatted_open_time %> ～<br>
+          <%= event.formatted_close_time %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+<% end %>

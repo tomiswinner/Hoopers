@@ -15,7 +15,6 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'capybara/rspec'
 
-
 # Capybara.register_driver :selenium do |app|
 #   options = Selenium::WebDriver::Chrome::Options.new
 

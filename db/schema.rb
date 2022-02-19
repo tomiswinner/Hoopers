@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_19_045231) do
+ActiveRecord::Schema.define(version: 2022_02_16_155706) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "prefecture_id", null: false
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id"], name: "index_court_favorites_on_court_id_and_user_id", unique: true
     t.index ["court_id"], name: "index_court_favorites_on_court_id"
     t.index ["user_id"], name: "index_court_favorites_on_user_id"
   end
@@ -34,8 +35,21 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id"], name: "index_court_histories_on_court_id_and_user_id", unique: true
     t.index ["court_id"], name: "index_court_histories_on_court_id"
     t.index ["user_id"], name: "index_court_histories_on_user_id"
+  end
+
+  create_table "court_infos", force: :cascade do |t|
+    t.integer "court_id", null: false
+    t.integer "user_id", null: false
+    t.string "information", null: false
+    t.boolean "status", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id"], name: "index_court_infos_on_court_id_and_user_id", unique: true
+    t.index ["court_id"], name: "index_court_infos_on_court_id"
+    t.index ["user_id"], name: "index_court_infos_on_user_id"
   end
 
   create_table "court_reviews", force: :cascade do |t|
@@ -47,6 +61,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.float "quality", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id"], name: "index_court_reviews_on_court_id_and_user_id", unique: true
     t.index ["court_id"], name: "index_court_reviews_on_court_id"
     t.index ["user_id"], name: "index_court_reviews_on_user_id"
   end
@@ -56,6 +71,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "tag_id"], name: "index_court_tag_taggings_on_court_id_and_tag_id", unique: true
     t.index ["court_id"], name: "index_court_tag_taggings_on_court_id"
     t.index ["tag_id"], name: "index_court_tag_taggings_on_tag_id"
   end
@@ -64,7 +80,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.integer "area_id", null: false
     t.string "name", null: false
-    t.string "image_id", null: false
+    t.string "image_id"
     t.string "address", null: false
     t.decimal "latitude", precision: 9, scale: 6, null: false
     t.decimal "longitude", precision: 9, scale: 6, null: false
@@ -79,6 +95,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.boolean "confirmation_status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["address"], name: "index_courts_on_address", unique: true
     t.index ["area_id"], name: "index_courts_on_area_id"
     t.index ["user_id"], name: "index_courts_on_user_id"
   end
@@ -88,6 +105,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id", "user_id"], name: "index_event_favorites_on_event_id_and_user_id", unique: true
     t.index ["event_id"], name: "index_event_favorites_on_event_id"
     t.index ["user_id"], name: "index_event_favorites_on_user_id"
   end
@@ -97,6 +115,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id", "user_id"], name: "index_event_histories_on_event_id_and_user_id", unique: true
     t.index ["event_id"], name: "index_event_histories_on_event_id"
     t.index ["user_id"], name: "index_event_histories_on_user_id"
   end
@@ -105,15 +124,16 @@ ActiveRecord::Schema.define(version: 2022_01_19_045231) do
     t.integer "court_id", null: false
     t.integer "user_id", null: false
     t.string "name", null: false
-    t.string "image_id", null: false
+    t.string "image_id"
     t.string "description", null: false
     t.string "condition", null: false
     t.string "contact", null: false
     t.datetime "open_time", null: false
     t.datetime "close_time", null: false
-    t.boolean "status", default: true, null: false
+    t.integer "status", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["court_id", "user_id", "open_time"], name: "index_events_on_court_id_and_user_id_and_open_time", unique: true
     t.index ["court_id"], name: "index_events_on_court_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end

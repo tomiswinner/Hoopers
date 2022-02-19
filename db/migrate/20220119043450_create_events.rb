@@ -4,13 +4,15 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.references :court,    null: false, foreign_key: true
       t.references :user,     null: false, foreign_key: true
       t.string :name,         null: false
-      t.string :image_id,     null: false
+      t.string :image_id
       t.string :description,  null: false
       t.string :condition,    null: false
       t.string :contact,      null: false
       t.datetime :open_time,  null: false
       t.datetime :close_time, null: false
-      t.boolean :status,      null: false,                   default: true
+      t.integer :status,      null: false,                   default: true
+
+      t.index [:court_id, :user_id, :open_time],    unique: true
 
       t.timestamps
     end

@@ -1,0 +1,20 @@
+<%= form_with(model: @event, url: events_path, id: 'form', method: 'post', local: true) do |f|%>
+  <%= f.hidden_field(:user_id, value: current_user.id) %>
+  <%= f.hidden_field(:court_id, value: @event.court_id) %>
+  <%= f.hidden_field(:name, value: @event.name) %>
+  <%= f.hidden_field(:open_time, value: @event.open_time) %>
+  <%= f.hidden_field(:close_time, value: @event.close_time) %>
+  <%= f.hidden_field(:condition, value: @event.condition) %>
+  <%= f.hidden_field(:description, value: @event.description) %>
+  <%= f.hidden_field(:contact, value: @event.contact) %>
+  <%= f.hidden_field(:image, value: @event.image.id) %>
+  <%= f.hidden_field(:status) %>
+<% end %>
+<div class="row filter-black text-white d-flex flex-column">
+  <%= render(partial: 'event-detail', locals: {event: @event, title: '確認ページ'}) %>
+
+  <div class="col-12 pb-3 d-flex justify-content-start">
+    <%= submit_tag('この内容で投稿する', form: 'form', class: 'btn btn-sm btn-success d-block') %>
+    <%= link_to('内容を修正する','javascript:history.back()', class: 'btn btn-sm btn-danger d-block ml-auto') %>
+  </div>
+</div>

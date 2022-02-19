@@ -1,65 +1,183 @@
-<div class="row justify-content-center">
-  <div class="col-10 filter-black justify-content-center">
-    <p class="text-white">
-      Hoopers!<br>
-      バスケコート<br>
-      バスケイベント<br>
-      が探せるWEBサイト！
-    </p>
+<div class="row filter-black flex-column">
+  <div class="col-12 mt-3 text-white justify-content-center">
+    <h1 class="my-5 text-center"><i class="fab fa-dribbble"></i> Hoopers!</h1>
+    <h3 class="text-white text-center pb-2 line-height">
+      バスケットボールの<br>
+      コート・イベントが<br>
+      探せるWEBサイト
+    </h3>
   </div>
-</div>
 
-<div class="row justify-content-center">
-  <div class="card bg-light">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a href="#court_card" class="nav-link active" data-toggle="tab">コートを探す</a>
-      </li>
-      <li class="nav-item">
-        <a href="#event_card" class="nav-link" data-toggle="tab">イベントを探す</a>
-      </li>
-    </ul>
+  <div class="col-12 my-5 justify-content-center">
+    <div class="d-flex mt-5">
+      <div id="court-tab" class="w-50 bg-orange text-center rounded py-2 font-weight-bold text-white">
+        コートを探す
+      </div>
+      <div id="event-tab" class="w-50 bg-light text-center rounded py-2 font-weight-bold">
+        <div>イベントを探す</div>
+      </div>
+    </div>
+
     <div class="tab-content">
-      <div class="tab-pane bg-success fade show active" id="court_card">
-          <%= form_with(url: courts_path, method: 'get', local: true) do |f| %>
-            <%= f.submit 'コート名から探す' %>
-            <%= f.text_field :keyword %>
+      <div class="tab-contents is_active bg-orange rounded text-white" id="court_card">
+          <%= form_with(url: courts_path, method: 'get', local: true, class: 'form-group pt-4 d-flex flex-column pb-2', id: 'keyword_form') do |f| %>
+            <p class="mb-1 align-self-center">コート名から探す</p>
+            <div class="d-flex justify-content-center">
+              <%= f.text_field(:keyword, placeholder: 'キーワードを入力', class:'form-control w-50 d-inline v-align') %>
+              <%= button_tag(type: 'submit', form: 'keyword_form', class: 'btn btn bg-success v-align text-white') do %>
+                <i class="fas fa-search"></i>
+              <% end %>
+            </div>
           <% end %>
-          <%= form_with(url: map_search_courts_path, method: 'get', local: true) do |f| %>
-            <%= f.submit '現在地から探す！' %>
-            <%= f.hidden_field :user_location, value: "設定中" %>
+
+          <%= form_with(url: map_search_courts_path, local: true, method: 'get', id: 'location_form', class: 'form-group d-flex flex-column pb-2') do |f| %>
+            <%= f.hidden_field(:latlng, {id: "latlng"}) %>
+            <p class="mb-1 align-self-center"><i class="fas fa-map-marker-alt"></i> 現在地から探す</p>
+            <div class="d-flex justify-content-center">
+              <%= button_tag(type: 'submit', id: 'location_btn', form: 'location_form', class: 'btn btn-success') do %>
+                位置情報を取得
+              <% end %>
+            </div>
           <% end %>
-          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true) do |f| %>
-            <%= f.submit '県から探す' %>
-            <%= f.select :id, Prefecture.all.collect { |pref| [ pref.name, pref.id]} %>
+
+          <%= form_with(model: Prefecture, url: courts_path, method: 'get', local: true, id: 'area_form_court', class: 'form-group d-flex flex-column pb-4') do |f| %>
+            <p class="mb-1 align-self-center"><i class="fas fa-map-marked-alt"></i> 地域から探す</p>
+            <div class="d-flex justify-content-center">
+              <%= f.select(:id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'}, class: 'form-control w-50 v-align') %>
+              <%= button_tag(type: 'submit', form: 'area_form_court', class: 'btn btn-success v-align') do %>
+                <i class="fas fa-search"></i>
+              <% end %>
+            </div>
           <% end %>
       </div>
-      <div class="tab-pane bg-secondary fade" id="event_card">
-        <div>
-          <%= link_to('最新のイベントを表示する', url: events_path) %>
-        </div>
-        <%= form_with(url: events_path, method: 'get', local: true) do |f| %>
-          <%= f.submit '時間を指定して探す' %>
-          <%= f.date_field :date %>
-          <%= f.time_select :opne_time %> ～
-          <%= f.time_select :close_time %>
+
+      <div class="tab-contents bg-light rounded " id="event_card">
+        <%= form_with(model: Prefecture, url: events_path, method: 'get', local: true, id: 'area_form_event', class: 'form-group d-flex flex-column py-4') do |f| %>
+          <p class="mb-1 align-self-center"><i class="fas fa-map-marked-alt"></i> 地域から探す</p>
+          <div class="d-flex justify-content-center">
+            <%= f.select(:id, Prefecture.all.collect { |pref| [ pref.name, pref.id]}, {prompt: '地域を選択'}, class: 'form-control w-50 v-align') %>
+            <%= button_tag(type: 'submit', form: 'area_form_event', class: 'btn btn-success v-align') do %>
+              <i class="fas fa-search"></i>
+            <% end %>
+          </div>
+          <% end %>
+
+        <%= form_with(model: Event, url: events_path, method: 'get', local: true, class: 'form-group d-flex flex-column pb-3', id: 'time_form') do |f| %>
+          <p class="mb-1 align-self-center"><i class="far fa-clock"></i> 時間で探す</p>
+          <div class="align-self-center">
+            <div>
+              <%= f.label(:open_time, '開始') %>
+              <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now.midnight,minute_step: 15}, {class: 'form-select border'}) %>
+            </div>
+            <div>
+              <%= f.label(:close_time, '終了') %>
+              <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now.end_of_day - (60 * 14), minute_step: 15}, {class: 'form-select border'}) %>
+            </div>
+            <div class="d-flex justify-content-center">
+              <%= button_tag(form: 'time_form', class: 'btn btn-sm btn-success d-block') do %>
+                <i class="far fa-clock"></i> 検索
+              <% end %>
+            </div>
+          </div>
         <% end %>
-        <div>
-          <%= link_to( 'お気に入りコートから探す', court_favorites_path) %>
+
+        <div class="d-flex justify-content-center pb-4">
+          <%= link_to(events_path, class: 'btn btn-success d-block') do %>
+            最新のイベントを表示
+          <% end %>
         </div>
-        <%= link_to('コートからイベント情報を見るには？', root_path(anchor: 'court_card')) %>
       </div>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="bg-secondary" style="height: 100px; width: 200px;">
-    <%= link_to('コート情報募集中', address_courts_path) %>
+  <div class="col-12 my-5 d-flex justify-content-center">
+    <div class="plate">
+      <%= link_to(address_courts_path) do %>
+        <div class="bg-orange plate-tab text-white d-flex flex-column">
+          <p class="mt-1 mb-0 align-self-center">コート情報募集中！！</p>
+          <p class="small align-self-center mb-1">あなたの周りのコート情報まってます！</p>
+        </div>
+        <div class="d-flex plate-content align-items-end">
+          <div class="font-weight-bold text-white bg-orange w-100">
+            <p class="text-center mb-1 mt-1">
+              クリックしてコート情報を提供！
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="bg-danger" id="how_to_use" style="height: 1000px; width: 200px;">
-    つかいかた
+
+
+  <div class="col-11 bg-light my-5 align-self-center" id="how_to_use">
+    <h3 class="pt-5 font-weight-bold text-center">
+      できること
+    </h3>
+    <div class="mt-3">
+      <h5 class="mb-0 font-weight-bold text-center">コート検索</h5>
+      <div class="d-flex justify-content-center">
+        <%= render(partial: 'layouts/svgs/court') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        いろいろな条件からコートを検索
+      </p>
+      <p class="mb-1 text-center">
+        エリアや時間、コートの種類、などからバスケットコートを探すことができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">マップ検索</h5>
+      <div class="d-flex justify-content-center">
+        <%= render(partial: 'layouts/svgs/map') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        現在地からコートを検索
+      </p>
+      <p class="mb-1 text-center">
+        現在の位置情報をもとに、周辺のコートを地図から探すことができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">イベント検索</h5>
+      <div class="d-flex justify-content-center my-4">
+        <%= render(partial: 'layouts/svgs/event') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        いろいろな条件からイベントを検索
+      </p>
+      <p class="mb-1 text-center">
+        バスケットのイベントをエリアや時間からの検索や、コートを選んで確認ができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">イベント作成</h5>
+      <div class="d-flex justify-content-center my-4">
+        <%= render(partial: 'layouts/svgs/calendar') %>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        イベントを企画して参加者を募集
+      </p>
+      <p class="mb-1 text-center">
+        自分で<%= link_to('イベントを企画', address_events_path) %>して載せることができます
+      </p>
+    </div>
+    <div class="my-5">
+      <h5 class="mb-0 font-weight-bold text-center">お気に入り/閲覧履歴</h5>
+      <div class="d-flex justify-content-center my-4">
+        <div class="mr-5">
+          <%= render(partial: 'layouts/svgs/history') %>
+        </div>
+        <div>
+          <%= render(partial: 'layouts/svgs/favorite') %>
+        </div>
+      </div>
+      <p class="mb-1 font-weight-bold text-center">
+        ユーザー登録でお気に入り/履歴機能
+      </p>
+      <p class="mb-1 text-center">
+        <%= link_to('ユーザー登録', new_user_registration_path) %>してログインすると、
+        イベントやコートのお気に入りや履歴の確認ができます
+      </p>
+    </div>
   </div>
 </div>

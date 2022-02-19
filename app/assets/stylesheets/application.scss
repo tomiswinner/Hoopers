@@ -23,6 +23,11 @@ html, body, main{
   height: 100%;
 }
 
+
+caption{
+  caption-side: top;
+}
+
 .container{
   height: 100%;
 }
@@ -39,8 +44,19 @@ footer{
   height: 100%;
 }
 
+.footer-height-adjustment{
+  height: 100px !important;
+}
+
+.line-height{
+  line-height: 2;
+}
 .height-adjustment{
   height: 200px !important;
+}
+
+.big-map{
+  height: 500px !important;
 }
 
 .background-img{
@@ -50,13 +66,78 @@ footer{
 }
 
 .filter-black{
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .fixed-padding{
-  padding-top: 75px;
+  padding-top: 50px;
 }
 
+
 .bg-orange{
-  background: #ffc781;
+  background: #ff9933 !important;
+}
+
+.bg-transparent{
+  background-color: transparent;
+  border: transparent;
+}
+
+.border-transparent{
+  border: transparent;
+}
+
+.h-50px{
+  height: 50px;
+}
+
+.small-stars img{
+  width: 18px;
+  height: 18px;
+}
+
+.smaller-stars img{
+  width: 15px;
+  height: 15px;
+}
+.font-smaller{
+  font-size: 0.9rem;
+}
+
+.is_active{
+  display: block !important;
+}
+
+.tab-contents{
+  display: none;
+  margin-top: -2px;
+}
+
+.v-align{
+  vertical-align: top;
+}
+
+.plate{
+  height: 25vh;
+  width: 100%;
+  background-image: image-url("court_plate.jpg");
+  background-size: cover;
+}
+
+.plate-tab{
+  height: 25%;
+}
+
+.plate-content{
+  height: 75%;
+}
+
+.inqury-img{
+  height: 30vh;
+}
+
+@media screen and (min-width:768px) {
+  .plate{
+    width: 40%;
+  }
 }

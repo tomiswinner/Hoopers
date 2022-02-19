@@ -1,0 +1,35 @@
+<% if courts.blank? %>
+  <div class="bg-white text-center mb-5"><%= no_result_text %></div>
+<% else %>
+  <% courts.each do |court| %>
+    <div class="row bg-light mb-3">
+      <div class="pl-3 py-3 d-flex flex-column">
+        <%= link_to(court_path(court.id)) do %>
+          <%= attachment_image_tag(court, :image, fallback: "no_img.png", size: "75x75") %>
+        <% end %>
+        <% if court.business_status %>
+          <div class="mt-2 text-center text-success"><i class="fas fa-door-open"></i> 営業中</div>
+        <% else %>
+          <div class="mt-2 text-center text-danger"><i class="fas fa-door-closed"></i> 閉鎖中</div>
+        <% end %>
+      </div>
+      <div class="pl-3 mt-3">
+        <p class="text-center font-weight-bold align-middle mb-1">
+          <% if court.business_status %>
+            <%= link_to(court.name, court_path(court.id), class: 'd-block') %>
+          <% else %>
+            <%= link_to(court.name, court_path(court.id), class: 'd-block text-muted') %>
+          <% end %>
+        </p>
+        <p class="mb-2">
+          <i class="fas fa-map-marked-alt"></i>：<%= court.fetch_pref_name %>
+          　<i class="fas fa-warehouse"></i>：<%= court.court_type_i18n %>
+        </p>
+        <p class="mb-3">
+          <i class="far fa-clock"></i>：<%= court.return_business_hour %>
+          <%= link_to('イベント確認', events_path(from_court_id: court.id), class: 'btn btn-sm btn-success ml-1 d-inline-block') %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+<% end %>

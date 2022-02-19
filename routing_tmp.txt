@@ -16,26 +16,36 @@
                           POST   /users(.:format)                                                                         devise/registrations#create
              mypage_users GET    /users/mypage(.:format)                                                                  users#mypage
             confirm_users GET    /users/confirm(.:format)                                                                 users#confirm
+             events_users GET    /users/events(.:format)                                                                  users#events
                 edit_user GET    /users/:id/edit(.:format)                                                                users#edit
                      user PATCH  /users/:id(.:format)                                                                     users#update
                           PUT    /users/:id(.:format)                                                                     users#update
                      root GET    /                                                                                        homes#top
                    inqury GET    /inqury(.:format)                                                                        homes#inqury
       court_court_reviews GET    /courts/:court_id/court_reviews(.:format)                                                court_reviews#index
+                          POST   /courts/:court_id/court_reviews(.:format)                                                court_reviews#create
    new_court_court_review GET    /courts/:court_id/court_reviews/new(.:format)                                            court_reviews#new
   edit_court_court_review GET    /courts/:court_id/court_reviews/:id/edit(.:format)                                       court_reviews#edit
        court_court_review PATCH  /courts/:court_id/court_reviews/:id(.:format)                                            court_reviews#update
                           PUT    /courts/:court_id/court_reviews/:id(.:format)                                            court_reviews#update
-             detail_court GET    /courts/:id/detail(.:format)                                                             courts#detail
            address_courts GET    /courts/address(.:format)                                                                courts#address
          map_check_courts GET    /courts/map_check(.:format)                                                              courts#map_check
-           confirm_courts GET    /courts/confirm(.:format)                                                                courts#confirm
+           confirm_courts POST   /courts/confirm(.:format)                                                                courts#confirm
             thanks_courts GET    /courts/thanks(.:format)                                                                 courts#thanks
         map_search_courts GET    /courts/map_search(.:format)                                                             courts#map_search
                    courts GET    /courts(.:format)                                                                        courts#index
                           POST   /courts(.:format)                                                                        courts#create
                 new_court GET    /courts/new(.:format)                                                                    courts#new
-           confirm_events GET    /events/confirm(.:format)                                                                events#confirm
+                    court GET    /courts/:id(.:format)                                                                    courts#show
+              court_infos GET    /court_infos(.:format)                                                                   court_infos#index
+                          POST   /court_infos(.:format)                                                                   court_infos#create
+           new_court_info GET    /court_infos/new(.:format)                                                               court_infos#new
+          edit_court_info GET    /court_infos/:id/edit(.:format)                                                          court_infos#edit
+               court_info GET    /court_infos/:id(.:format)                                                               court_infos#show
+                          PATCH  /court_infos/:id(.:format)                                                               court_infos#update
+                          PUT    /court_infos/:id(.:format)                                                               court_infos#update
+                          DELETE /court_infos/:id(.:format)                                                               court_infos#destroy
+           confirm_events POST   /events/confirm(.:format)                                                                events#confirm
            address_events GET    /events/address(.:format)                                                                events#address
       court_select_events GET    /events/court_select(.:format)                                                           events#court_select
                    events GET    /events(.:format)                                                                        events#index

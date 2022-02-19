@@ -1,1 +1,1 @@
-<div>edit</div>
+<%= render(partial: 'form', locals: {title: 'レビュー編集画面', submit_btn_text: '修正', method: 'patch', path: court_court_review_path(id: @court_review.id)}) %>

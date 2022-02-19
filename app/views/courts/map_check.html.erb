@@ -1,0 +1,25 @@
+<div class="row filter-black justify-content-center">
+  <div class="col-12 justify-content-center text-white">
+    <h4 class="py-3">コート重複確認</h4>
+    <p class="pb-3">
+      提供するコートは登録されていませんか？<br>
+      マーカーがない場合、周辺にコートは登録されていません。
+    </p>
+    <div id='map' class="big-map mb-3"></div>
+    <%= form_with(url: new_court_path, method: 'get', local: true, class: 'form-group') do |f|  %>
+     <%= f.hidden_field(:center_latitude, value: @center_lat) %>
+     <%= f.hidden_field(:center_longitude, value: @center_lng) %>
+     <%= f.hidden_field(:address, value: @address) %>
+     <%= f.hidden_field(:prefecture_id, value: @prefecture_id) %>
+     <%= f.submit('新しいコートを提供する', class: 'btn btn-sm btn-success mb-3') %>
+    <% end %>
+    <%= link_to('住所入力へ戻る', address_events_path, class: 'btn btn-sm btn-primary mb-3') %>
+    <% @courts.each do |court| %>
+      <%= hidden_field_tag(:name, court.name, {class: 'names', id: "#{court.name}_name"}) %>
+      <%= hidden_field_tag(:confirmation_status, court.confirmation_status, {class: 'confirmation_statuses', id: "#{court.name}_status"}) %>
+      <%= hidden_field_tag(:latitude, court.latitude, {class: 'latitudes', id: "#{court.name}_lat"}) %>
+      <%= hidden_field_tag(:longitude, court.longitude, {class: 'longitudes', id: "#{court.name}_lng"}) %>
+      <%= hidden_field_tag(:path, court_path(id: court.id), {class: 'links', id: "#{court.name}_links"}) %>
+    <% end %>
+  </div>
+</div>

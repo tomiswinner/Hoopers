@@ -1,0 +1,114 @@
+<!--event @event-->
+
+
+<div class="col-12 justify-content-center my-3 py-3 text-white">
+  <h2><%= title %></h2>
+  <h2><%= event.name %></h2>
+</div>
+  <div>
+<div class="col-12 d-flex justify-content-center my-3 pb-3">
+    <%= attachment_image_tag(event, :image, fallback: "no_img.png", size: "250x250", class: 'mx-auto d-block') %>
+</div>
+<div class="col-12  justify-content-center mb-3">
+  <% if event.status == "closed" || event.past_event? %>
+    <div class="bg-danger py-4">
+      <p class='mb-0 text-white text-center'>
+        ！募集が終了しているか、過去のイベントです！
+      </p>
+    </div>
+  <% end %>
+</div>
+<table class="col-10 mx-auto mb-3 table text-white">
+  <caption class="text-white">
+    <h3 class="font-weight-bold"><i class="fab fa-dribbble"></i> イベント基本情報</h3>
+  </caption>
+  <tr>
+    <td>
+      <p class="small mb-1 font-weight-bold ">
+        <i class="fab fa-dribbble"></i> 開催コート
+      </p>
+      <div class="pl-3">
+        <%= link_to(event.court.name, court_path(event.court.id)) %><br>
+      </div>
+      <p class="small mb-1 font-weight-bold ">
+        <i class="fas fa-map-marker-alt"></i> コート住所
+      </p>
+      <div class="pl-3">
+          <%= event.court.address %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="small mb-1 font-weight-bold ">
+        <i class="fas fa-user"></i> 主催者ユーザー
+      </p>
+      <div class="pl-3">
+        <% if event.user.is_active %>
+          <%= event.user.name %>
+        <% else %>
+          退会済みユーザー
+        <% end %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="small mb-1 font-weight-bold">
+        <i class="far fa-clock"></i> イベント時間
+      </p>
+      <span class="pl-3">
+        <%= event.return_event_time %>
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="small mb-1 font-weight-bold">
+        <i class="fas fa-envelope"></i> 連絡先
+      </p>
+      <span id="contact" class="pl-3">
+        <% if event.user.is_active %>
+          <%= event.contact %>
+        <% else %>
+          退会済みユーザー
+        <% end %>
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="small mb-1 font-weight-bold">
+        <i class="fas fa-exclamation-circle"></i> 参加条件
+      </p>
+      <span class="pl-3">
+        <%= event.condition %>
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="small mb-1 font-weight-bold">
+        <i class="fas fa-comment-dots"></i> イベント説明
+      </p>
+      <span class="pl-3">
+        <%= event.description %>
+      </span>
+    </td>
+  </tr>
+  <% if action_name == 'show' %>
+    <tr>
+      <td>
+        <p class="small mb-1 font-weight-bold">
+          <i class="fas fa-edit"></i> イベント作成日
+        </p>
+        <span class="pl-3">
+          <%= event.formatted_created_at %>
+        </span>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+

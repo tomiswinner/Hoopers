@@ -1,20 +1,11 @@
 <div class="row justify-content-center">
   <div class="col-12 filter-black justify-content-center">
-    <div>コートお気に入り</div>
-    <% if @courts.blank? %>
-      <div>お気に入りコートがありません</div>
-    <% else %>
-      <% @courts.each do |court| %>
-        <div class="row bg-success mb-2">
-          <%= link_to(court.name, detail_court_path(court.id)) %><br>
-          <%= court.fetch_pref_name %><br>
-          <%= court.court_type %>
-          <!--リファクタリング-->
-          <%= court.convert_open_time_to_hour_min if court.open_time %>
-          ～ <%= court.convert_close_time_to_hour_min if court.close_time %>
-          <%= link_to('イベントを見る', events_path(court_id: court.id)) %>
-        </div>
-      <% end %>
-    <% end %>
+    <div class="py-3 d-flex">
+      <div class="text-white align-text-bottom">コートお気に入り</div>
+    </div>
+    <%= render(partial: 'layouts/court-index', locals: {no_result_text: 'お気に入りがありません', courts: @courts}) %>
+  </div>
+  <div class="mt-3">
+    <%= paginate(@courts) %>
   </div>
 </div>

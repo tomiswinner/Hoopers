@@ -1,0 +1,38 @@
+
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center text-white pt-3">
+    <h4 class="pb-3">コート情報修正・追加確認ページ</h4>
+      <div class="pb-3">
+        <div>
+          <i class="fab fa-dribbble"></i> コート名
+        </div>
+        <div class="pl-3 pt-2 font-weight-bold">
+          <%= @court.name %>
+        </div>
+      </div>
+
+      <div class="pb-3">
+        <div class="pt-2 font-weight-bold">
+          <i class="fas fa-comment-dots"></i> 内容
+        </div>
+        <div class="pt-2 pl-3 text-break">
+          <%= @court_info.information %>
+        </div>
+      </div>
+      <div class="pb-3 mb-3">
+        <div class="font-weight-bold">
+         <i class="fas fa-door-open"></i> 対応ステータス
+        </div>
+        <div class="pt-2 pl-3">
+          <% if @court_info.status %>
+            <span class="text-success">対応済み</span>
+          <% else %>
+            対応中
+          <% end %>
+        </div>
+      </div>
+      <div class="pb-3 d-flex justify-content-start">
+        <%= link_to('情報を編集', edit_court_info_path(@court_info.id), class: 'btn btn-success d-block' ) %>
+      </div>
+  </div>
+</div>

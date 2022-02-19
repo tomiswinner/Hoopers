@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     collection do
       get :mypage
       get :confirm
+      get :events
     end
   end
 
@@ -13,23 +14,22 @@ Rails.application.routes.draw do
   root to: 'homes#top'
   get 'inqury', to: 'homes#inqury', as: 'inqury'
 
-  resources :courts, only: [:index, :new, :create] do
-    resources :court_reviews, only: [:index, :new, :edit, :update]
-    member do
-      get :detail
-    end
+  resources :courts, only: [:index, :new, :create, :show] do
+    resources :court_reviews, only: [:index, :new, :edit, :update, :create]
     collection do
       get :address
       get :map_check
-      get :confirm
+      post :confirm
       get :thanks
       get :map_search
     end
   end
 
+  resources :court_infos
+
   resources :events do
     collection do
-      get :confirm
+      post :confirm
       get :address
       get :court_select
     end

@@ -1,0 +1,231 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, or any plugin's
+// vendor/assets/javascripts directory can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file. JavaScript code in this file should be added after the last require_* statement.
+//
+// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+//= require jquery3
+//= require popper
+//= require bootstrap-sprockets
+//= require jquery.raty.js
+
+//= require rails-ujs
+//= require activestorage
+//= require turbolinks
+//= require_tree .
+
+let isScriptLoaded = false;
+
+// google map src のロードが完了してなければ、callback にて initMap
+function noticeLoadCompletion(){
+  isScriptLoaded = true
+  initMap()
+  initRaty()
+  disabled_check_btn()
+  card_switching()
+}
+
+
+// google map src のロードが完了していれば、ページ遷移時にinit
+window.addEventListener('turbolinks:load',()=>{
+  if (isScriptLoaded){
+    initMap()
+    initRaty()
+    disabled_check_btn()
+    card_switching()
+  }
+})
+
+
+
+function initMap(){
+  let map;
+  if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'show'))||
+     (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'confirm'))){
+    var lat = Number(document.getElementById('lat').value)
+    var lng = Number(document.getElementById('lng').value)
+    map = new google.maps.Map(document.getElementById('map'),{
+      center:{
+        lat: lat,
+        lng: lng
+      },
+      zoom: 13
+    })
+    latlng = new google.maps.LatLng(lat,lng)
+    marker = new google.maps.Marker({
+      position: latlng,
+      map: map,
+    })
+  }
+
+  if((($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_check'))||
+  (($("body")[0].dataset.controller == 'courts')&&($("body")[0].dataset.action == 'map_search'))||
+  ($("body")[0].dataset.controller == 'events')&&($("body")[0].dataset.action == 'court_select')){
+    var lat = Number(document.getElementById('center_latitude').value)
+    var lng = Number(document.getElementById('center_longitude').value)
+    map = new google.maps.Map(document.getElementById('map'),{
+      center:{
+        lat: lat,
+        lng: lng
+      },
+      zoom: 13
+    })
+    lats_htmls = document.getElementsByClassName('latitudes')
+    lngs_htmls = document.getElementsByClassName('longitudes')
+    links_htmls = document.getElementsByClassName('links')
+    names_htmls = document.getElementsByClassName('names')
+    confirmation_statuses_htmls = document.getElementsByClassName('confirmation_statuses')
+
+    var opened_window = ""
+
+    for(n=0; n < lats_htmls.length; n++){
+      (function(){
+          latlng = new google.maps.LatLng(
+            lats_htmls.item(n).value,
+            lngs_htmls.item(n).value
+          )
+          content = ""
+          if(confirmation_statuses_htmls.item(n).value == 'false'){
+            content = "<div class='text-dark'>現在情報確認中のコートです</div>"
+          }else{
+            content = "<a href='" + links_htmls.item(n).value + "'>" + names_htmls.item(n).value +"</a>"
+          }
+            console.log(content)
+          infowindow = new google.maps.InfoWindow({
+            content: content
+          })
+
+          marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+          })
+          // クロージャ
+          function set_infowindow(marker, infowindow){
+            marker.addListener("click", ()=>{
+              infowindow.open({
+                anchor: marker,
+                map,
+                shouldFocus: false
+              })
+              if((opened_window)&&(opened_window!=infowindow)){
+                opened_window.close()
+              }
+              opened_window = infowindow
+            })
+          }
+          return set_infowindow(marker, infowindow)
+      })();
+    }
+  }
+
+  if(($("body")[0].dataset.controller == 'homes')&&($("body")[0].dataset.action == 'top')){
+      document.getElementById('location_btn').addEventListener('click', (e)=>{
+        e.preventDefault()
+        if(navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              document.getElementById('latlng').value = JSON.stringify(
+                  {
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+                }
+              )
+            })
+        }
+      })
+      const target = document.getElementById('latlng')
+      let m_observer = new MutationObserver((m)=>{
+        document.getElementById('location_form').submit()
+      })
+      const config = {
+        attributes: true,
+      }
+      m_observer.observe(target, config)
+
+    }
+}
+
+function initRaty(){
+  // raty.js
+  const starOnPath = "<%= asset_path('star-on.png') %>"
+  const starOffPath = "<%= asset_path('star-off.png') %>"
+  const starHalfPath = "<%= asset_path('star-half.png') %>"
+
+    $('#eval_accessibility').raty({
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      scoreName: 'court_review[accessibility]',
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
+    $('#eval_security').raty({
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      scoreName: 'court_review[security]',
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
+    $('#eval_quality').raty({
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      scoreName: 'court_review[quality]',
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
+
+    $('.evaluation').raty({
+      readOnly: true,
+      starOn: starOnPath,
+      starOff: starOffPath,
+      starHalf: starHalfPath,
+      score: function(){
+        return $(this).attr('data-score')
+      }
+    })
+
+    <!--詳細なレビューへのリンクと、-->
+    <!--その他のレビューも乗せる-->
+}
+
+function disabled_check_btn(){
+  disableds = document.getElementsByClassName('no_change_color_disabled')
+
+  for(n = 0; n < disableds.length; n++){
+
+    disableds[n].addEventListener('click', (e)=>(
+      e.preventDefault()
+    ))
+  }
+}
+
+function card_switching(){
+  if($("body")[0].dataset.controller =='homes'){
+    document.getElementById('court-tab').addEventListener('click', ()=>{
+      if($('#court_card').hasClass('is_active')){
+        return
+      }
+      document.getElementById('event_card').classList.remove('is_active')
+      document.getElementById('court_card').classList.add('is_active')
+    })
+
+    document.getElementById('event-tab').addEventListener('click', ()=>{
+      if($('#event_card').hasClass('is_active')){
+        return
+      }
+      document.getElementById('court_card').classList.remove('is_active')
+      document.getElementById('event_card').classList.add('is_active')
+    })
+  }
+}

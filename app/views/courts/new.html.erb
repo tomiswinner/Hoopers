@@ -1,0 +1,153 @@
+<div class="row justify-content-center">
+  <div class="col-12 filter-black justify-content-center text-white pt-3">
+    <h4 class="pb-3">コート情報入力ページ</h4>
+      <div class="pb-3">
+        <p>
+          コート名と地域、住所の入力は必須です。<br>
+          その他わからない場所は空欄とすると、確認中と表示されます。
+        </p>
+          <%= form_with(model: @court, url: confirm_courts_path, method: 'post', local: true, id: 'form') do |f| %>
+            <%= f.hidden_field(:user_id, value: current_user.id) %>
+            <%= f.hidden_field(:latitude, value: true) %>
+            <%= f.hidden_field(:longitude, value: true) %>
+            <%= f.hidden_field(:business_status, value: true) %>
+            <%= f.hidden_field(:confirmation_status, value: false) %>
+            <%= hidden_field_tag(:prefecture_id, @prefecture.id, {form: 'form'}) %>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:name) do %>
+                <i class="fab fa-dribbble"></i> コート名
+              <% end %>
+            </div>
+            <div>
+              <%= f.text_field(:name, class: 'form-control') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:area_id) do %>
+                <i class="fas fa-map-marked-alt"></i> コート地区
+              <% end %>
+            </div>
+            <div>
+              <%= @prefecture.name %>
+              <%= f.select(:area_id, @areas.pluck(:name,:id), {prompt: "地域を選択"},{class: 'form-select'}) %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:image) do %>
+                <i class="fas fa-image"></i> 画像
+              <% end %>
+            </div>
+            <div>
+              <%= f.attachment_field(:image, class: 'btn btn-sm text-white') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:open_time) do %>
+                <i class="far fa-clock"></i> 営業開始時間
+              <% end %>
+            </div>
+            <div>
+              <%= f.time_select(:open_time, {include_blank: true, minute_step: 15}, class: 'form-select') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:close_time) do %>
+                <i class="far fa-clock"></i> 営業終了時間
+              <% end %>
+            </div>
+            <div>
+              <%= f.time_select(:close_time, {include_blank: true, minute_step: 15}, class: 'form-select') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:supplement) do %>
+                <i class="fas fa-comment-dots"></i> 営業時間補足
+              <% end %>
+            </div>
+            <div>
+              <%= f.text_area(:supplement, row: 5, class: 'form-control') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:address) do %>
+                <i class="fas fa-map-marker-alt"></i> 住所
+              <% end %>
+            </div>
+            <div>
+              <%= f.text_field(:address, class: 'form-control') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:url) do %>
+                <i class="fas fa-link"></i> HPリンク
+              <% end %>
+            </div>
+            <div>
+              <%= f.text_field(:url, class: 'form-control') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:size) do %>
+                <i class="fas fa-ruler-combined"></i> リング数、コートサイズなど
+              <% end %>
+            </div>
+            <div>
+              <%= f.text_field(:size, class: 'form-control') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:price) do %>
+                <i class="fas fa-yen-sign"></i> 利用料金
+              <% end %>
+            </div>
+            <div>
+              <%= f.text_field(:price, class: 'form-control') %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <%= f.label(:court_type) do %>
+                <i class="fas fa-warehouse"></i> コートタイプ
+              <% end %>
+            </div>
+            <div>
+              <%= f.select(:court_type, Court.court_types_i18n.except(:checking).collect {|elem| [elem.last, elem.first]}, {prompt: "コートタイプを選択"}, {class: 'form-select'}) %>
+            </div>
+          </div>
+
+          <div class="pb-3">
+            <div>
+              <i class="fas fa-tags"></i> タグ
+            </div>
+            <div>
+              <%= collection_check_boxes(Tag, :tag_ids, Tag.all.collect, :id, :name, {include_hidden: false}, {form: 'form'}) %>
+            </div>
+          </div>
+
+          <div>
+            <%= f.submit('入力内容を確認する', class: 'btn btn-success') %>
+          </div>
+        <% end %>
+  </div>
+</div>
