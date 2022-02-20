@@ -38,4 +38,10 @@ class Event < ApplicationRecord
   def past_event?
     return close_time < Time.zone.now
   end
+
+  def return_image_id
+    return image.id unless image.nil?
+
+    return nil
+  end
 end

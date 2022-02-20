@@ -7,7 +7,7 @@
   <%= f.hidden_field(:condition, value: @event.condition) %>
   <%= f.hidden_field(:description, value: @event.description) %>
   <%= f.hidden_field(:contact, value: @event.contact) %>
-  <%= f.hidden_field(:image, value: @event.image.id) %>
+  <%= f.hidden_field(:image, value: @event.return_image_id) %>
   <%= f.hidden_field(:status) %>
 <% end %>
 <div class="row filter-black text-white d-flex flex-column">

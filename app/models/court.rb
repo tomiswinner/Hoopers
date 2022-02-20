@@ -85,6 +85,12 @@ class Court < ApplicationRecord
     self.court_type = 0 if court_type.blank?
   end
 
+  def return_image_id
+    return image.id unless image.nil?
+
+    return nil
+  end
+  
   private
 
   def convert_open_time_to_hour_min
@@ -95,9 +101,4 @@ class Court < ApplicationRecord
     return (Time.zone.now.midnight + close_time).strftime('%H:%M')
   end
 
-  def return_image_id
-    return image.id unless image.nil?
-
-    return nil
-  end
 end
