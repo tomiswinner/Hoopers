@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_16_155706) do
+ActiveRecord::Schema.define(version: 2022_02_30_000000) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "prefecture_id", null: false
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_155706) do
     t.integer "court_id", null: false
     t.integer "user_id", null: false
     t.string "information", null: false
-    t.boolean "status", default: true, null: false
+    t.boolean "status", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["court_id", "user_id"], name: "index_court_infos_on_court_id_and_user_id", unique: true
