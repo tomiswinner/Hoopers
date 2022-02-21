@@ -108,7 +108,7 @@ class EventsController < ApplicationController
 
   def court_select
     res = fetch_geocoding_response(params.dig(:court, :address))
-    if !res.nil? && res.message == 'OK'
+    if valid_request?(res)
       geocoded_data = JSON.parse(res.body)
       @center_lat, @center_lng = return_latlng(geocoded_data)
       @entered_address = params.dig(:court, :address)

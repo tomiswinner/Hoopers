@@ -51,6 +51,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
   end
 
+  def valid_request?(res)
+    return !(res.nil?) && res.message == 'OK' && JSON.parse(res.body) == 'OK'
+  end
+
   private
 
   # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

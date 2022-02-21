@@ -43,7 +43,7 @@ class CourtsController < ApplicationController
 
   def map_check
     res = fetch_geocoding_response(params.dig(:court, :address))
-    if !res.nil? && res.message == 'OK'
+    if valid_request?(res)
       geocoded_data = JSON.parse(res.body)
       @prefecture_id = get_prefecture_id(geocoded_data)
       @address = params.dig(:court, :address)
@@ -75,7 +75,7 @@ class CourtsController < ApplicationController
     end
     @court.set_default_values_to_court
     res = fetch_geocoding_response(params.dig(:court, :address))
-    if !res.nil? && res.message == 'OK'
+    if valid_request?(res)
       @court.latitude, @court.longitude = return_latlng(JSON.parse(res.body))
     else
       flash.now[:alert] = 'エラーが発生しました。住所が誤っている可能性があります。'
