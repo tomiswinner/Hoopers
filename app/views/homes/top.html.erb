@@ -4,7 +4,7 @@
     <h3 class="text-white text-center pb-2 line-height">
       バスケットボールの<br>
       コート・イベントが<br>
-      探せるWEBサイト
+      探せるWEBサイト！
     </h3>
   </div>
 
@@ -65,13 +65,21 @@
         <%= form_with(model: Event, url: events_path, method: 'get', local: true, class: 'form-group d-flex flex-column pb-3', id: 'time_form') do |f| %>
           <p class="mb-1 align-self-center"><i class="far fa-clock"></i> 時間で探す</p>
           <div class="align-self-center">
-            <div>
-              <%= f.label(:open_time, '開始') %>
-              <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now.midnight,minute_step: 15}, {class: 'form-select border'}) %>
+            <div class="flex-column mb-2">
+              <div class="text-center">
+                <%= f.label(:open_time, '開始') %>
+              </div>
+              <div>
+                <%= f.datetime_select(:open_time, {use_month_numbers: true, default: Time.now.midnight,minute_step: 15}, {class: 'form-select border'}) %>
+              </div>
             </div>
-            <div>
-              <%= f.label(:close_time, '終了') %>
-              <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now.end_of_day - (60 * 14), minute_step: 15}, {class: 'form-select border'}) %>
+            <div class="flex-column mb-3">
+              <div class="text-center">
+                <%= f.label(:close_time, '終了') %>
+              </div>
+              <div>
+                <%= f.datetime_select(:close_time, {use_month_numbers: true, default: Time.now.end_of_day - (60 * 14), minute_step: 15}, {class: 'form-select border'}) %>
+              </div>
             </div>
             <div class="d-flex justify-content-center">
               <%= button_tag(form: 'time_form', class: 'btn btn-sm btn-success d-block') do %>
@@ -94,8 +102,7 @@
     <div class="plate">
       <%= link_to(address_courts_path) do %>
         <div class="bg-orange plate-tab text-white d-flex flex-column">
-          <p class="mt-1 mb-0 align-self-center">コート情報募集中！！</p>
-          <p class="small align-self-center mb-1">あなたの周りのコート情報まってます！</p>
+          <p class="mt-2 font-weight-bold align-self-center">コート情報募集中！！</p>
         </div>
         <div class="d-flex plate-content align-items-end">
           <div class="font-weight-bold text-white bg-orange w-100">
