@@ -126,6 +126,9 @@ function initMap(){
 
   if(($("body")[0].dataset.controller == 'homes')&&($("body")[0].dataset.action == 'top')){
       document.getElementById('location_btn').addEventListener('click', (e)=>{
+        var options = {
+          timeout: 5000
+        }
         e.preventDefault()
         if(navigator.geolocation){
           navigator.geolocation.getCurrentPosition(
@@ -136,7 +139,7 @@ function initMap(){
                   longitude: position.coords.longitude
                 }
               )
-            })
+            },()=>{}, options)
         }
       })
       const target = document.getElementById('latlng')

@@ -82,7 +82,7 @@ def register_dummy_courts
     Court.create!(
       user_id: 0,
       area_id: area_id,
-      name: "#{address}バスケコート",
+      name: "#{address}コート",
       image_id: "aa",
       address: address,
       latitude: rand(-90.0000..90.0000),
@@ -127,7 +127,7 @@ def register_events
     open_time = Time.now - rand(1..10) * 50000
     Event.create!(
       court_id: court.id,
-      name: "#{court.name}ピックアップ",
+      name: "#{court.name}ピック",
       user_id: 0,
       image_id: 'aa',
       condition: '10000円　ボール持参',

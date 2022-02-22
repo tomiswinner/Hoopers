@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def register_refile_from_confirmation(instance, refile_id)
+    return instance if refile_id.empty?
     refile_obj = Refile.backends['cache'].get(refile_id)
     instance.image = Refile.backends['store'].upload(refile_obj)
     return instance
@@ -48,6 +49,10 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+  end
+
+  def valid_request?(res)
+    return !(res.nil?) && res.message == 'OK' && JSON.parse(res.body) == 'OK'
   end
 
   private

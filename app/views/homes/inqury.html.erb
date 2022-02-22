@@ -10,7 +10,9 @@
       </p>
     </div>
     <div class="col-12 mb-5 text-center">
-      <img class="inqury-img" src=<%= asset_path("cake.jpg") %>>
+      <%= ENV['EMAIL_FIRST_HALF'] %>
+      <img src="<%= asset_path('atmark.png') %>" alt="アットマーク" class="inqury-img">
+      <%= ENV['EMAIL_LATTER_HALF'] %>
     </div>
     <%= link_to('トップページへ戻る', root_path, class: 'btn btn-sm btn-success d-block mb-3') %>
   </div>
