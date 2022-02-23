@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   end
 
   def valid_request?(res)
-    return !(res.nil?) && res.message == 'OK' && JSON.parse(res.body) == 'OK'
+    return !(res.nil?) && res.message == 'OK' && JSON.parse(res.body)['status'] == 'OK'
   end
 
   private

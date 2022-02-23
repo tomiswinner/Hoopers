@@ -43,9 +43,10 @@ class CourtsController < ApplicationController
 
   def map_check
     res = fetch_geocoding_response(params.dig(:court, :address))
-    if valid_request?(res)
+    if valid_request?(res) && !get_prefecture_id(res).nil?
+      @prefecture_id = get_prefecture_id(res)
+      puts @prefecture_id
       geocoded_data = JSON.parse(res.body)
-      @prefecture_id = get_prefecture_id(geocoded_data)
       @address = params.dig(:court, :address)
       @center_lat, @center_lng = return_latlng(geocoded_data)
       @courts = latlng_search(Court.all, @center_lat, @center_lng)
@@ -161,10 +162,13 @@ class CourtsController < ApplicationController
     return courts
   end
 
-  def get_prefecture_id(geocoded_data)
+  def get_prefecture_id(res)
+    geocoded_data = JSON.parse(res.body)
     components_length = geocoded_data['results'][0]['address_components'].length
-    prefecture_name = geocoded_data['results'][0]['address_components'][components_length - 3]['long_name']
-    return Prefecture.find_by(name: prefecture_name).id
+    prefecture_name = geocoded_data['results'][0]['address_components'][components_length - 2]['long_name']
+    pref = Prefecture.find_by(name: prefecture_name)
+    return Prefecture.find_by(name: prefecture_name).id unless pref.nil?
+    return nil
   end
 
   def time_filled_in?(str)
