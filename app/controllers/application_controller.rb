@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def fetch_geocoding_response(address)
     escaped_address = URI.encode_www_form_component(address)
-    uri = URI("https://maps.googleapis.com/maps/api/geocode/json?address=#{escaped_address}&key=#{ENV['GOOGLEMAP_API_KEY']}&language=ja")
+    uri = URI("https://maps.googleapis.com/maps/api/geocode/json?address=#{escaped_address}&key=#{ENV['GOOGLE_API_KEY_GEOCODE']}&language=ja")
 
     req = Net::HTTP::Get.new(uri)
     res = nil
