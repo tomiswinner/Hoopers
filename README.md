@@ -45,14 +45,20 @@
 バスケットボールの試合をしたくなったとき。
 
 
-## 設計書
-<...>
+## 詳細設計書
+https://docs.google.com/spreadsheets/d/1GV77K2SpxnosyGpYRG0rdvtXAaQ7NEuj/edit#gid=549108681
+
+## テーブル定義
+https://docs.google.com/spreadsheets/d/1A2CNtZtt75Ji3Cetw6Bf3_dZUgHmiYFZf4FwSzgCsrE/edit#gid=1243549839
+
+## リレーション
+https://app.diagrams.net/#G15eyPYeOcLvNjHH67k1YAohVn9NeTcQ-I
 
 ## チャレンジ要素一覧
 https://docs.google.com/spreadsheets/d/1VYAmRWL4a0tbkDcmNtlJzRS3oxqV7TrQ-K0gF1JWUC4/edit#gid=0
 
 ## 開発環境
-- OS：Linux(CentOS)
+- OS：Linux(amazon linux 2)
 - 言語：HTML,CSS,JavaScript,Ruby,SQL
 - フレームワーク：Ruby on Rails
 - JSライブラリ：jQuery
