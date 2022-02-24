@@ -6,10 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-require 'net/http'
-require 'uri'
-require 'json'
-
 RESAS_ENDPOINT = 'https://opendata.resas-portal.go.jp'
 PREF_PATH = '/api/v1/prefectures'
 CITY_PATH = '/api/v1/cities'
@@ -35,7 +31,7 @@ def get_json(url)
 end
 
 
-def register_prefecutres
+def register_prefectures
   data = get_json(RESAS_ENDPOINT + PREF_PATH)
 
   data['result'].each do |val|
@@ -57,7 +53,7 @@ def register_areas
 end
 
 
-def register_test_user
+def register_admin_user
    User.create!(
      id: 0,
      name: 'admin_user',
@@ -100,7 +96,7 @@ def register_dummy_courts
   end
 end
 
-def register_reviews
+def register_dummy_reviews
   Court.all.each do |court|
     CourtReview.create!(
       court_id: court.id,
@@ -122,7 +118,7 @@ def register_dummy_taggings
   end
 end
 
-def register_events
+def register_dummy_events
   Court.all.each do |court|
     open_time = Time.now - rand(1..10) * 50000
     Event.create!(
@@ -131,7 +127,7 @@ def register_events
       user_id: 0,
       image_id: 'aa',
       condition: '10000円　ボール持参',
-      description: 'あああああああああああああaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      description: 'あああああああああああああ',
       contact: '123-456-7189',
       open_time: open_time,
       close_time: open_time + rand(1..10) * 30000,
@@ -140,7 +136,7 @@ def register_events
     end
 end
 
-def register_court_favs
+def register_dummy_court_favs
   Court.all.each do |court|
     if [true,true,false].sample
     CourtFavorite.create!(
@@ -153,15 +149,15 @@ end
 
 
 # データを埋め込む際は、コメントアウト外す
-register_prefecutres
+register_prefectures
 register_areas
-register_test_user
+register_admin_user
 register_tags
-register_dummy_courts
-register_dummy_taggings
-register_reviews
-register_events
-register_court_favs
+# register_dummy_courts
+# register_dummy_taggings
+# register_dummy_reviews
+# register_dummy_events
+# register_dummy_court_favs
 
 
 

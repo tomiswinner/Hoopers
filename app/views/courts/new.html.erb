@@ -69,11 +69,12 @@
               <%= f.time_select(:close_time, {include_blank: true, minute_step: 15}, class: 'form-select') %>
             </div>
           </div>
+          <p>※24h営業の場合、00:00~23:45としてください</p>
 
           <div class="pb-3">
             <div>
               <%= f.label(:supplement) do %>
-                <i class="fas fa-comment-dots"></i> 営業時間補足
+                <i class="fas fa-comment-dots"></i> 補足説明
               <% end %>
             </div>
             <div>
