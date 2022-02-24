@@ -1,13 +1,13 @@
 ja:
   enums:
-  court:
-   court_type:
-    checking: '確認中'
-    others: 'その他'
-    gym: '体育館'
-    asphalt: 'アスファルト'
-    sand: '砂'
-    rubber: 'ゴム'
+    court:
+     court_type:
+      checking: '確認中'
+      others: 'その他'
+      gym: '体育館'
+      asphalt: 'アスファルト'
+      sand: '砂'
+      rubber: 'ゴム'
   event:
    status:
     wanted: '募集中'
