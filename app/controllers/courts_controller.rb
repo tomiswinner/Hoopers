@@ -165,7 +165,9 @@ class CourtsController < ApplicationController
   def get_prefecture_id(res)
     geocoded_data = JSON.parse(res.body)
     components_length = geocoded_data['results'][0]['address_components'].length
-    prefecture_name = geocoded_data['results'][0]['address_components'][components_length - 2]['long_name']
+    prefecture_name = geocoded_data['results'][0]['address_components'][components_length - 3]['long_name']
+    puts res.body
+    puts prefecture_name
     pref = Prefecture.find_by(name: prefecture_name)
     return Prefecture.find_by(name: prefecture_name).id unless pref.nil?
     return nil

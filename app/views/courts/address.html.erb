@@ -3,7 +3,7 @@
     <h4 class="py-3">コート重複確認</h4>
       <p>
         コート情報の提供ありがとうございます！<br>
-        <mark><strong>重複を防ぐため、既に登録されていないか、住所での確認</strong></mark>
+        <span class="font-weight-bold">重複を防ぐため、既に登録されていないか、住所での確認</span></mark>
         をお願いします。
       </p>
     <%= form_with(model: Court, url: map_check_courts_path, method: 'get', local: true, class: 'form-group') do |f| %>
