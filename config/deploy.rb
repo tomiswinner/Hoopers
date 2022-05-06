@@ -17,17 +17,19 @@ set :rbenv_ruby, '2.6.3'
 # Default value for :linked_files is []
 append :linked_files, "config/database.yml", 'config/master.key', '.env'
 
-# Default value for linked_dirs is []
-# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "tmp/webpacker", "public/system", "vendor", "storage"
+# Default deploy_to directory is /var/www/my_app_name
+set :deploy_to, "/home/ec2-user/Hoopers"
 
+# Default value for linked_dirs is []
+append :linked_dirs, "log", "tmp/pids","tmp/uploads", "tmp/cache", "tmp/sockets", "public/system", "vendor", "storage"
+
+# Default value for keep_releases is 5
+set :keep_releases, 5
 
 
 # puma
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-
-# Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, "/var/www/my_app_name"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -45,9 +47,4 @@ append :linked_files, "config/database.yml", 'config/master.key', '.env'
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
 
-# Default value for keep_releases is 5
-# set :keep_releases, 5
 
-# puma
-#
-# 
