@@ -26,8 +26,9 @@ append :linked_dirs, "log", "tmp/pids","tmp/uploads", "tmp/cache", "tmp/sockets"
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
-
 # puma
+set :puma_conf, "#{current_path}/config/puma/production.rb"
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
