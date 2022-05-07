@@ -30,7 +30,7 @@ set :keep_releases, 5
 # set :puma_conf, "#{current_path}/config/puma/production.rb"
 
 # Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+set :branch, 'sassc'
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
