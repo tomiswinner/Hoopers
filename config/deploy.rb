@@ -21,13 +21,13 @@ append :linked_files, "config/database.yml", 'config/master.key', '.env'
 set :deploy_to, "/home/ec2-user/Hoopers"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids","tmp/uploads", "tmp/cache", "tmp/sockets", "public/system", "vendor", "storage"
+append :linked_dirs, "log", "tmp/pids","tmp/uploads", "tmp/cache", "tmp/sockets", "public", "vendor"
 
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
 # puma
-set :puma_conf, "#{current_path}/config/puma/production.rb"
+# set :puma_conf, "#{current_path}/config/puma/production.rb"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
