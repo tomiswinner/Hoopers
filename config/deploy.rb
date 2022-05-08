@@ -30,7 +30,7 @@ set :keep_releases, 5
 # set :puma_conf, "#{current_path}/config/puma/production.rb"
 
 # Default branch is :master
-set :branch, 'sassc'
+set :branch, 'develop'
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
