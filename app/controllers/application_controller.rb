@@ -7,15 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def fetch_geocoding_response(address)
-    escaped_address = URI.encode_www_form_component(address)
-    uri = URI("https://maps.googleapis.com/maps/api/geocode/json?address=#{escaped_address}&key=#{ENV['GOOGLE_API_KEY_GEOCODE']}&language=ja")
-
-    req = Net::HTTP::Get.new(uri)
-    res = nil
-    Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |https|
-      res = https.request(req)
-    end
-    return res
+    Geocode.new(address).fetch
   end
 
   def latlng_search(courts, lat, lng)
