@@ -6,7 +6,7 @@ class Geocode
   def fetch
     uri = build_uri
     Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |https|
-      res = https.request(uri)
+      https.request(Net::HTTP::Get.new(uri))
     end
   end
 
