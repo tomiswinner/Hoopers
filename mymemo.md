@@ -7,6 +7,9 @@ Rails 5.2.5
 + puma version
 puma version 3.12.6 
 
++ bundler
+Bundler version 1.17.3
+
 + linux distro
 開発環境
 NAME="Amazon Linux"
