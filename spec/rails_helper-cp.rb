@@ -1,10 +1,12 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'database_cleaner/active_record'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'devise'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -30,7 +32,31 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
+  config.include Rails.application.routes.url_helpers
+  config.include Warden::Test::Helpers
+
+  # capybara test driver
+  config.before do |example|
+    if example.metadata[:type] == :system
+      if example.metadata[:js]
+        driven_by :selenium_chrome_headless, screen_size: [1400, 1400]
+      else
+        driven_by :rack_test
+      end
+    end
+  end
+
+  # databasecleaner config
+  config.before(:all) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
+  end
+  config.after(:all) do
+    DatabaseCleaner.clean_with(:transaction)
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
